@@ -20,7 +20,7 @@ exports.getCategoryByName = async (req, res, next) => {
     // 없으면 다른 값을 전달해준다.
     if (categoryName === null) {
       return res.json({
-        status: 400,
+        status: 404,
         message: `해당 카테고리를 찾을 수 없습니다. (${name})`,
       });
     }
