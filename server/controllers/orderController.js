@@ -1,18 +1,9 @@
 const orderService = require('../services/orderService');
 
-exports.getAllOrders = async (req, res, next) => {
-  const orderList = await orderService.getAllOrder();
-
-  res.json({
-    status: 200,
-    orderList,
-  });
-};
-
 exports.getAllOrdersById = async (req, res, next) => {
   const { userId } = req.params;
   try {
-    const orders = await orderService.getAllOrderById(userId);
+    const orders = await orderService.getAllOrderById(userId).exec();
     res.json({
       status: 200,
       orders,
@@ -24,9 +15,8 @@ exports.getAllOrdersById = async (req, res, next) => {
 
 exports.getOneOrderById = async (req, res, next) => {
   const { userId, orderId } = req.params;
-
   try {
-    const order = await orderService.getOneOrderById(userId, orderId);
+    const order = await orderService.getOneOrderById(userId, orderId).exec();
     res.json({
       status: 200,
       order,
@@ -38,20 +28,32 @@ exports.getOneOrderById = async (req, res, next) => {
 
 exports.createOrder = async (req, res, next) => {
   try {
-    const { orderId, totalPrice, userId, products, shippingAddress } = req.body;
-    const carts = await orderService.createOrder({
+    const {
       orderId,
       totalPrice,
       userId,
       products,
       shippingAddress,
-    });
+      deliveryFee,
+      status,
+    } = req.body;
+    const carts = await orderService
+      .createOrder({
+        orderId,
+        totalPrice,
+        userId,
+        products,
+        shippingAddress,
+        deliveryFee,
+        status,
+      })
+      .exec();
 
     res.status(200).json({
       status: 200,
       carts,
     });
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({
       status: 500,
       message: '서버 오류 입니다.',
@@ -64,9 +66,11 @@ exports.updateOrder = async (req, res, next) => {
   const { totalPrice } = req.body;
 
   try {
-    const updatedOrder = await orderService.updateOrder(userId, orderId, {
-      totalPrice,
-    });
+    const updatedOrder = await orderService
+      .updateOrder(userId, orderId, {
+        totalPrice,
+      })
+      .exec();
     res.json({
       status: 200,
       order: updatedOrder,
@@ -79,7 +83,7 @@ exports.updateOrder = async (req, res, next) => {
 exports.deleteAllOrder = async (req, res, next) => {
   const { userId } = req.params;
 
-  await orderService.deleteOrderAll(userId);
+  await orderService.deleteOrderAll(userId).exec();
 
   try {
     res.json({
@@ -95,7 +99,7 @@ exports.deleteOneOrder = async (req, res, next) => {
   const { userId, orderId } = req.params;
 
   try {
-    await orderService.deleteOrder(userId, orderId);
+    await orderService.deleteOrder(userId, orderId).exec();
 
     res.json({
       status: 200,

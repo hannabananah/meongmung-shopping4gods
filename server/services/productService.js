@@ -1,15 +1,11 @@
 const models = require('../models/index');
 
 exports.getAllProduct = async () => {
-  const res = await models.Product.find({});
-
-  return res;
+  return await models.Product.find({}).exec();
 };
 
 exports.getProductById = async (_id) => {
-  const product = await models.Product.findOne({ _id });
-
-  return product;
+  return await models.Product.findOne({ _id }).exec();
 };
 
 exports.getProductByCategoryName = async (name) => {
@@ -31,7 +27,7 @@ exports.createProduct = async ({ name, desc, category, img_url, price }) => {
     category,
     img_url,
     price,
-  });
+  }).exec();
   return product;
 };
 
@@ -40,18 +36,16 @@ exports.updateProduct = async (_id, name, desc, category, img_url, price) => {
     const data = await models.Product.updateOne(
       { _id },
       { name, desc, category, img_url, price },
-    );
+    ).exec();
     if (!data.acknowledged) {
       return { state: 200, message: '수정 실패' };
     }
     return { state: 200, massage: '수정 성공' };
-  } catch (error) {
+  } catch (err) {
     throw new Error('업데이트 할 수 없습니다.');
   }
 };
 
 exports.deleteProduct = async (_id) => {
-  const res = await models.Product.deleteOne({ _id });
-
-  return res;
+  return await models.Product.deleteOne({ _id }).exec();
 };

@@ -1,19 +1,23 @@
 const productService = require('../services/productService');
 
 exports.getAllProducts = async (req, res, next) => {
-  const productList = await productService.getAllProduct();
+  try {
+    const productList = await productService.getAllProduct().exec();
 
-  res.json({
-    status: 200,
-    productList,
-  });
+    res.json({
+      status: 200,
+      productList,
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const product = await productService.getProductById(id);
+    const product = await productService.getProductById(id).exec();
 
     if (product === null) {
       return res
@@ -28,23 +32,29 @@ exports.getProductById = async (req, res, next) => {
 };
 
 exports.getProductByCategoryName = async (req, res, next) => {
-  const { name } = req.params;
+  try {
+    const { name } = req.params;
 
-  const product = await productService.getProductByCategoryName(name);
-  res.status(200).json({ products: product });
+    const product = await productService.getProductByCategoryName(name).exec();
+    res.status(200).json({ products: product });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.createProduct = async (req, res, next) => {
   try {
     const { name, desc, category, img_url, price } = req.body;
 
-    const product = await productService.createProduct({
-      name,
-      desc,
-      category,
-      img_url,
-      price,
-    });
+    await productService
+      .createProduct({
+        name,
+        desc,
+        category,
+        img_url,
+        price,
+      })
+      .exec();
 
     res.status(200).json({
       status: 200,
@@ -64,14 +74,9 @@ exports.updateProduct = async (req, res, next) => {
     const { id } = req.params;
     const { name, desc, category, img_url, price } = req.body;
 
-    const status = await productService.updateProduct(
-      id,
-      name,
-      desc,
-      category,
-      img_url,
-      price,
-    );
+    const status = await productService
+      .updateProduct(id, name, desc, category, img_url, price)
+      .exec();
 
     res.json(status);
   } catch (err) {
@@ -81,15 +86,15 @@ exports.updateProduct = async (req, res, next) => {
 exports.deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const product = await productService.getProductById(id);
+    const product = await productService.getProductById(id).exec();
 
-    if (product == null) {
+    if (product === null) {
       return res
         .status(404)
         .json({ status: 404, message: '해당 상품이 존재하지 않습니다.' });
     }
 
-    const status = await productService.deleteProduct(product);
+    const status = await productService.deleteProduct(product).exec();
 
     res.json(status);
   } catch (err) {

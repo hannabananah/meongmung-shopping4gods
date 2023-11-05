@@ -2,13 +2,13 @@ const models = require('../models');
 const userService = require('../services/userService');
 
 exports.getAllOrders = async function () {
-  const orders = await models.Order.find({});
+  const orders = await models.Order.find({}).exec();
 
   return orders;
 };
 
 exports.getAllOrdersByUserId = async function (userId) {
-  const isExist = await userService.getUserById(userId);
+  const isExist = await userService.getUserById(userId).exec();
 
   if (!isExist) {
     throw new Error('유저 정보를 찾을 수 없습니다.');
@@ -24,10 +24,12 @@ exports.getAllOrdersByUserId = async function (userId) {
 };
 
 exports.getOrdersByOrderId = async function (orderId) {
-  const order = await models.Order.findOne({ _id: orderId }).populate({
-    path: 'userId',
-    select: 'name phone',
-  });
+  const order = await models.Order.findOne({ _id: orderId })
+    .populate({
+      path: 'userId',
+      select: 'name phone',
+    })
+    .exec();
 
   if (!order) {
     throw new Error('주문 정보가 없습니다.');
@@ -42,7 +44,7 @@ exports.updateOrderByOrderId = async function (
   deliveryFee,
   status,
 ) {
-  const order = await models.Order.findOne({ _id: orderId });
+  const order = await models.Order.findOne({ _id: orderId }).exec();
 
   if (!order) {
     throw new Error('주문 정보가 없습니다.');
@@ -56,26 +58,26 @@ exports.updateOrderByOrderId = async function (
         deliveryFee,
         status,
       },
-    );
+    ).exec();
 
     return result;
-  } catch (error) {
+  } catch (err) {
     throw new Error('수정 실패');
   }
 };
 
 exports.deleteOrderByOrderId = async function (orderId) {
-  const order = await models.Order.findOne({ _id: orderId });
+  const order = await models.Order.findOne({ _id: orderId }).exec();
 
   if (!order) {
     throw new Error('주문 정보가 없습니다.');
   }
 
   try {
-    const result = await models.Order.deleteOne({ _id: orderId });
+    const result = await models.Order.deleteOne({ _id: orderId }).exec();
 
     return result;
-  } catch (error) {
+  } catch (err) {
     throw new Error('삭제 실패');
   }
 };

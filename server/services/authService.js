@@ -5,10 +5,9 @@ const config = require('../config');
 
 exports.signup = async function (email, password, phone, name) {
   try {
-    const hashedPassword = await bcrypt.hash(
-      password,
-      parseInt(config.bcrypt.saltRounds),
-    );
+    const hashedPassword = await bcrypt
+      .hash(password, parseInt(config.bcrypt.saltRounds))
+      .exec();
 
     const result = await models.User.create({
       email,
@@ -26,13 +25,13 @@ exports.signup = async function (email, password, phone, name) {
 };
 
 exports.login = async function (email, password) {
-  const user = await models.User.findOne({ email });
+  const user = await models.User.findOne({ email }).exec();
 
   if (!user) {
     throw new Error('이메일과 비밀번호를 확인해 주세요.');
   }
 
-  const isValidPassword = await bcrypt.compare(password, user.password);
+  const isValidPassword = await bcrypt.compare(password, user.password).exec();
 
   if (!isValidPassword) {
     throw new Error('이메일과 비밀번호를 확인해 주세요.');

@@ -13,7 +13,7 @@ exports.isAuth = async function (req, res, next) {
   try {
     const decoded = jwt.verify(token, config.jwt.secretKey);
 
-    const user = await User.findOne({ email: decoded.email });
+    const user = await User.findOne({ email: decoded.email }).exec();
 
     if (!user) {
       return res.status(401).json({ message: 'Authorization 오류 입니다.' });

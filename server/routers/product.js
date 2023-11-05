@@ -10,8 +10,9 @@ router.get('/products', productController.getAllProducts);
 // 상품 상세 조회
 router.get('/products/:id', productController.getProductById);
 
+// 특정 카테고리 상품 조회
 router.get(
-  '/products/categorys/:name',
+  '/categories/:name/products',
   productController.getProductByCategoryName,
 );
 

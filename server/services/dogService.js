@@ -1,19 +1,23 @@
 const models = require('../models/index');
 
 exports.getAllDogs = async () => {
-  return await models.Dog.find({});
+  try {
+    return await models.Dog.find({}).exec();
+  } catch (err) {
+    throw new Error('강아지 정보를 찾을 수 없습니다.');
+  }
 };
 
 exports.getDogById = async (id) => {
   try {
-    const dog = await models.Dog.findOne({ id });
+    const dog = await models.Dog.findOne({ id }).exec();
 
-    if (dog === null) {
-      const error = {
+    if (!dog) {
+      const err = {
         status: 400,
         message: '해당하는 강아지를 찾을 수 없습니다.',
       };
-      return error;
+      return err;
     }
 
     return dog;
@@ -23,23 +27,24 @@ exports.getDogById = async (id) => {
 };
 
 exports.createDog = async (dog) => {
-  const res = await models.Dog.create(dog);
-  return res;
+  try {
+    return await models.Dog.create(dog).exec();
+  } catch (err) {
+    throw new Error('등록 할 수 없습니다.');
+  }
 };
 
 exports.updateDog = async (id, dog) => {
   try {
-    const res = await models.Dog.updateOne({ id }, { ...dog });
-    return res;
-  } catch (error) {
+    return await models.Dog.updateOne({ id }, { ...dog }).exec();
+  } catch (err) {
     throw new Error('업데이트 할 수 없습니다.');
   }
 };
 
 exports.deleteDog = async (id) => {
   try {
-    const res = await models.Dog.deleteOne({ id });
-    return res;
+    return await models.Dog.deleteOne({ id }).exec();
   } catch (err) {
     throw new Error('삭제 할 수 없습니다.');
   }

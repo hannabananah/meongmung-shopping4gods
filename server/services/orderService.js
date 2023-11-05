@@ -1,20 +1,15 @@
 const models = require('../models/index');
 
-// 전체 주문 조회
-exports.getAllOrder = async () => {
-  return await models.Order.find({});
-};
-
 // 유저 주문 조회
 exports.getAllOrderById = async (userId) => {
   try {
-    const orders = await models.Order.find({ userId });
+    const orders = await models.Order.find({ userId }).exec();
     if (orders.length === 0) {
-      const error = {
+      const err = {
         status: 400,
         message: '해당 주문이 존재하지 않습니다.',
       };
-      return error;
+      return err;
     }
 
     return orders;
@@ -26,13 +21,13 @@ exports.getAllOrderById = async (userId) => {
 // 유저 특정 주문 조회
 exports.getOneOrderById = async (userId, orderId) => {
   try {
-    const order = await models.Order.findOne({ userId, orderId });
+    const order = await models.Order.findOne({ userId, orderId }).exec();
     if (!order) {
-      const error = {
+      const err = {
         status: 400,
         message: '해당 주문이 존재하지 않습니다.',
       };
-      return error;
+      return err;
     }
 
     return order;
@@ -56,7 +51,7 @@ exports.createOrder = async ({
       userId,
       products,
       shippingAddress,
-    });
+    }).exec();
 
     return createdOrder;
   } catch (err) {
@@ -71,14 +66,14 @@ exports.updateOrder = async (userId, orderId, updateData) => {
       { userId, orderId },
       { $set: updateData },
       { new: true },
-    );
+    ).exec();
 
     if (!order) {
-      const error = {
+      const err = {
         status: 400,
         message: '해당 주문이 존재하지 않습니다.',
       };
-      return error;
+      return err;
     }
 
     return order;
@@ -90,8 +85,7 @@ exports.updateOrder = async (userId, orderId, updateData) => {
 // 주문 전체 삭제
 exports.deleteOrderAll = async (userId) => {
   try {
-    const order = await models.Order.deleteMany({ userId });
-    return order;
+    return await models.Order.deleteMany({ userId }).exec();
   } catch (err) {
     throw new Error('삭제 할 수 없습니다.');
   }
@@ -100,8 +94,10 @@ exports.deleteOrderAll = async (userId) => {
 // 주문 개별 삭제
 exports.deleteOrder = async (userId, orderId) => {
   try {
-    const order = await models.Order.deleteOne({ userId: userId, orderId: orderId });
-    return order;
+    return await models.Order.deleteOne({
+      userId: userId,
+      orderId: orderId,
+    }).exec();
   } catch (err) {
     throw new Error('삭제 할 수 없습니다.');
   }
