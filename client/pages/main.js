@@ -32,7 +32,7 @@ export function init() {
   </div>
   </header>`;
 
-  document.querySelector('#footer').innerHTML = `<footer class='w-screen p-12 bg-gray-200 absolute text-center bottom-0'>
+  document.querySelector('#footer').innerHTML = `<footer class='w-screen p-12 bg-gray-200 text-center bottom-0'>
   <ul>
     <li><p>copyright ⓒ 2023 All rights reserved by meungmung.</p></li>
     <li>
@@ -51,11 +51,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 export function renderProducts(data) {
   const productList = document.getElementById('product-list');
-  let prevcard = new Array();
-  let k =0;
-  for(let i=0;i<productList.length;i++){
-     productList.removeChild()
-  }
+  //TODO 카테고리 버튼 누를때마다 바뀌어야 되니까 초기화코드 추가해야함
 
   const products = data.productList; // JSON 데이터에서 제품 목록을 가져옴
 
@@ -97,23 +93,19 @@ export function renderCategories(data) {
       const categoryCard = document.createElement('div');
       categoryCard.classList.add('category-card');
       categoryCard.innerHTML = `
-      <button id = 'category-${categories._id}' 
-      class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"> 
-      ${categories.name}</button> `;
+      <input type='radio' id = 'category-${categories._id}' name = 'buttons'
+      class="hidden peer">
+      <label for="category-${categories._id}" class="inline-flex items-center justify-between w-full p-4 text-lg text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+   ${categories.name}</label></input> `;
     
       if (categoryList) {
         categoryList.appendChild(categoryCard);
       }
       const btnCategory = document.querySelector(`#category-${categories._id}`)
       btnCategory.addEventListener('click',function(){
-
-        console.log(categories.name)
-        const productList = document.getElementById('product-list');
-  
-        for(let i=0;i<productList.length;i++){
-           productList.removeChild(productList[i]);
-        }
-
+        
+        console.log(categories.name);
+        //api 왠지 안됨
      //   getProducts(`${api}${categories.name}/products`)
       })
   });
