@@ -1,7 +1,6 @@
 import '../../index.css';
 import { init } from '../main.js';
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import Swal from 'sweetalert2';
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -45,7 +44,8 @@ const postUser = () => {
       new Swal('회원가입 완료', '반갑습니다!', 'success').then(() => {
         location.href="/login/";
     });
-    });
+    })
+    .catch(error => console.log(error));;
 };
 
 // 숫자가 아닌 정규식
