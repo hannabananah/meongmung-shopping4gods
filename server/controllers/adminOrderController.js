@@ -2,7 +2,7 @@ const adminOrderService = require('../services/adminOrderService');
 
 exports.getAllOrders = async function (req, res, next) {
   try {
-    const orders = await adminOrderService.getAllOrders().exec();
+    const orders = await adminOrderService.getAllOrders();
 
     res.json({ status: 200, orders });
   } catch (err) {
@@ -22,7 +22,7 @@ exports.getAllOrdersByUserId = async function (req, res, next) {
       });
     }
 
-    const orders = await adminOrderService.getAllOrdersByUserId(userId).exec();
+    const orders = await adminOrderService.getAllOrdersByUserId(userId);
 
     res.json({ status: 200, orders });
   } catch (err) {
@@ -42,7 +42,7 @@ exports.getOrdersByOrderId = async function (req, res, next) {
       });
     }
 
-    const order = await adminOrderService.getOrdersByOrderId(orderId).exec();
+    const order = await adminOrderService.getOrdersByOrderId(orderId);
 
     res.json({ status: 200, order });
   } catch (err) {
@@ -62,7 +62,7 @@ exports.updateOrderByOrderId = async function (req, res, next) {
       status,
     };
 
-    await adminOrderService.updateOrderByOrderId(orderData).exec();
+    await adminOrderService.updateOrderByOrderId(orderData);
 
     res.json({ state: 200, message: '수정 성공' });
   } catch (err) {
@@ -73,7 +73,7 @@ exports.updateOrderByOrderId = async function (req, res, next) {
 exports.deleteOrderByOrderId = async function (req, res, next) {
   try {
     const { orderId } = req.params;
-    await adminOrderService.deleteOrderByOrderId(orderId).exec();
+    await adminOrderService.deleteOrderByOrderId(orderId);
 
     res.json({ state: 200, message: '삭제 성공' });
   } catch (err) {

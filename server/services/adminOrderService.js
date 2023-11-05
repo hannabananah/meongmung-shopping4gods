@@ -8,7 +8,7 @@ exports.getAllOrders = async function () {
 };
 
 exports.getAllOrdersByUserId = async function (userId) {
-  const isExist = await userService.getUserById(userId).exec();
+  const isExist = await userService.getUserById(userId);
 
   if (!isExist) {
     throw new Error('유저 정보를 찾을 수 없습니다.');

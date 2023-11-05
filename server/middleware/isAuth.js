@@ -21,7 +21,7 @@ exports.isAuth = async function (req, res, next) {
   try {
     const decoded = jwt.verify(token, config.jwt.secretKey);
 
-    const user = await User.findOne({ email: decoded.email }).exec();
+    const user = await User.findOne({ email: decoded.email });
 
     if (!user) {
       return res

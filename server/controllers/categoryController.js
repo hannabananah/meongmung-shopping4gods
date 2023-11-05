@@ -4,7 +4,7 @@ exports.getAllCategory = async (req, res, next) => {
   const { name } = req.query;
 
   try {
-    const list = await categoryService.getAllCategories(name).exec();
+    const list = await categoryService.getAllCategories(name);
     res.status(200).json({ status: 200, message: list });
   } catch (err) {
     next(err);
@@ -15,7 +15,7 @@ exports.getCategoryByName = async (req, res, next) => {
   try {
     const { name } = req.params;
 
-    const categoryName = await categoryService.getCategoryByName(name).exec();
+    const categoryName = await categoryService.getCategoryByName(name);
 
     // 없으면 다른 값을 전달해준다.
     if (categoryName === null) {
@@ -35,7 +35,7 @@ exports.createCategory = async (req, res, next) => {
   try {
     const { name } = req.body;
 
-    const data = await categoryService.createCategory({ name }).exec();
+    const data = await categoryService.createCategory({ name });
 
     res.status(201).json({ status: 201, message: data });
   } catch (err) {
@@ -47,7 +47,7 @@ exports.updateCategory = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
-    await categoryService.updateCategory(id, name).exec();
+    await categoryService.updateCategory(id, name);
     res.json({ status: 200, message: '카테고리 수정 성공' });
   } catch (err) {
     next(err);
@@ -58,7 +58,7 @@ exports.deleteCategory = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const categoryName = await categoryService.deleteCategory(id).exec();
+    const categoryName = await categoryService.deleteCategory(id);
 
     res.json({
       status: 200,

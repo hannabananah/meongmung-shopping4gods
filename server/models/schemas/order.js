@@ -14,17 +14,19 @@ const orderSchema = new Schema(
       type: Number,
       required: true,
     },
-    // 주문자 아이디
+    // 유저아이디
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
     products: [
       {
+        // 상품아이디
         product: {
           type: Schema.Types.ObjectId,
           ref: 'Product',
         },
+        // 주문 수량
         quantity: {
           type: Number,
           required: true,
@@ -42,6 +44,7 @@ const orderSchema = new Schema(
       required: true,
       default: '배송전',
     },
+    // 배송 주소정보
     shippingAddress: {
       type: Schema.Types.ObjectId,
       ref: 'ShippingAddress',

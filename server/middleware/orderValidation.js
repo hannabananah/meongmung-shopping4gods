@@ -2,9 +2,17 @@ const Joi = require('joi');
 
 const order = Joi.object({
   totalPrice: Joi.number().required(),
+  products: Joi.array()
+    .items(
+      Joi.object({
+        product: Joi.string().required(),
+        quantity: Joi.number().required(),
+      }),
+    )
+    .required(),
+  shippingAddress: Joi.string().required(),
   // null일 수도 있으므로
-  deliveryFee: Joi.number().allow(null),
-  status: Joi.string().valid('배송전', '배송중', '배송완료').required(),
+  deliveryFee: Joi.number().allow(null, '').optional(),
 });
 
 function orderValidation(req, res, next) {

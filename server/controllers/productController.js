@@ -2,7 +2,7 @@ const productService = require('../services/productService');
 
 exports.getAllProducts = async (req, res, next) => {
   try {
-    const productList = await productService.getAllProduct().exec();
+    const productList = await productService.getAllProduct();
 
     res.json({
       status: 200,
@@ -17,7 +17,7 @@ exports.getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const product = await productService.getProductById(id).exec();
+    const product = await productService.getProductById(id);
 
     if (product === null) {
       return res
@@ -35,7 +35,7 @@ exports.getProductByCategoryName = async (req, res, next) => {
   try {
     const { name } = req.params;
 
-    const product = await productService.getProductByCategoryName(name).exec();
+    const product = await productService.getProductByCategoryName(name);
     res.status(200).json({ products: product });
   } catch (err) {
     next(err);
@@ -54,7 +54,7 @@ exports.createProduct = async (req, res, next) => {
         img_url,
         price,
       })
-      .exec();
+      ;
 
     res.status(200).json({
       status: 200,
@@ -76,7 +76,7 @@ exports.updateProduct = async (req, res, next) => {
 
     const status = await productService
       .updateProduct(id, name, desc, category, img_url, price)
-      .exec();
+      ;
 
     res.status(200).json({
       status: 200,
@@ -89,7 +89,7 @@ exports.updateProduct = async (req, res, next) => {
 exports.deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const product = await productService.getProductById(id).exec();
+    const product = await productService.getProductById(id);
 
     if (product === null) {
       return res
@@ -97,7 +97,7 @@ exports.deleteProduct = async (req, res, next) => {
         .json({ status: 404, message: '해당 상품이 존재하지 않습니다.' });
     }
 
-    const status = await productService.deleteProduct(product).exec();
+    const status = await productService.deleteProduct(product);
 
     res.status(200).json({
       status: 200,
