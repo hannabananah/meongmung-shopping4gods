@@ -31,15 +31,31 @@ export function init() {
     </ul>
   </div>
   </header>`;
+
+  document.querySelector('#footer').innerHTML = `<footer class='w-screen p-12 bg-gray-200 absolute text-center bottom-0'>
+  <ul>
+    <li><p>copyright ⓒ 2023 All rights reserved by meungmung.</p></li>
+    <li>
+      <a href="">
+      Contact : </a>
+    </li>
+  </ul>
+</footer>`
+;
 }
 
-// document.querySelector('#footer').innerHTML = ``;
+
 window.addEventListener('DOMContentLoaded', () => {
   init();
 });
 
 export function renderProducts(data) {
   const productList = document.getElementById('product-list');
+  let prevcard = new Array();
+  let k =0;
+  for(let i=0;i<productList.length;i++){
+     productList.removeChild()
+  }
 
   const products = data.productList; // JSON 데이터에서 제품 목록을 가져옴
 
@@ -49,13 +65,14 @@ export function renderProducts(data) {
     const productCard = document.createElement('div');
     productCard.classList.add('product-card');
     productCard.innerHTML = `
-    <div class="bg-white rounded-lg shadow-lg  p-8" id="product-${product._id}">
+    <div class="bg-white rounded-lg shadow p-8" id="product-${product._id}">
     <div class="relative overflow-hidden">
-          <img class="object-cover z-2 w-full" src="${product.img_url}" alt="${product.name}" />
-          <h2 class="text-xl z-2 font-bold text-gray-900 mt-4">${product.name}</h2>
-          <div class="flex z-2 items-center justify-between mt-4">
-          <span class="text-gray-900 z-2 font-bold text-lg">${product.price}원</span>
-          <button data-action='add-to-cart' class="bg-blue-900 text-white z-2 py-2 px-4 rounded-full font-bold hover:bg-gray-800" data-product-id="${product.id}">장바구니</button>
+          <img class="object-cover w-full h-60" 
+          src="${product.img_url}" alt="${product.img_url}" />
+          <p class="text-lg text-gray-500 mt-4">${product.name}</p>
+          <div class="flex items-center justify-between ">
+          <span class="text-gray-900 font-bold text-2xl">${product.price}원</span>
+          <img src="/images/cart.svg" id="cart-${product._id}"></img>
           </div>
           </div>
         `;
@@ -68,10 +85,47 @@ export function renderProducts(data) {
     })
   });
 }
-const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const getProducts= ()=> {
-  fetch(`${API_BASE_URL}/products/` , {
+export function renderCategories(data) {
+  const categoryList = document.getElementById('category-list');
+
+  const categories = data.message; // JSON 데이터에서 제품 목록을 가져옴
+  console.log(data.message);
+  // 가져온 데이터를 사용하여 동적으로 제품 목록 생성
+  categories.forEach((categories) => {
+    // 제품 항목을 생성하고 추가하는 코드
+      const categoryCard = document.createElement('div');
+      categoryCard.classList.add('category-card');
+      categoryCard.innerHTML = `
+      <button id = 'category-${categories._id}' 
+      class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"> 
+      ${categories.name}</button> `;
+    
+      if (categoryList) {
+        categoryList.appendChild(categoryCard);
+      }
+      const btnCategory = document.querySelector(`#category-${categories._id}`)
+      btnCategory.addEventListener('click',function(){
+
+        console.log(categories.name)
+        const productList = document.getElementById('product-list');
+  
+        for(let i=0;i<productList.length;i++){
+           productList.removeChild(productList[i]);
+        }
+
+     //   getProducts(`${api}${categories.name}/products`)
+      })
+  });
+}
+
+
+
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
+let api = `${API_BASE_URL}/products/`;
+
+const getProducts= (api)=> {
+  fetch(api , {
     method: 'GET',
   })
     .then((response) => 
@@ -82,4 +136,20 @@ const getProducts= ()=> {
     })
     .catch(error => console.log(error));
 }
-getProducts();
+
+
+const getCategories= ()=> {
+  fetch(`${API_BASE_URL}/categories/` , {
+    method: 'GET',
+  })
+    .then((response) => 
+      response.json())
+    .then((data) => {
+      console.log(data);
+      renderCategories(data);
+    })
+    .catch(error => console.log(error));
+}
+
+getProducts(api);
+getCategories();
