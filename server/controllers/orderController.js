@@ -63,12 +63,14 @@ exports.createOrder = async (req, res, next) => {
 
 exports.updateOrder = async (req, res, next) => {
   const { userId, orderId } = req.params;
-  const { totalPrice } = req.body;
+  const { totalPrice, deliveryFee, status } = req.body;
 
   try {
     const updatedOrder = await orderService
       .updateOrder(userId, orderId, {
         totalPrice,
+        deliveryFee,
+        status,
       })
       .exec();
     res.json({

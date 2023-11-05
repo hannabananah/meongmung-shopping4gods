@@ -31,10 +31,6 @@ const orderSchema = new Schema(
         },
       },
     ],
-    shippingAddress: {
-      type: Schema.Types.ObjectId,
-      ref: 'ShippingAddress',
-    },
     // 배송비
     deliveryFee: {
       type: Number,
@@ -45,6 +41,10 @@ const orderSchema = new Schema(
       enum: ['배송전', '배송중', '배송완료'],
       required: true,
       default: '배송전',
+    },
+    shippingAddress: {
+      type: Schema.Types.ObjectId,
+      ref: 'ShippingAddress',
     },
   },
   {

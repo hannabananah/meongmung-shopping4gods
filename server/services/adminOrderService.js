@@ -38,12 +38,8 @@ exports.getOrdersByOrderId = async function (orderId) {
   return order;
 };
 
-exports.updateOrderByOrderId = async function (
-  orderId,
-  totalPrice,
-  deliveryFee,
-  status,
-) {
+exports.updateOrderByOrderId = async function (orderData) {
+  const { orderId, totalPrice, deliveryFee, status } = orderData;
   const order = await models.Order.findOne({ _id: orderId }).exec();
 
   if (!order) {

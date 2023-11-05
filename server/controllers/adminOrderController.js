@@ -55,9 +55,14 @@ exports.updateOrderByOrderId = async function (req, res, next) {
     const { orderId } = req.params;
     const { totalPrice, deliveryFee, status } = req.body;
 
-    await adminOrderService
-      .updateOrderByOrderId(orderId, totalPrice, deliveryFee, status)
-      .exec();
+    const orderData = {
+      orderId,
+      totalPrice,
+      deliveryFee,
+      status,
+    };
+
+    await adminOrderService.updateOrderByOrderId(orderData).exec();
 
     res.json({ state: 200, message: '수정 성공' });
   } catch (err) {

@@ -78,7 +78,10 @@ exports.updateProduct = async (req, res, next) => {
       .updateProduct(id, name, desc, category, img_url, price)
       .exec();
 
-    res.json(status);
+    res.status(200).json({
+      status: 200,
+      message: '상품 수정 성공',
+    });
   } catch (err) {
     next(err);
   }
@@ -96,7 +99,10 @@ exports.deleteProduct = async (req, res, next) => {
 
     const status = await productService.deleteProduct(product).exec();
 
-    res.json(status);
+    res.status(200).json({
+      status: 200,
+      message: '상품 삭제 성공',
+    });
   } catch (err) {
     next(err);
   }
