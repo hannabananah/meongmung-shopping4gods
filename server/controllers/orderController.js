@@ -23,10 +23,10 @@ exports.getAllOrdersById = async (req, res, next) => {
 };
 
 exports.getOneOrderById = async (req, res, next) => {
-  const { userId, id } = req.params;
+  const { userId, orderId } = req.params;
 
   try {
-    const order = await orderService.getOneOrderById(userId, id);
+    const order = await orderService.getOneOrderById(userId, orderId);
     res.json({
       status: 200,
       order,
@@ -38,9 +38,9 @@ exports.getOneOrderById = async (req, res, next) => {
 
 exports.createOrder = async (req, res, next) => {
   try {
-    const { id, totalPrice, userId, products, shippingAddress } = req.body;
+    const { orderId, totalPrice, userId, products, shippingAddress } = req.body;
     const carts = await orderService.createOrder({
-      id,
+      orderId,
       totalPrice,
       userId,
       products,
@@ -60,11 +60,11 @@ exports.createOrder = async (req, res, next) => {
 };
 
 exports.updateOrder = async (req, res, next) => {
-  const { userId, id } = req.params;
+  const { userId, orderId } = req.params;
   const { totalPrice } = req.body;
 
   try {
-    const updatedOrder = await orderService.updateOrder(userId, id, {
+    const updatedOrder = await orderService.updateOrder(userId, orderId, {
       totalPrice,
     });
     res.json({
@@ -92,10 +92,10 @@ exports.deleteAllOrder = async (req, res, next) => {
 };
 
 exports.deleteOneOrder = async (req, res, next) => {
-  const { userId, id } = req.params;
+  const { userId, orderId } = req.params;
 
   try {
-    await orderService.deleteOrder(userId, id);
+    await orderService.deleteOrder(userId, orderId);
 
     res.json({
       status: 200,

@@ -24,9 +24,9 @@ exports.getAllOrderById = async (userId) => {
 };
 
 // 유저 특정 주문 조회
-exports.getOneOrderById = async (userId, id) => {
+exports.getOneOrderById = async (userId, orderId) => {
   try {
-    const order = await models.Order.findOne({ userId, _id: id });
+    const order = await models.Order.findOne({ userId, orderId });
     if (!order) {
       const error = {
         status: 400,
@@ -43,7 +43,7 @@ exports.getOneOrderById = async (userId, id) => {
 
 // 주문하기
 exports.createOrder = async ({
-  id,
+  orderId,
   totalPrice,
   userId,
   products,
@@ -51,7 +51,7 @@ exports.createOrder = async ({
 }) => {
   try {
     const createdOrder = await models.Order.create({
-      id,
+      orderId,
       totalPrice,
       userId,
       products,
@@ -65,10 +65,10 @@ exports.createOrder = async ({
 };
 
 // 주문 수정하기
-exports.updateOrder = async (userId, id, updateData) => {
+exports.updateOrder = async (userId, orderId, updateData) => {
   try {
     const order = await models.Order.findOneAndUpdate(
-      { userId, id },
+      { userId, orderId },
       { $set: updateData },
       { new: true },
     );
@@ -98,9 +98,9 @@ exports.deleteOrderAll = async (userId) => {
 };
 
 // 주문 개별 삭제
-exports.deleteOrder = async (userId, id) => {
+exports.deleteOrder = async (userId, orderId) => {
   try {
-    const order = await models.Order.deleteOne({ userId: userId, id: id });
+    const order = await models.Order.deleteOne({ userId: userId, orderId: orderId });
     return order;
   } catch (err) {
     throw new Error('삭제 할 수 없습니다.');
