@@ -1,4 +1,4 @@
-const models = require('../models/index');
+const models = require('../models');
 
 exports.getAllProduct = async () => {
   return await models.Product.find({}).exec();
@@ -20,22 +20,38 @@ exports.getProductByCategoryName = async (name) => {
   return filteredProducts;
 };
 
-exports.createProduct = async ({ name, desc, category, img_url, price }) => {
+exports.createProduct = async ({
+  name,
+  desc,
+  category,
+  img_url,
+  price,
+  manufacturer,
+}) => {
   const product = await models.Product.create({
     name,
     desc,
     category,
     img_url,
     price,
-  }).exec();
+    manufacturer,
+  });
   return product;
 };
 
-exports.updateProduct = async (_id, name, desc, category, img_url, price) => {
+exports.updateProduct = async (
+  _id,
+  name,
+  desc,
+  category,
+  img_url,
+  price,
+  manufacturer,
+) => {
   try {
     const data = await models.Product.updateOne(
       { _id },
-      { name, desc, category, img_url, price },
+      { name, desc, category, img_url, price, manufacturer },
     ).exec();
     if (!data.acknowledged) {
       return { state: 200, message: '수정 실패' };

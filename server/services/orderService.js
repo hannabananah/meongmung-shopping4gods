@@ -1,4 +1,4 @@
-const models = require('../models/index');
+const models = require('../models');
 
 // 유저 주문 조회
 exports.getAllOrderById = async (userId) => {

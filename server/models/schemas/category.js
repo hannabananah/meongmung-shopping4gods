@@ -5,7 +5,7 @@ const categorySchema = new Schema(
   {
     name: { type: String, required: true, unique: true },
   },
-  { collection: 'category' },
+  { collection: 'category', strictPopulate: false },
 );
 
 module.exports = categorySchema;

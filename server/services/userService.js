@@ -1,4 +1,4 @@
-const models = require('../models/index');
+const models = require('../models');
 
 exports.getAllUsers = async () => {
   return await models.User.find({}).exec();
@@ -21,18 +21,25 @@ exports.createUser = async (user) => {
     return false;
   }
 
-  return await models.User.create(user).exec();
+  return await models.User.create(user);
 };
 
 exports.updateUser = async (_id, phone, name) => {
   try {
+    // 전화번호가 이미 존재하는지 확인
+    const existingUser = await models.User.findOne({ phone });
+
+    if (existingUser && existingUser._id.toString() !== _id) {
+      return { state: 400, message: '해당 전화번호가 이미 존재합니다.' };
+    }
+
     const data = await models.User.updateOne({ _id }, { phone, name }).exec();
     if (!data.acknowledged) {
       return { state: 200, message: '수정 실패' };
     }
     return { state: 200, massage: '수정 성공' };
   } catch (err) {
-    console.err(err);
+    throw new Error(err);
   }
 };
 
@@ -42,6 +49,6 @@ exports.deleteUser = async (_id) => {
 
     return { state: 200, message: '탈퇴 성공' };
   } catch (err) {
-    console.err(err);
+    throw new Error(err);
   }
 };

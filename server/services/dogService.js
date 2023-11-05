@@ -1,20 +1,29 @@
-const models = require('../models/index');
+const models = require('../models');
 
-exports.getAllDogs = async () => {
+exports.getAllDogs = async (userId) => {
   try {
-    return await models.Dog.find({}).exec();
+    const dogs = await models.Dog.find({ userId }).exec();
+    if (dogs.length === 0) {
+      const err = {
+        status: 400,
+        message: '등록된 강아지 정보가 없습니다.',
+      };
+      return err;
+    }
+
+    return dogs;
   } catch (err) {
     throw new Error('강아지 정보를 찾을 수 없습니다.');
   }
 };
 
-exports.getDogById = async (id) => {
+exports.getDogById = async (userId, dogId) => {
   try {
-    const dog = await models.Dog.findOne({ id }).exec();
+    const dog = await models.Dog.findOne({ userId, _id: dogId }).exec();
 
     if (!dog) {
       const err = {
-        status: 400,
+        status: 404,
         message: '해당하는 강아지를 찾을 수 없습니다.',
       };
       return err;
@@ -26,25 +35,36 @@ exports.getDogById = async (id) => {
   }
 };
 
-exports.createDog = async (dog) => {
+exports.createDog = async (dogData) => {
   try {
-    return await models.Dog.create(dog).exec();
+    const createdDog = await models.Dog.create(dogData);
+    return createdDog;
   } catch (err) {
     throw new Error('등록 할 수 없습니다.');
   }
 };
 
-exports.updateDog = async (id, dog) => {
+exports.updateDog = async (dogId, updatedData) => {
   try {
-    return await models.Dog.updateOne({ id }, { ...dog }).exec();
+    const updatedDog = await models.Dog.findByIdAndUpdate(dogId, updatedData, {
+      new: true,
+    });
+    if (!updatedDog) {
+      throw new Error('해당 ID의 강아지를 찾을 수 없습니다.');
+    }
+    return updatedDog;
   } catch (err) {
     throw new Error('업데이트 할 수 없습니다.');
   }
 };
 
-exports.deleteDog = async (id) => {
+exports.deleteDog = async (dogId) => {
   try {
-    return await models.Dog.deleteOne({ id }).exec();
+    const deletedDog = await models.Dog.findByIdAndDelete(dogId);
+    if (!deletedDog) {
+      throw new Error('해당 ID의 강아지를 찾을 수 없습니다.');
+    }
+    return deletedDog;
   } catch (err) {
     throw new Error('삭제 할 수 없습니다.');
   }
