@@ -6,8 +6,11 @@ const router = Router();
 // 전체 카테고리 조회
 router.get('/categories', categoryController.getAllCategory);
 
-// 카테고리 상품 조회
-router.get('/categories/:name', categoryController.getCategoryByName);
+// 특정 카테고리 상품 조회
+router.get(
+  '/categories/:name/products',
+  categoryController.getProductByCategoryName,
+);
 
 // 카테고리 생성
 router.post('/categories', categoryController.createCategory);

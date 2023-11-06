@@ -31,17 +31,6 @@ exports.getProductById = async (req, res, next) => {
   }
 };
 
-exports.getProductByCategoryName = async (req, res, next) => {
-  try {
-    const { name } = req.params;
-
-    const product = await productService.getProductByCategoryName(name);
-    res.status(200).json({ products: product });
-  } catch (err) {
-    next(err);
-  }
-};
-
 exports.createProduct = async (req, res, next) => {
   try {
     const { name, desc, category, img_url, price, manufacturer } = req.body;

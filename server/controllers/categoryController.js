@@ -31,6 +31,17 @@ exports.getCategoryByName = async (req, res, next) => {
   }
 };
 
+exports.getProductByCategoryName = async (req, res, next) => {
+  try {
+    const { name } = req.params;
+
+    const product = await categoryService.getProductByCategoryName(name);
+    res.status(200).json({ products: product });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.createCategory = async (req, res, next) => {
   try {
     const { name } = req.body;
