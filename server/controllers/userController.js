@@ -69,13 +69,13 @@ exports.updateUser = async (req, res, next) => {
     next(err);
   }
 };
-exports.deleteUser = async (req, res, next) => {
+exports.disableAccountUser = async (req, res, next) => {
   const id = req.userId;
 
   try {
-    const data = await userService.deleteUser(id);
-
-    res.json(data);
+    const result = await userService.disableAccountUser(id);
+    console.log(result);
+    res.json({ state: 200, message: '탈퇴 성공' });
   } catch (err) {
     next(err);
   }

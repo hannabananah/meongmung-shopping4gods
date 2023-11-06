@@ -55,3 +55,11 @@ exports.deleteUser = async (_id) => {
     throw new Error(err);
   }
 };
+
+exports.disableAccountUser = async (_id) => {
+  try {
+    return await models.User.updateOne({ _id }, { useyn: true }).exec();
+  } catch (err) {
+    throw new Error(err);
+  }
+};

@@ -29,6 +29,7 @@ exports.isAuth = async function (req, res, next) {
         .json({ message: '해당 유저가 존재하지 않습니다.' });
     }
     req.user = user;
+    req.userId = user._id.toString();
     next();
   } catch (err) {
     if (err.message.includes('expired')) next('토큰 기한이 만료 되었습니다.');

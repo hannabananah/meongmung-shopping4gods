@@ -24,6 +24,6 @@ router.put(
 );
 
 // 유저 삭제
-router.delete('/users', isAuth, userController.deleteUser);
+router.delete('/users', isAuth, userController.disableAccountUser);
 
 module.exports = router;
