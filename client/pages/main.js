@@ -1,6 +1,8 @@
 import '../style.css';
 import '../index.css';
 import 'flowbite';
+const userId = localStorage.getItem('id');
+const token = localStorage.getItem('token');
 
 
 export function init() {
@@ -17,20 +19,40 @@ export function init() {
     />
   </div>
   
-  <div class="">
-    <ul class="flex gap-10">
-      <li class="hover:text-gray-400">
-        <a href="/login/">로그인</a>
-      </li>
-      <li class="hover:text-gray-400">
-        <a href="/signup/">회원가입</a>
-      </li>
-      <li class="hover:text-gray-400">
-        <a href="/cart/">장바구니</a>
-      </li>
-    </ul>
+  <div id="headerbtn">
+   
   </div>
   </header>`;
+ 
+const headerBtns = document.querySelector('#headerbtn');
+if(userId &&token){
+  
+  headerBtns.innerHTML =` 
+      <ul class="flex gap-6">
+          <li class="hover:text-gray-400">
+            <a href="/mypage/">마이페이지</a>
+          </li>
+          <li class="hover:text-gray-400">
+            <a href="/">로그아웃</a>
+          </li>
+          <li class="hover:text-gray-400">
+            <a href="/cart/">장바구니</a>
+          </li>
+        </ul>`
+      }else {
+        headerBtns.innerHTML =` 
+      <ul class="flex gap-6">
+          <li class="hover:text-gray-400">
+            <a href="/login/">로그인</a>
+          </li>
+          <li class="hover:text-gray-400">
+            <a href="/signup/">회원가입</a>
+          </li>
+          <li class="hover:text-gray-400">
+            <a href="/cart/">장바구니</a>
+          </li>
+        </ul>`
+}
 
   document.querySelector('#footer').innerHTML = `<footer class='w-screen p-12 bg-gray-100 text-center bottom-0'>
   <ul>
@@ -46,4 +68,3 @@ export function init() {
 window.addEventListener('DOMContentLoaded', () => {
   init();
 });
-
