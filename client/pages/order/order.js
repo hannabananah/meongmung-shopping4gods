@@ -10,6 +10,12 @@ const API_BASE_URL = import.meta.env.BASE_URL;
 const addressBtn = document.getElementById('getAddress');
 const addressNum = document.getElementById('addressNum');
 const address = document.getElementById('address');
+const id_query = new URLSearchParams(location.search).get("now"); 
+
+const txtQuantity = document.getElementById('quantity');
+const txtCost = document.getElementById('cost');
+const txtTotal = document.getElementById('totalcost');
+
 
 //id는 뭘 받아와야하는지?
 let id = 1; //임시
@@ -24,12 +30,46 @@ const getUser = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        
-        
-     
+            loadUser(data)
       });
   };
-  getUser();
+
+  const loadUser = (data) =>{
+    //TODO 화면세팅
+}
+
+
+//장바구니/바로구매 상품 보여주기
+const loadItem = () => {
+   const orderlist = document.getElementById('order_list');
+   
+   let products = JSON.parse(localStorage.getItem('cart')); //장바구니 리스트로 변경해야 함
+   if(id_query) {
+     products = JSON.parse(localStorage.getItem('product'))
+   }
+   console.log(products._id)
+   products.forEach((product) => {
+    const orderCard = document.createElement('div');
+    orderCard.classList.add('product-card');
+    orderCard.innerHTML = 
+    `<table class="w-full h-full">
+    <tr class='w-full border-b-2 items-center border-gray-100 flex pb-2'>
+        <td class='items-center place-content-start '> 
+        <img class='w-32 rounded-md border-2 border-gray-50 p-3' src='${product.imgUrl}' alt = '${product.imgUrl}'/> </td>
+        <td><p class='text-sm text-gray-600'>${product.name} X ${product.quantity}개 </p><p class='font-semibold'>${product.cost}원 </p></td>
+        </tr> 
+    </table>`
+
+    if (orderlist) {
+        orderlist.appendChild(orderCard);
+      }
+
+    txtTotal.innerHTML = product.cost;
+    txtCost.innerHTML=product.cost;
+    txtQuantity.innerHTML = product.quantity;
+})
+}
+
 
 //daum 주소 입력받기
 addressBtn.addEventListener('click', function() {
@@ -41,3 +81,43 @@ addressBtn.addEventListener('click', function() {
         }
     }).open();
 })
+
+
+//결제하기api
+const postOrder = () => {
+    fetch(`${API_BASE_URL}/orders` , {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+        body: JSON.stringify({
+            
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          
+         // console.log(data)
+         // console.log(localStorage.getItem('token'));
+    
+          new Swal('주문이 완료되었습니다!', '', 'success').then(() => {
+            location.href="/";
+        });
+        })
+        .catch(error => console.log(error));
+}
+
+
+const btnSubmit = document.getElementById('submit');
+btnSubmit.addEventListener('submit', function(e){
+    e.preventDefault();
+    postOrder();
+})
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    loadItem();
+    getUser();
+  });

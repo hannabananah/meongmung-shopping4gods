@@ -2,10 +2,17 @@ import '../index.css';
 import { init } from '/main.js';
 import 'flowbite';
 
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
+let api = `${API_BASE_URL}/products/`;
+
 function renderProducts(data) {
     const productList = document.getElementById('product-list');
     //TODO 카테고리 버튼 누를때마다 바뀌어야 되니까 초기화코드 추가해야함
   
+    while ( productList.hasChildNodes() )
+    {
+      productList.removeChild( productList.firstChild );       
+    }
     const products = data.productList; // JSON 데이터에서 제품 목록을 가져옴
   
     // 가져온 데이터를 사용하여 동적으로 제품 목록 생성
@@ -16,7 +23,7 @@ function renderProducts(data) {
       productCard.innerHTML = `
       <div class="bg-white rounded-lg shadow p-8" id="product-${product._id}">
       <div class="relative overflow-hidden">
-            <img class="object-cover w-full h-60" 
+            <img class="object-cover w-full " 
             src="${product.img_url}" alt="${product.img_url}" />
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
             <div class="flex items-center justify-between ">
@@ -58,16 +65,15 @@ function renderProducts(data) {
         btnCategory.addEventListener('click',function(){
           
           console.log(categories.name);
-          //api 왠지 안됨
-       //   getProducts(`${api}${categories.name}/products`)
+          
+          getProducts(`${API_BASE_URL}categories/${categories.name}/products`)
         })
     });
   }
   
   
   
-  const API_BASE_URL = import.meta.env.VITE_BASE_URL;
-  let api = `${API_BASE_URL}/products/`;
+
   
   const getProducts= (api)=> {
     fetch(api , {

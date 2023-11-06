@@ -8,7 +8,7 @@ const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 const img = document.getElementById('img');
 const txtname = document.getElementById('productName');
 const txtcost = document.getElementById('cost');
-
+let data;
 
 const id_query = new URLSearchParams(location.search).get("id"); //querystring으로 상품아이디 받아옴
 console.log(id_query);
@@ -25,11 +25,14 @@ const getProduct= ()=> {
       })
       .catch(error => console.log(error));
   }
-  function loadItem(data){
+  
+const loadItem =(data) =>{
     img.src = data.img_url;
+    img.alt = data.img_url;
+    txtname.value = data._id;
     txtname.innerHTML = data.name;
     txtcost.innerHTML = data.price;
-  }
+}
   
 getProduct();
 //수량 counter
@@ -73,5 +76,13 @@ cartbtn.addEventListener("click", function(){
 })
 
 buybtn.addEventListener("click", function(){
-    location.href = '/order/';
+    const buynow = [{
+        name : txtname.innerHTML,
+        quantity: target.value,
+        imgUrl: img.alt, //img.src로 하면 안돼서 일단 이렇게..
+        cost : txtcost.innerHTML * target.value
+    }]
+    console.log(JSON.stringify(buynow));
+    localStorage.setItem('product',JSON.stringify(buynow));
+    location.href = '/order/?now=1';
 })
