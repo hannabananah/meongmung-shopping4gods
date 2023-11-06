@@ -5,23 +5,19 @@ import Swal from 'sweetalert2';
 init();
 
 const token = localStorage.getItem('token');
-const API_BASE_URL = import.meta.env.BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const addressBtn = document.getElementById('getAddress');
 const addressNum = document.getElementById('addressNum');
 const address = document.getElementById('address');
-const id_query = new URLSearchParams(location.search).get("now"); 
 
 const txtQuantity = document.getElementById('quantity');
 const txtCost = document.getElementById('cost');
 const txtTotal = document.getElementById('totalcost');
 
 
-//id는 뭘 받아와야하는지?
-let id = 1; //임시
-
 const getUser = () => {
-    fetch(`${API_BASE_URL}/users/${id}` , {
+    fetch(`${API_BASE_URL}/users/` , {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -30,6 +26,7 @@ const getUser = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data)
             loadUser(data)
       });
   };
@@ -44,11 +41,13 @@ const loadItem = () => {
    const orderlist = document.getElementById('order_list');
    
    let products = JSON.parse(localStorage.getItem('cart')); //장바구니 리스트로 변경해야 함
-   if(id_query) {
+   if(localStorage.getItem('product')) {
      products = JSON.parse(localStorage.getItem('product'))
+     localStorage.removeItem('product'); //바로구매 초기화
    }
-   console.log(products._id)
-   products.forEach((product) => {
+
+   products.forEach((product) => {   
+    console.log(product.id);
     const orderCard = document.createElement('div');
     orderCard.classList.add('product-card');
     orderCard.innerHTML = 
@@ -65,7 +64,7 @@ const loadItem = () => {
       }
 
     txtTotal.innerHTML = product.cost;
-    txtCost.innerHTML=product.cost;
+    txtCost.innerHTML =product.cost;
     txtQuantity.innerHTML = product.quantity;
 })
 }

@@ -37,7 +37,7 @@ const postUser = () => {
     .then((data) => {
       
       console.log(data)
-      
+      localStorage.setItem('id', email.value);
       localStorage.setItem('token', data.token);
       console.log(localStorage.getItem('token'));
 

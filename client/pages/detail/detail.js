@@ -8,7 +8,7 @@ const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 const img = document.getElementById('img');
 const txtname = document.getElementById('productName');
 const txtcost = document.getElementById('cost');
-let data;
+
 
 const id_query = new URLSearchParams(location.search).get("id"); //querystring으로 상품아이디 받아옴
 console.log(id_query);
@@ -29,7 +29,6 @@ const getProduct= ()=> {
 const loadItem =(data) =>{
     img.src = data.img_url;
     img.alt = data.img_url;
-    txtname.value = data._id;
     txtname.innerHTML = data.name;
     txtcost.innerHTML = data.price;
 }
@@ -63,12 +62,12 @@ cartbtn.addEventListener("click", function(){
     // swal('잠시만요', '이미 장바구니에 추가되어 있습니다', 'warning').then(() => {
     //     // location.href = '../cart/';
     //    });
-    let product ={
-        id : product.id,
-      //  name: ,
-        quantity: target.value,
-    //    imgUrl:
-    }
+    // let product ={
+    //     id : product.id,
+    //     name: ,
+    //     quantity: target.value,
+    //     imgUrl:
+    // }
     localStorage.setItem('cart', product);
     new Swal('장바구니에 담겼습니다', '', 'success').then(() => {
         location.href = '/cart/';
@@ -76,13 +75,14 @@ cartbtn.addEventListener("click", function(){
 })
 
 buybtn.addEventListener("click", function(){
-    const buynow = [{
+    let product = [{
+        id: id_query,
         name : txtname.innerHTML,
         quantity: target.value,
         imgUrl: img.alt, //img.src로 하면 안돼서 일단 이렇게..
         cost : txtcost.innerHTML * target.value
     }]
-    console.log(JSON.stringify(buynow));
-    localStorage.setItem('product',JSON.stringify(buynow));
-    location.href = '/order/?now=1';
+    console.log(JSON.stringify(product));
+    localStorage.setItem('product',JSON.stringify(product));
+    location.href = '/order/';
 })
