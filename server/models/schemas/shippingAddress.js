@@ -2,10 +2,14 @@ const { Schema } = require('mongoose');
 
 const shippingAddressSchema = new Schema(
   {
-    // 수령자
+    // 유저데이터
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+    },
+    // 수령인
+    recipient: {
+      type: String,
     },
     // 우편번호
     zipCode: {

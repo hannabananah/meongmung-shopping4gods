@@ -2,13 +2,13 @@ const { Schema } = require('mongoose');
 
 // 반려견 테이블
 const dogSchema = new Schema({
-  // 유저아이디
+  // 유저 데이터
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
-  // 강아지 등록 고유 아이디
+  // 강아지 고유코드
   dogId: {
     type: Number,
     required: true,
@@ -31,7 +31,7 @@ const dogSchema = new Schema({
     required: true,
   },
   // dog와 suggestion은 다대다 관계
-  // suggestions: [{ type: Schema.Types.ObjectId, ref: 'Suggestion' }],
+  suggestions: [{ type: Schema.Types.ObjectId, ref: 'Suggestion' }],
 });
 
 module.exports = dogSchema;
