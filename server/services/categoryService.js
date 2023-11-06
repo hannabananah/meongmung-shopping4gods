@@ -1,35 +1,29 @@
 const models = require('../models');
 
-exports.getAllCategories = async (name) => {
-  let res;
-  if (name) {
-    res = await models.Category.find({ name }).populate('Category').exec();
-  } else {
-    res = await models.Category.find({});
-  }
+exports.getAllCategories = async () => {
+  const categories = await models.Category.find({});
 
-  return res;
+  return categories;
 };
 
 exports.getCategoryByName = async (name) => {
-  let category;
   try {
     // findOne함수에서 자채적으로 없으면 에러를 throw 한다.
-    category = await models.Category.findOne({ name }).exec();
+    const category = await models.Category.findOne({ name }).exec();
+
+    // 찾는 이름이 없는 경우
+    if (!category) {
+      throw new Error(`${name}라는 이름이 존재 하지 않습니다.`);
+    }
+
+    return category.name;
   } catch (err) {
     // 디비쪽 문제일때 에러처리는 여기서..
     throw new Error(`Unhandled type: ${name}`);
   }
-
-  // 찾는 이름이 없는 경우
-  if (category === null) {
-    return null;
-  }
-
-  return category.name;
 };
 
-exports.getProductByCategoryName = async (name) => {
+exports.getProductsByCategoryName = async (name) => {
   const products = await models.Product.find({})
     .populate({
       path: 'category',

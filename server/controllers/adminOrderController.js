@@ -11,11 +11,10 @@ exports.getAllOrders = async function (req, res, next) {
 };
 
 exports.getAllOrdersByUserId = async function (req, res, next) {
-  console.log('userId');
   try {
     const { userId } = req.params;
 
-    if (userId === null) {
+    if (!userId) {
       return res.json({
         status: 400,
         message: '해당 유저 정보를 찾을 수 없습니다.',
@@ -31,11 +30,10 @@ exports.getAllOrdersByUserId = async function (req, res, next) {
 };
 
 exports.getOrdersByOrderId = async function (req, res, next) {
-  console.log('orderId');
   try {
     const { orderId } = req.params;
 
-    if (orderId === null) {
+    if (!orderId) {
       return res.json({
         status: 400,
         message: '해당 주문 정보를 찾을 수 없습니다.',
@@ -55,14 +53,12 @@ exports.updateOrderByOrderId = async function (req, res, next) {
     const { orderId } = req.params;
     const { totalPrice, deliveryFee, status } = req.body;
 
-    const orderData = {
+    await adminOrderService.updateOrderByOrderId({
       orderId,
       totalPrice,
       deliveryFee,
       status,
-    };
-
-    await adminOrderService.updateOrderByOrderId(orderData);
+    });
 
     res.json({ state: 200, message: '수정 성공' });
   } catch (err) {

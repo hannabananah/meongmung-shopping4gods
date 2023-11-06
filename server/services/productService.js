@@ -27,7 +27,7 @@ exports.createProduct = async ({
   return product;
 };
 
-exports.updateProduct = async (
+exports.updateProduct = async ({
   _id,
   name,
   desc,
@@ -35,7 +35,7 @@ exports.updateProduct = async (
   img_url,
   price,
   manufacturer,
-) => {
+}) => {
   try {
     const data = await models.Product.updateOne(
       { _id },

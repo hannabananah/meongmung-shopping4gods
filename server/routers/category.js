@@ -4,12 +4,12 @@ const categoryController = require('../controllers/categoryController');
 const router = Router();
 
 // 전체 카테고리 조회
-router.get('/categories', categoryController.getAllCategory);
+router.get('/categories', categoryController.getAllCategories);
 
 // 특정 카테고리 상품 조회
 router.get(
   '/categories/:name/products',
-  categoryController.getProductByCategoryName,
+  categoryController.getProductsByCategoryName,
 );
 
 // 카테고리 생성
