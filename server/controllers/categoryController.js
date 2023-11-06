@@ -1,10 +1,8 @@
 const categoryService = require('../services/categoryService');
 
-exports.getAllCategory = async (req, res, next) => {
-  const { name } = req.query;
-
+exports.getAllCategories = async (req, res, next) => {
   try {
-    const list = await categoryService.getAllCategories(name);
+    const list = await categoryService.getAllCategories();
     res.status(200).json({ status: 200, message: list });
   } catch (err) {
     next(err);
@@ -31,12 +29,12 @@ exports.getCategoryByName = async (req, res, next) => {
   }
 };
 
-exports.getProductByCategoryName = async (req, res, next) => {
+exports.getProductsByCategoryName = async (req, res, next) => {
   try {
     const { name } = req.params;
 
-    const product = await categoryService.getProductByCategoryName(name);
-    res.status(200).json({ products: product });
+    const products = await categoryService.getProductsByCategoryName(name);
+    res.status(200).json({ status: 200, products });
   } catch (err) {
     next(err);
   }
