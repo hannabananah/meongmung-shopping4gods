@@ -2,8 +2,11 @@ const models = require('../models');
 const userService = require('../services/userService');
 
 exports.getAllOrders = async function () {
-  const orders = await models.Order.find({}).exec();
-
+  const orders = await models.Order.find({})
+    .populate({ path: 'userId', select: 'email phone name' })
+    .populate({ path: 'products.product', select: 'name price' })
+    .populate({ path: 'address', select: 'zipCode detailAddress recipient' })
+    .exec();
   return orders;
 };
 
@@ -16,6 +19,8 @@ exports.getAllOrdersByUserId = async function (userId) {
 
   const orders = await models.Order.find({})
     .populate({ path: 'userId', match: { _id: userId }, select: 'name phone' })
+    .populate({ path: 'products.product', select: 'name price' })
+    .populate({ path: 'address', select: 'zipCode detailAddress recipient' })
     .exec();
 
   const filtered = orders.filter((order) => order.userId);
