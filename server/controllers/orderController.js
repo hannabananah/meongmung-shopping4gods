@@ -31,7 +31,7 @@ exports.createOrder = async (req, res, next) => {
       totalPrice,
       userId,
       products,
-      shippingAddress,
+      address,
       deliveryFee,
       status,
     } = req.body;
@@ -41,7 +41,7 @@ exports.createOrder = async (req, res, next) => {
       totalPrice,
       userId,
       products,
-      shippingAddress,
+      address,
       deliveryFee,
       status,
     });
@@ -67,7 +67,7 @@ exports.createOrder = async (req, res, next) => {
 
 exports.updateOrder = async (req, res, next) => {
   const { orderId } = req.params;
-  const { totalPrice, products, shippingAddress, deliveryFee } = req.body;
+  const { totalPrice, products, address, deliveryFee } = req.body;
 
   try {
     const orderStatus = await orderService.getOneOrderById(orderId);
@@ -82,7 +82,7 @@ exports.updateOrder = async (req, res, next) => {
     const updatedOrder = await orderService.updateOrder(orderId, {
       totalPrice,
       products,
-      shippingAddress,
+      address,
       deliveryFee,
     });
     res.json({

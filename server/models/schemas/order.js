@@ -45,9 +45,9 @@ const orderSchema = new Schema(
       default: '배송전',
     },
     // 배송 주소정보
-    shippingAddress: {
+    address: {
       type: Schema.Types.ObjectId,
-      ref: 'ShippingAddress',
+      ref: 'Address',
     },
   },
   {

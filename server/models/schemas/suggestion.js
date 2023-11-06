@@ -7,7 +7,7 @@ const suggestionSchema = new Schema({
     type: String,
     trim: true,
   },
-  // 강아지 정보
+  // 강아지 데이터
   dogs: [{ type: Schema.Types.ObjectId, ref: 'Dog', required: true }],
 });
 
