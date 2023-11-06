@@ -43,7 +43,7 @@ exports.createOrder = async (orderData) => {
     totalPrice,
     userId,
     products,
-    shippingAddress,
+    address,
     deliveryFee,
     status,
   } = orderData;
@@ -60,7 +60,7 @@ exports.createOrder = async (orderData) => {
       totalPrice,
       userId,
       products,
-      shippingAddress,
+      address,
       deliveryFee,
       status,
     });

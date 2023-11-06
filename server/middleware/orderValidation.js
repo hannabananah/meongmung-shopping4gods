@@ -10,7 +10,7 @@ const order = Joi.object({
       }),
     )
     .required(),
-  shippingAddress: Joi.string().required(),
+  address: Joi.string().required(),
   // null일 수도 있으므로
   deliveryFee: Joi.number().allow(null, '').optional(),
 });

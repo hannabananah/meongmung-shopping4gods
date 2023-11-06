@@ -1,6 +1,6 @@
 const { Schema } = require('mongoose');
 
-const shippingAddressSchema = new Schema(
+const addressSchema = new Schema(
   {
     // 유저데이터
     userId: {
@@ -19,7 +19,7 @@ const shippingAddressSchema = new Schema(
       required: true,
     },
     // 주소
-    address: {
+    detailAddress: {
       type: String,
       required: true,
     },
@@ -35,8 +35,9 @@ const shippingAddressSchema = new Schema(
     },
   },
   {
-    collection: 'shippingAddress',
+    collection: 'address',
+    timestamps: true,
   },
 );
 
-module.exports = shippingAddressSchema;
+module.exports = addressSchema;
