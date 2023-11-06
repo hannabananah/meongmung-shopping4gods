@@ -1,9 +1,9 @@
 const order = require('./order');
-const signup = require('./signup');
 const user = require('./user');
+const auth = require('./auth');
 
 module.exports = {
   order,
-  signup,
+  auth,
   user,
 };

@@ -11,7 +11,7 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const id = req.userId;
 
     const user = await userService.getUserById(id);
 
@@ -21,7 +21,7 @@ exports.getUserById = async (req, res, next) => {
         .json({ status: 404, message: '유저를 찾을 수 없습니다.' });
     }
 
-    res.status(200).json({ status: 200, message: user });
+    res.status(200).json({ status: 200, user });
   } catch (err) {
     next(err);
   }
@@ -46,7 +46,7 @@ exports.createUser = async (req, res, next) => {
 };
 
 exports.updateUser = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.userId;
   const { phone, name } = req.body;
 
   try {
@@ -70,7 +70,7 @@ exports.updateUser = async (req, res, next) => {
   }
 };
 exports.deleteUser = async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.userId;
 
   try {
     const data = await userService.deleteUser(id);

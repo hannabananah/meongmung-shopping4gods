@@ -6,7 +6,10 @@ exports.getAllUsers = async () => {
 
 exports.getUserById = async (_id) => {
   try {
-    return await models.User.findOne({ _id }).exec();
+    return await models.User.findOne(
+      { _id },
+      { isAdmin: false, useyn: false, password: false },
+    ).exec();
   } catch (err) {
     throw new Error(err);
   }
