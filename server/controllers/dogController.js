@@ -1,7 +1,7 @@
 const dogService = require('../services/dogService');
 
 exports.getAllDogs = async (req, res, next) => {
-  const userId = req.user._id;
+  const userId = req.userId;
   try {
     const dogList = await dogService.getAllDogs(userId);
     res.json({ status: 200, dogList });
@@ -11,7 +11,7 @@ exports.getAllDogs = async (req, res, next) => {
 };
 
 exports.getDogById = async (req, res, next) => {
-  const userId = req.user._id;
+  const userId = req.userId;
   const { dogId } = req.params;
 
   try {
@@ -33,11 +33,11 @@ exports.getDogById = async (req, res, next) => {
 };
 
 exports.createDog = async (req, res, next) => {
-  const { userId, dogId, name, size, age } = req.body;
+  const userId = req.userId;
+  const { name, size, age } = req.body;
   try {
-    const createdDog = await dogService.createDog({
+    const dog = await dogService.createDog({
       userId,
-      dogId,
       name,
       size,
       age,
@@ -45,13 +45,10 @@ exports.createDog = async (req, res, next) => {
     res.status(200).json({
       status: 200,
       message: '등록 성공',
-      createdDog,
+      dog,
     });
   } catch (err) {
-    res.status(500).json({
-      status: 500,
-      message: '서버 오류 입니다.',
-    });
+    next(err);
   }
 };
 
