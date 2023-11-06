@@ -33,10 +33,18 @@ exports.getAddressById = async (req, res, next) => {
 };
 
 exports.createAddress = async (req, res, next) => {
-  const { userId, recipient, zipCode, detailAddress, phone, mainAddress } =
-    req.body;
+  const {
+    name,
+    userId,
+    recipient,
+    zipCode,
+    detailAddress,
+    phone,
+    mainAddress,
+  } = req.body;
   try {
     const createdAddress = await addressService.createAddress({
+      name,
       userId,
       recipient,
       zipCode,
@@ -59,16 +67,19 @@ exports.createAddress = async (req, res, next) => {
 
 exports.updateAddress = async (req, res, next) => {
   const { id } = req.params;
-  const { recipient, zipCode, detailAddress, phone, mainAddress } = req.body;
-  const updatedAddressData = {
-    recipient,
-    zipCode,
-    detailAddress,
-    phone,
-    mainAddress,
-  };
+  const { name, recipient, zipCode, detailAddress, phone, mainAddress } =
+    req.body;
 
   try {
+    const updatedAddressData = {
+      name,
+      recipient,
+      zipCode,
+      detailAddress,
+      phone,
+      mainAddress,
+    };
+
     await addressService.updateAddress(id, updatedAddressData);
     res.json({
       status: 200,

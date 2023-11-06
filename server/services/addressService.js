@@ -40,28 +40,86 @@ exports.getAddressById = async (userId, addressId) => {
 
 exports.createAddress = async (addressData) => {
   try {
-    const createdAddress = await models.Address.create(addressData);
+    const { userId, zipCode, detailAddress } = addressData;
+
+    // 이미 등록되어 있는 주소인지
+    const existingAddress = await models.Address.findOne({
+      zipCode,
+      detailAddress,
+    }).exec();
+
+    if (existingAddress) {
+      throw new Error('이미 등록된 주소입니다.');
+    }
+
+    // 이미 메인으로 채택되어 있는 주소가 있다면
+    const mainAddressExists = await models.Address.findOne({
+      userId,
+      mainAddress: true,
+    }).exec();
+
+    if (mainAddressExists) {
+      await models.Address.findByIdAndUpdate(mainAddressExists._id, {
+        mainAddress: false,
+      }).exec();
+    }
+
+    const createdAddress = await models.Address.create({
+      ...addressData,
+      mainAddress: true,
+    });
     return createdAddress;
   } catch (err) {
-    throw new Error('등록 할 수 없습니다.' + err);
+    throw new Error('등록할 수 없습니다.' + err);
   }
 };
 
 exports.updateAddress = async (addressId, updatedData) => {
   try {
+    const { userId, zipCode, detailAddress } = updatedData;
+
+    // 이미 등록되어 있는 주소인지
+    const existingAddress = await models.Address.findOne({
+      zipCode,
+      detailAddress,
+    }).exec();
+
+    if (existingAddress && existingAddress._id.toString() !== addressId) {
+      throw new Error('이미 등록된 주소입니다.');
+    }
+
     const updatedAddress = await models.Address.findByIdAndUpdate(
       addressId,
       updatedData,
-      {
-        new: true,
-      },
+      { new: true },
     );
+
+    // 해당 addressId의 주소가 없을 경우
     if (!updatedAddress) {
       throw new Error('해당 ID의 주소를 찾을 수 없습니다.');
     }
+
+    // 해당 사용자의 모든 주소를 mainAddress를 false로 업데이트
+    await models.Address.updateMany({ userId }, { mainAddress: false }).exec();
+
+    // 이미 메인으로 채택되어 있는 주소가 있다면
+    const mainAddressExists = await models.Address.findOne({
+      userId,
+      mainAddress: true,
+    }).exec();
+
+    if (mainAddressExists) {
+      await models.Address.findByIdAndUpdate(mainAddressExists._id, {
+        mainAddress: false,
+      }).exec();
+    }
+
+    updatedAddress.mainAddress = true;
+    await updatedAddress.save();
+
     return updatedAddress;
   } catch (err) {
-    throw new Error('업데이트 할 수 없습니다.');
+    throw new Error('업데이트 할 수 없습니다.' + err);
   }
 };
 

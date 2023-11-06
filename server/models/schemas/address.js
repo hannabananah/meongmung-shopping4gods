@@ -7,6 +7,11 @@ const addressSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    // 주소지 라벨
+    name: {
+      type: String,
+      required: true,
+    },
     // 수령인
     recipient: {
       type: String,
