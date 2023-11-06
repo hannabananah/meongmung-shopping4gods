@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const orderSchema = Joi.object({
+exports.create = Joi.object({
   totalPrice: Joi.number().required(),
   products: Joi.array()
     .items(
@@ -11,8 +11,17 @@ const orderSchema = Joi.object({
     )
     .required(),
   address: Joi.string().required(),
-  // null일 수도 있으므로
   deliveryFee: Joi.number().allow(null, '').optional(),
 });
 
-module.exports = orderSchema;
+exports.update = Joi.object({
+  products: Joi.array()
+    .items(
+      Joi.object({
+        product: Joi.string().optional(),
+        quantity: Joi.number().optional(),
+      }),
+    )
+    .optional(),
+  address: Joi.string().optional(),
+});

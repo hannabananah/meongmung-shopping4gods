@@ -3,30 +3,33 @@ const models = require('../models');
 // 유저 주문 조회
 exports.getAllOrderById = async (userId) => {
   try {
-    const orders = await models.Order.find({ userId }).exec();
-    if (orders.length === 0) {
-      const err = {
-        status: 400,
-        message: '해당 주문이 존재하지 않습니다.',
-      };
-      return err;
-    }
+    const orders = await models.Order.find({ userId })
+      .populate({ path: 'userId', select: 'email phone name' })
+      .populate({ path: 'products.product', select: 'name price' })
+      .populate({ path: 'address', select: 'zipCode detailAddress recipient' })
+      .exec();
 
     return orders;
   } catch (err) {
-    throw new Error('서버 오류 입니다.' + err);
+    throw new Error(err);
   }
 };
 
 // 유저 특정 주문 조회
-exports.getOneOrderById = async (orderId) => {
+exports.getOneOrderById = async (_id) => {
   try {
-    const order = await models.Order.findOne({ _id: orderId }).exec();
+    const order = await models.Order.findOne({ _id })
+      .populate({ path: 'userId', select: 'email phone name' })
+      .populate({ path: 'products.product', select: 'name price' })
+      .populate({ path: 'address', select: 'zipCode detailAddress recipient' })
+      .exec();
+
     if (!order) {
       const err = {
         status: 400,
         message: '해당 주문이 존재하지 않습니다.',
       };
+
       return err;
     }
 
@@ -37,37 +40,25 @@ exports.getOneOrderById = async (orderId) => {
 };
 
 // 주문하기
-exports.createOrder = async (orderData) => {
-  const {
-    orderId,
+exports.createOrder = async ({
+  userId,
+  totalPrice,
+  products,
+  address,
+  deliveryFee,
+}) => {
+  console.log(userId, totalPrice, products, address);
+
+  const order = await models.Order.create({
     totalPrice,
     userId,
     products,
     address,
     deliveryFee,
-    status,
-  } = orderData;
+    status: '배송전',
+  });
 
-  try {
-    const existingOrder = await models.Order.findOne({ orderId }).exec();
-
-    if (existingOrder) {
-      return { error: '해당 주문코드가 이미 존재합니다.' };
-    }
-
-    const order = await models.Order.create({
-      orderId,
-      totalPrice,
-      userId,
-      products,
-      address,
-      deliveryFee,
-      status,
-    });
-    return order;
-  } catch (err) {
-    throw new Error('주문 생성 중에 오류가 발생했습니다.');
-  }
+  return order;
 };
 
 // 주문 수정하기
@@ -88,7 +79,7 @@ exports.updateOrder = async (orderId, updateData) => {
     }
     return order;
   } catch (err) {
-    throw new Error('서버 오류 입니다.');
+    throw new Error(err);
   }
 };
 

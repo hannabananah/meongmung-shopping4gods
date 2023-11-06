@@ -1,7 +1,7 @@
 const orderService = require('../services/orderService');
 
 exports.getAllOrdersById = async (req, res, next) => {
-  const userId = req.user._id;
+  const userId = req.userId;
   try {
     const orders = await orderService.getAllOrderById(userId);
     res.json({ status: 200, orders });
@@ -26,48 +26,29 @@ exports.getOneOrderById = async (req, res, next) => {
 
 exports.createOrder = async (req, res, next) => {
   try {
-    const {
-      orderId,
-      totalPrice,
-      userId,
-      products,
-      address,
-      deliveryFee,
-      status,
-    } = req.body;
+    const userId = req.userId;
+    const { totalPrice, products, address, deliveryFee } = req.body;
 
-    const cart = await orderService.createOrder({
-      orderId,
-      totalPrice,
+    const order = await orderService.createOrder({
       userId,
+      totalPrice,
       products,
       address,
       deliveryFee,
-      status,
     });
 
-    if (cart.err) {
-      res.status(400).json({
-        status: 400,
-        message: cart.err,
-      });
-    } else {
-      res.status(201).json({
-        status: 201,
-        cart,
-      });
-    }
+    res.json({
+      status: 201,
+      message: '주문 성공',
+    });
   } catch (err) {
-    res.status(500).json({
-      status: 500,
-      message: '서버 오류 입니다.' + err,
-    });
+    next(err);
   }
 };
 
 exports.updateOrder = async (req, res, next) => {
   const { orderId } = req.params;
-  const { totalPrice, products, address, deliveryFee } = req.body;
+  const { products, address } = req.body;
 
   try {
     const orderStatus = await orderService.getOneOrderById(orderId);
@@ -80,10 +61,8 @@ exports.updateOrder = async (req, res, next) => {
     }
 
     const updatedOrder = await orderService.updateOrder(orderId, {
-      totalPrice,
       products,
       address,
-      deliveryFee,
     });
     res.json({
       status: 200,
@@ -95,7 +74,7 @@ exports.updateOrder = async (req, res, next) => {
 };
 
 exports.deleteAllOrder = async (req, res, next) => {
-  const userId = req.user._id;
+  const userId = req.userId;
 
   try {
     // 배송전 주문만 삭제
@@ -128,9 +107,16 @@ exports.deleteOneOrder = async (req, res, next) => {
   const { orderId } = req.params;
 
   try {
-    const orderStatus = await orderService.getOneOrderById(orderId);
-    console.log(orderStatus);
-    if (orderStatus.status !== '배송전') {
+    const order = await orderService.getOneOrderById(orderId);
+
+    if (order.userId._id.toString() !== req.userId) {
+      return res.status(400).json({
+        status: 400,
+        message: '자신의 주문만 삭제가 가능합니다.',
+      });
+    }
+
+    if (order.status !== '배송전') {
       return res.status(400).json({
         status: 400,
         message: '주문이 이미 배송에 착수되어 삭제가 불가합니다.',
