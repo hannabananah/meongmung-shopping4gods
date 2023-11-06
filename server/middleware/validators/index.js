@@ -5,6 +5,7 @@ const product = require('./product');
 const admin = require('./admin');
 const category = require('./category');
 const dog = require('./dog');
+const address = require('./address');
 
 module.exports = {
   order,
@@ -14,4 +15,5 @@ module.exports = {
   admin,
   category,
   dog,
+  address,
 };
