@@ -3,12 +3,6 @@ const { Schema } = require('mongoose');
 // 주문 테이블
 const orderSchema = new Schema(
   {
-    // 주문 코드
-    orderId: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     // 주문 총 금액
     totalPrice: {
       type: Number,
@@ -18,6 +12,7 @@ const orderSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
     },
     products: [
       {
@@ -36,6 +31,8 @@ const orderSchema = new Schema(
     // 배송비
     deliveryFee: {
       type: Number,
+      required: false,
+      default: 0,
     },
     // 1: 배송전, 2: 배송중, 3: 배송완료
     status: {

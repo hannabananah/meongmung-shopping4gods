@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const order = Joi.object({
+exports.create = Joi.object({
   totalPrice: Joi.number().required(),
   products: Joi.array()
     .items(
@@ -11,16 +11,17 @@ const order = Joi.object({
     )
     .required(),
   address: Joi.string().required(),
-  // null일 수도 있으므로
   deliveryFee: Joi.number().allow(null, '').optional(),
 });
 
-function orderValidation(req, res, next) {
-  const { error } = order.validate(req.body);
-  if (error) {
-    return res.status(400).json({ error: error.details[0].message });
-  }
-  next();
-}
-
-module.exports = orderValidation;
+exports.update = Joi.object({
+  products: Joi.array()
+    .items(
+      Joi.object({
+        product: Joi.string().optional(),
+        quantity: Joi.number().optional(),
+      }),
+    )
+    .optional(),
+  address: Joi.string().optional(),
+});

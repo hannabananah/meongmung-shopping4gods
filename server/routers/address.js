@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const addressController = require('../controllers/addressController');
 const { isAuth } = require('../middleware/isAuth');
+const validator = require('../middleware/validator');
+const { address } = require('../middleware/validators');
 
 const router = Router();
 
@@ -11,10 +13,20 @@ router.get('/addresses', isAuth, addressController.getAllAddresses);
 router.get('/addresses/:id', isAuth, addressController.getAddressById);
 
 // 주소 생성
-router.post('/addresses', isAuth, addressController.createAddress);
+router.post(
+  '/addresses',
+  isAuth,
+  validator(address.create),
+  addressController.createAddress,
+);
 
 // 주소 수정
-router.put('/addresses/:id', isAuth, addressController.updateAddress);
+router.put(
+  '/addresses/:id',
+  isAuth,
+  validator(address.update),
+  addressController.updateAddress,
+);
 
 // 주소 삭제
 router.delete('/addresses/:id', isAuth, addressController.deleteAddress);

@@ -1,5 +1,8 @@
 const { Router } = require('express');
 const categoryController = require('../controllers/categoryController');
+const { isAdmin } = require('../middleware/isAdmin');
+const validator = require('../middleware/validator');
+const { category } = require('../middleware/validators');
 
 const router = Router();
 
@@ -13,12 +16,22 @@ router.get(
 );
 
 // 카테고리 생성
-router.post('/categories', categoryController.createCategory);
+router.post(
+  '/categories',
+  isAdmin,
+  validator(category.create),
+  categoryController.createCategory,
+);
 
 // 카테고리 수정
-router.put('/categories/:id', categoryController.updateCategory);
+router.put(
+  '/categories/:id',
+  isAdmin,
+  validator(category.update),
+  categoryController.updateCategory,
+);
 
 // 카테고리 삭제
-router.delete('/categories/:id', categoryController.deleteCategory);
+router.delete('/categories/:id', isAdmin, categoryController.deleteCategory);
 
 module.exports = router;

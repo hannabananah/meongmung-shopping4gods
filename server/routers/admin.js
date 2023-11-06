@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const adminOrderController = require('../controllers/adminOrderController');
 const { isAdmin } = require('../middleware/isAdmin');
+const validator = require('../middleware/validator');
+const { admin } = require('../middleware/validators');
 
 const router = Router();
 
@@ -25,6 +27,7 @@ router.get(
 router.put(
   '/admins/orders/:orderId',
   isAdmin,
+  validator(admin.update),
   adminOrderController.updateOrderByOrderId,
 );
 

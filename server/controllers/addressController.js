@@ -1,21 +1,20 @@
 const addressService = require('../services/addressService');
 
 exports.getAllAddresses = async (req, res, next) => {
-  const userId = req.user._id;
+  const userId = req.userId;
   try {
-    const addressList = await addressService.getAllAddresses(userId);
-    res.json({ status: 200, addressList });
+    const addresses = await addressService.getAllAddresses(userId);
+    res.json({ status: 200, addresses });
   } catch (err) {
     next(err);
   }
 };
 
 exports.getAddressById = async (req, res, next) => {
-  const userId = req.user._id;
-  const { id } = req.params;
+  const { addressId } = req.params;
 
   try {
-    const address = await addressService.getAddressById(userId, id);
+    const address = await addressService.getAddressById(addressId);
     if (!address) {
       res.status(404).json({
         status: 404,
@@ -33,37 +32,44 @@ exports.getAddressById = async (req, res, next) => {
 };
 
 exports.createAddress = async (req, res, next) => {
-  const addressData = req.body;
-  addressData.userId = req.user._id;
+  const userId = req.userId;
+  const { name, zipCode, detailAddress, phone, mainAddress } = req.body;
 
   try {
-    const createdAddress = await addressService.createAddress(addressData);
-    if (createdAddress.status && createdAddress.status === 400) {
-      res.status(400).json({
-        status: 400,
-        message: createdAddress.message,
-      });
-    } else {
-      res.status(200).json({
-        status: 200,
-        message: '등록 성공',
-        createdAddress,
-      });
-    }
-  } catch (err) {
-    res.status(500).json({
-      status: 500,
-      message: '서버 오류 입니다.',
+    const address = await addressService.createAddress({
+      userId,
+      name,
+      zipCode,
+      detailAddress,
+      phone,
+      mainAddress,
     });
+
+    res.status(200).json({
+      status: 200,
+      message: '등록 성공',
+      address,
+    });
+  } catch (err) {
+    next(err);
   }
 };
 
 exports.updateAddress = async (req, res, next) => {
   const { id } = req.params;
-  const updatedAddressData = req.body;
+  const userId = req.userId;
+  const { name, zipCode, detailAddress, phone, mainAddress } = req.body;
 
   try {
-    await addressService.updateAddress(id, updatedAddressData);
+    await addressService.updateAddress({
+      id,
+      userId,
+      name,
+      zipCode,
+      detailAddress,
+      phone,
+      mainAddress,
+    });
     res.json({
       status: 200,
       message: '수정 성공',

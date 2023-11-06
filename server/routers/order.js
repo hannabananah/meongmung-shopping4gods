@@ -1,7 +1,8 @@
 const { Router } = require('express');
 const orderController = require('../controllers/orderController');
 const { isAuth } = require('../middleware/isAuth');
-const orderValidation = require('../middleware/orderValidation');
+const validator = require('../middleware/validator');
+const { order } = require('../middleware/validators');
 
 const router = Router();
 
@@ -12,13 +13,18 @@ router.get('/orders', isAuth, orderController.getAllOrdersById);
 router.get('/orders/:orderId', isAuth, orderController.getOneOrderById);
 
 // 주문 생성
-router.post('/orders', isAuth, orderController.createOrder);
+router.post(
+  '/orders',
+  isAuth,
+  validator(order.create),
+  orderController.createOrder,
+);
 
 // 주문 수정
 router.put(
   '/orders/:orderId',
   isAuth,
-  orderValidation,
+  validator(order.update),
   orderController.updateOrder,
 );
 

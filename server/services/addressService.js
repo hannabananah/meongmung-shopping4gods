@@ -8,10 +8,9 @@ exports.getAllAddresses = async (userId) => {
   return addresses;
 };
 
-exports.getAddressById = async (userId, addressId) => {
+exports.getAddressById = async (_id) => {
   const address = await models.Address.findOne({
-    userId,
-    _id: addressId,
+    _id,
   }).exec();
   if (!address) {
     throw new Error('주소 정보를 찾을 수 없습니다.');
@@ -19,9 +18,14 @@ exports.getAddressById = async (userId, addressId) => {
   return address;
 };
 
-exports.createAddress = async (addressData) => {
-  const { userId, zipCode, detailAddress, mainAddress } = addressData;
-
+exports.createAddress = async ({
+  userId,
+  name,
+  zipCode,
+  detailAddress,
+  phone,
+  mainAddress,
+}) => {
   // 이미 등록되어 있는 주소인지
   const existingAddress = await models.Address.findOne({
     zipCode,
@@ -29,66 +33,67 @@ exports.createAddress = async (addressData) => {
   }).exec();
 
   if (existingAddress) {
-    const err = {
-      status: 400,
-      message: '이미 등록된 주소입니다.',
-    };
-    return err;
+    throw new Error('이미 등록되어 있는 주소 입니다.');
   }
 
-  // 이미 메인으로 채택되어 있는 주소가 있다면
-  if (mainAddress) {
-    await models.Address.updateMany({ userId }, { mainAddress: false }).exec();
+  try {
+    // 주소 정보를 생성
+    const createdAddress = await models.Address.create({
+      userId,
+      name,
+      zipCode,
+      detailAddress,
+      phone,
+      mainAddress,
+    });
+    return createdAddress;
+  } catch (err) {
+    throw new Error(err);
   }
-
-  // 주소 정보를 생성
-  const createdAddress = await models.Address.create({
-    ...addressData,
-  });
-  return createdAddress;
 };
 
-exports.updateAddress = async (addressId, updatedData) => {
-  const { userId, zipCode, detailAddress, mainAddress } = updatedData;
+exports.updateAddress = async (updatedData) => {
+  try {
+    const {
+      id: _id,
+      userId,
+      name,
+      zipCode,
+      detailAddress,
+      phone,
+      mainAddress,
+    } = updatedData;
 
-  // 이미 등록되어 있는 주소인지
-  const existingAddress = await models.Address.findOne({
-    zipCode,
-    detailAddress,
-    _id: { $ne: addressId },
-  }).exec();
+    if (mainAddress) {
+      // 모든 주소의 madinAddress를 false로 설정
+      await models.Address.updateMany(
+        { userId },
+        { mainAddress: false },
+      ).exec();
+    }
 
-  if (existingAddress && existingAddress._id.toString() !== addressId) {
-    const err = {
-      status: 400,
-      message: '이미 등록된 주소입니다.',
-    };
-    return err;
+    const updatedAddress = await models.Address.findByIdAndUpdate(
+      _id,
+      { $set: updatedData },
+      { new: true },
+    );
+
+    return updatedAddress;
+  } catch (err) {
+    throw new Error(err);
   }
-
-  if (mainAddress) {
-    await models.Address.updateMany(
-      { userId, _id: { $ne: addressId } },
-      { mainAddress: false },
-    ).exec();
-  }
-
-  const updatedAddress = await models.Address.findByIdAndUpdate(
-    addressId,
-    updatedData,
-    { new: true },
-  );
-  return updatedAddress;
 };
 
 exports.deleteAddress = async (addressId) => {
-  const deletedAddress = await models.Address.findByIdAndDelete(addressId);
-  if (!deletedAddress) {
-    const err = {
-      status: 404,
-      message: '해당 ID의 주소를 찾을 수 없습니다.',
-    };
-    return err;
+  try {
+    const deletedAddress = await models.Address.findByIdAndDelete(addressId);
+
+    if (!deletedAddress) {
+      throw new Error('유저를 찾을 수 없습니다.');
+    }
+
+    return deletedAddress;
+  } catch (err) {
+    throw new Error(err);
   }
-  return deletedAddress;
 };

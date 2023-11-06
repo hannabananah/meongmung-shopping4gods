@@ -6,7 +6,10 @@ exports.getAllUsers = async () => {
 
 exports.getUserById = async (_id) => {
   try {
-    return await models.User.findOne({ _id }).exec();
+    return await models.User.findOne(
+      { _id },
+      { isAdmin: false, useyn: false, password: false },
+    ).exec();
   } catch (err) {
     throw new Error(err);
   }
@@ -48,6 +51,14 @@ exports.deleteUser = async (_id) => {
     await models.User.deleteOne({ _id }).exec();
 
     return { state: 200, message: '탈퇴 성공' };
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+exports.disableAccountUser = async (_id) => {
+  try {
+    return await models.User.updateOne({ _id }, { useyn: true }).exec();
   } catch (err) {
     throw new Error(err);
   }

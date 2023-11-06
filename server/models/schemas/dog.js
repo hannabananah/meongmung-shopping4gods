@@ -8,12 +8,6 @@ const dogSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  // 강아지 고유코드
-  dogId: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
   // 강아지 이름
   name: {
     type: String,

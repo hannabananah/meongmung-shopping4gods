@@ -13,7 +13,7 @@ exports.getAllDogs = async (userId) => {
 
     return dogs;
   } catch (err) {
-    throw new Error('강아지 정보를 찾을 수 없습니다.');
+    throw new Error(err);
   }
 };
 
@@ -31,7 +31,7 @@ exports.getDogById = async (userId, dogId) => {
 
     return dog;
   } catch (err) {
-    throw new Error('서버 오류 입니다.');
+    throw new Error(err);
   }
 };
 
@@ -40,7 +40,7 @@ exports.createDog = async (dogData) => {
     const createdDog = await models.Dog.create(dogData);
     return createdDog;
   } catch (err) {
-    throw new Error('등록 할 수 없습니다.');
+    throw new Error(err);
   }
 };
 
@@ -54,7 +54,7 @@ exports.updateDog = async (dogId, updatedData) => {
     }
     return updatedDog;
   } catch (err) {
-    throw new Error('업데이트 할 수 없습니다.');
+    throw new Error(err);
   }
 };
 
@@ -66,6 +66,6 @@ exports.deleteDog = async (dogId) => {
     }
     return deletedDog;
   } catch (err) {
-    throw new Error('삭제 할 수 없습니다.');
+    throw new Error(err);
   }
 };
