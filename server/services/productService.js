@@ -8,18 +8,6 @@ exports.getProductById = async (_id) => {
   return await models.Product.findOne({ _id }).exec();
 };
 
-exports.getProductByCategoryName = async (name) => {
-  const products = await models.Product.find({})
-    .populate({
-      path: 'category',
-      match: { name },
-    })
-    .exec();
-
-  const filteredProducts = products.filter((product) => product.category);
-  return filteredProducts;
-};
-
 exports.createProduct = async ({
   name,
   desc,
