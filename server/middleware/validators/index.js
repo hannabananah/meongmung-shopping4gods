@@ -3,6 +3,7 @@ const user = require('./user');
 const auth = require('./auth');
 const product = require('./product');
 const admin = require('./admin');
+const category = require('./category');
 
 module.exports = {
   order,
@@ -10,4 +11,5 @@ module.exports = {
   user,
   product,
   admin,
+  category,
 };
