@@ -33,25 +33,11 @@ exports.getAddressById = async (req, res, next) => {
 };
 
 exports.createAddress = async (req, res, next) => {
-  const {
-    name,
-    userId,
-    recipient,
-    zipCode,
-    detailAddress,
-    phone,
-    mainAddress,
-  } = req.body;
+  const addressData = req.body;
+  addressData.userId = req.user._id;
+
   try {
-    const createdAddress = await addressService.createAddress({
-      name,
-      userId,
-      recipient,
-      zipCode,
-      detailAddress,
-      phone,
-      mainAddress,
-    });
+    const createdAddress = await addressService.createAddress(addressData);
     if (createdAddress.status && createdAddress.status === 400) {
       res.status(400).json({
         status: 400,
@@ -67,26 +53,16 @@ exports.createAddress = async (req, res, next) => {
   } catch (err) {
     res.status(500).json({
       status: 500,
-      message: '서버 오류 입니다.' + err,
+      message: '서버 오류 입니다.',
     });
   }
 };
 
 exports.updateAddress = async (req, res, next) => {
   const { id } = req.params;
-  const { name, recipient, zipCode, detailAddress, phone, mainAddress } =
-    req.body;
+  const updatedAddressData = req.body;
 
   try {
-    const updatedAddressData = {
-      name,
-      recipient,
-      zipCode,
-      detailAddress,
-      phone,
-      mainAddress,
-    };
-
     await addressService.updateAddress(id, updatedAddressData);
     res.json({
       status: 200,
