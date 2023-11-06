@@ -1,7 +1,22 @@
 const models = require('../models');
 
-exports.getAllProduct = async () => {
-  return await models.Product.find({}).exec();
+exports.getAllProduct = async (page, perPage) => {
+  try {
+    const totalProducts = await models.Product.countDocuments();
+    const totalPages = Math.ceil(totalProducts / perPage);
+    const products = await models.Product.find({})
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .exec();
+
+    return {
+      products,
+      page,
+      totalPages,
+    };
+  } catch (error) {
+    throw new Error('상품을 가져올 수 없습니다.');
+  }
 };
 
 exports.getProductById = async (_id) => {
