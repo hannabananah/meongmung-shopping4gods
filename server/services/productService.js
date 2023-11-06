@@ -27,26 +27,40 @@ exports.createProduct = async ({
   return product;
 };
 
-exports.updateProduct = async ({
-  _id,
-  name,
-  desc,
-  category,
-  img_url,
-  price,
-  manufacturer,
-}) => {
+exports.updateProduct = async (product) => {
   try {
+    const {
+      id: _id,
+      name,
+      desc,
+      category,
+      img_url,
+      price,
+      summary,
+      discount,
+      isNewArrival,
+      manufacturer,
+    } = product;
     const data = await models.Product.updateOne(
       { _id },
-      { name, desc, category, img_url, price, manufacturer },
+      {
+        name,
+        desc,
+        category,
+        img_url,
+        price,
+        summary,
+        discount,
+        isNewArrival,
+        manufacturer,
+      },
     ).exec();
+
     if (!data.acknowledged) {
       return { state: 200, message: '수정 실패' };
     }
-    return { state: 200, massage: '수정 성공' };
   } catch (err) {
-    throw new Error('업데이트 할 수 없습니다.');
+    throw new Error(err);
   }
 };
 

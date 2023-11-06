@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const productController = require('../controllers/productController');
 const { isAdmin } = require('../middleware/isAdmin');
+const validator = require('../middleware/validator');
+const { product } = require('../middleware/validators');
 
 const router = Router();
 
@@ -11,10 +13,20 @@ router.get('/products', productController.getAllProducts);
 router.get('/products/:id', productController.getProductById);
 
 // 상품 생성
-router.post('/products', isAdmin, productController.createProduct);
+router.post(
+  '/products',
+  isAdmin,
+  validator(product.create),
+  productController.createProduct,
+);
 
 // 상품 수정
-router.put('/products/:id', isAdmin, productController.updateProduct);
+router.put(
+  '/products/:id',
+  isAdmin,
+  validator(product.update),
+  productController.updateProduct,
+);
 
 // 상품 삭제
 router.delete('/products/:id', isAdmin, productController.deleteProduct);
