@@ -2,11 +2,11 @@ const productService = require('../services/productService');
 
 exports.getAllProducts = async (req, res, next) => {
   try {
-    const productList = await productService.getAllProduct();
+    const products = await productService.getAllProduct();
 
     res.json({
       status: 200,
-      productList,
+      products,
     });
   } catch (err) {
     next(err);
@@ -19,24 +19,13 @@ exports.getProductById = async (req, res, next) => {
 
     const product = await productService.getProductById(id);
 
-    if (product === null) {
+    if (!product) {
       return res
         .status(400)
         .json({ status: 400, message: '해당 상품을 찾을 수 없습니다.' });
     }
 
     res.json(product);
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.getProductByCategoryName = async (req, res, next) => {
-  try {
-    const { name } = req.params;
-
-    const product = await productService.getProductByCategoryName(name);
-    res.status(200).json({ products: product });
   } catch (err) {
     next(err);
   }
@@ -73,7 +62,7 @@ exports.updateProduct = async (req, res, next) => {
     const { id } = req.params;
     const { name, desc, category, img_url, price, manufacturer } = req.body;
 
-    const status = await productService.updateProduct(
+    const status = await productService.updateProduct({
       id,
       name,
       desc,
@@ -81,7 +70,7 @@ exports.updateProduct = async (req, res, next) => {
       img_url,
       price,
       manufacturer,
-    );
+    });
     res.status(200).json({
       status: 200,
       message: '상품 수정 성공',
