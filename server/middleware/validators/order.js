@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const order = Joi.object({
+const orderSchema = Joi.object({
   totalPrice: Joi.number().required(),
   products: Joi.array()
     .items(
@@ -15,12 +15,4 @@ const order = Joi.object({
   deliveryFee: Joi.number().allow(null, '').optional(),
 });
 
-function orderValidation(req, res, next) {
-  const { error } = order.validate(req.body);
-  if (error) {
-    return res.status(400).json({ error: error.details[0].message });
-  }
-  next();
-}
-
-module.exports = orderValidation;
+module.exports = orderSchema;
