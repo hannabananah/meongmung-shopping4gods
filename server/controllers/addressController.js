@@ -52,11 +52,18 @@ exports.createAddress = async (req, res, next) => {
       phone,
       mainAddress,
     });
-    res.status(200).json({
-      status: 200,
-      message: '등록 성공',
-      createdAddress,
-    });
+    if (createdAddress.status && createdAddress.status === 400) {
+      res.status(400).json({
+        status: 400,
+        message: createdAddress.message,
+      });
+    } else {
+      res.status(200).json({
+        status: 200,
+        message: '등록 성공',
+        createdAddress,
+      });
+    }
   } catch (err) {
     res.status(500).json({
       status: 500,
