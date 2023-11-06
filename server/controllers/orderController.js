@@ -1,32 +1,20 @@
 const orderService = require('../services/orderService');
 
-exports.getAllOrders = async (req, res, next) => {
-  const orderList = await orderService.getAllOrder();
-
-  res.json({
-    status: 200,
-    orderList,
-  });
-};
-
 exports.getAllOrdersById = async (req, res, next) => {
-  const { userId } = req.params;
+  const userId = req.user._id;
   try {
     const orders = await orderService.getAllOrderById(userId);
-    res.json({
-      status: 200,
-      orders,
-    });
+    res.json({ status: 200, orders });
   } catch (err) {
     next(err);
   }
 };
 
 exports.getOneOrderById = async (req, res, next) => {
-  const { userId, id } = req.params;
+  const { orderId } = req.params;
 
   try {
-    const order = await orderService.getOneOrderById(userId, id);
+    const order = await orderService.getOneOrderById(orderId);
     res.json({
       status: 200,
       order,
@@ -38,34 +26,64 @@ exports.getOneOrderById = async (req, res, next) => {
 
 exports.createOrder = async (req, res, next) => {
   try {
-    const { id, totalPrice, userId, products, shippingAddress } = req.body;
-    const carts = await orderService.createOrder({
-      id,
+    const {
+      orderId,
       totalPrice,
       userId,
       products,
       shippingAddress,
+      deliveryFee,
+      status,
+    } = req.body;
+
+    const cart = await orderService.createOrder({
+      orderId,
+      totalPrice,
+      userId,
+      products,
+      shippingAddress,
+      deliveryFee,
+      status,
     });
 
-    res.status(200).json({
-      status: 200,
-      carts,
-    });
-  } catch (error) {
+    if (cart.err) {
+      res.status(400).json({
+        status: 400,
+        message: cart.err,
+      });
+    } else {
+      res.status(201).json({
+        status: 201,
+        cart,
+      });
+    }
+  } catch (err) {
     res.status(500).json({
       status: 500,
-      message: '서버 오류 입니다.',
+      message: '서버 오류 입니다.' + err,
     });
   }
 };
 
 exports.updateOrder = async (req, res, next) => {
-  const { userId, id } = req.params;
-  const { totalPrice } = req.body;
+  const { orderId } = req.params;
+  const { totalPrice, products, shippingAddress, deliveryFee } = req.body;
 
   try {
-    const updatedOrder = await orderService.updateOrder(userId, id, {
+    const orderStatus = await orderService.getOneOrderById(orderId);
+
+    if (orderStatus.status !== '배송전') {
+      return res.status(400).json({
+        status: 400,
+        message: '주문이 이미 배송에 착수되어 수정이 불가합니다.',
+      });
+    }
+
+    const updatedOrder = await orderService.updateOrder(orderId, {
       totalPrice,
+      products,
+      shippingAddress,
+      deliveryFee,
     });
     res.json({
       status: 200,
@@ -77,11 +95,26 @@ exports.updateOrder = async (req, res, next) => {
 };
 
 exports.deleteAllOrder = async (req, res, next) => {
-  const { userId } = req.params;
-
-  await orderService.deleteOrderAll(userId);
+  const userId = req.user._id;
 
   try {
+    // 배송전 주문만 삭제
+    const orderList = await orderService.getAllOrderById(userId);
+
+    const deliveryPreparation = orderList.filter(
+      (order) => order.status === '배송전',
+    );
+
+    if (deliveryPreparation.length === 0) {
+      return res.status(400).json({
+        status: 400,
+        message: '배송전 단계의 주문이 없습니다.',
+      });
+    }
+
+    for (const order of deliveryPreparation) {
+      await orderService.deleteOrder(order._id);
+    }
     res.json({
       status: 200,
       message: '삭제 성공',
@@ -92,10 +125,19 @@ exports.deleteAllOrder = async (req, res, next) => {
 };
 
 exports.deleteOneOrder = async (req, res, next) => {
-  const { userId, id } = req.params;
+  const { orderId } = req.params;
 
   try {
-    await orderService.deleteOrder(userId, id);
+    const orderStatus = await orderService.getOneOrderById(orderId);
+    console.log(orderStatus);
+    if (orderStatus.status !== '배송전') {
+      return res.status(400).json({
+        status: 400,
+        message: '주문이 이미 배송에 착수되어 삭제가 불가합니다.',
+      });
+    }
+
+    await orderService.deleteOrder(orderId);
 
     res.json({
       status: 200,

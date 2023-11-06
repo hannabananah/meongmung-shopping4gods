@@ -10,11 +10,6 @@ router.get('/products', productController.getAllProducts);
 // 상품 상세 조회
 router.get('/products/:id', productController.getProductById);
 
-router.get(
-  '/products/categorys/:name',
-  productController.getProductByCategoryName,
-);
-
 // 상품 생성
 router.post('/products', isAdmin, productController.createProduct);
 

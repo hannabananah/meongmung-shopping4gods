@@ -1,38 +1,33 @@
-const models = require('../models/index');
-
-// 전체 주문 조회
-exports.getAllOrder = async () => {
-  return await models.Order.find({});
-};
+const models = require('../models');
 
 // 유저 주문 조회
 exports.getAllOrderById = async (userId) => {
   try {
-    const orders = await models.Order.find({ userId });
+    const orders = await models.Order.find({ userId }).exec();
     if (orders.length === 0) {
-      const error = {
+      const err = {
         status: 400,
         message: '해당 주문이 존재하지 않습니다.',
       };
-      return error;
+      return err;
     }
 
     return orders;
   } catch (err) {
-    throw new Error('서버 오류 입니다.');
+    throw new Error('서버 오류 입니다.' + err);
   }
 };
 
 // 유저 특정 주문 조회
-exports.getOneOrderById = async (userId, id) => {
+exports.getOneOrderById = async (orderId) => {
   try {
-    const order = await models.Order.findOne({ userId, _id: id });
+    const order = await models.Order.findOne({ _id: orderId }).exec();
     if (!order) {
-      const error = {
+      const err = {
         status: 400,
         message: '해당 주문이 존재하지 않습니다.',
       };
-      return error;
+      return err;
     }
 
     return order;
@@ -42,45 +37,55 @@ exports.getOneOrderById = async (userId, id) => {
 };
 
 // 주문하기
-exports.createOrder = async ({
-  id,
-  totalPrice,
-  userId,
-  products,
-  shippingAddress,
-}) => {
+exports.createOrder = async (orderData) => {
+  const {
+    orderId,
+    totalPrice,
+    userId,
+    products,
+    shippingAddress,
+    deliveryFee,
+    status,
+  } = orderData;
+
   try {
-    const createdOrder = await models.Order.create({
-      id,
+    const existingOrder = await models.Order.findOne({ orderId }).exec();
+
+    if (existingOrder) {
+      return { error: '해당 주문코드가 이미 존재합니다.' };
+    }
+
+    const order = await models.Order.create({
+      orderId,
       totalPrice,
       userId,
       products,
       shippingAddress,
+      deliveryFee,
+      status,
     });
-
-    return createdOrder;
+    return order;
   } catch (err) {
     throw new Error('주문 생성 중에 오류가 발생했습니다.');
   }
 };
 
 // 주문 수정하기
-exports.updateOrder = async (userId, id, updateData) => {
+exports.updateOrder = async (orderId, updateData) => {
   try {
     const order = await models.Order.findOneAndUpdate(
-      { userId, id },
+      { _id: orderId },
       { $set: updateData },
       { new: true },
-    );
+    ).exec();
 
     if (!order) {
-      const error = {
+      const err = {
         status: 400,
         message: '해당 주문이 존재하지 않습니다.',
       };
-      return error;
+      return err;
     }
-
     return order;
   } catch (err) {
     throw new Error('서버 오류 입니다.');
@@ -90,18 +95,18 @@ exports.updateOrder = async (userId, id, updateData) => {
 // 주문 전체 삭제
 exports.deleteOrderAll = async (userId) => {
   try {
-    const order = await models.Order.deleteMany({ userId });
-    return order;
+    await models.Order.deleteMany({ userId }).exec();
   } catch (err) {
     throw new Error('삭제 할 수 없습니다.');
   }
 };
 
 // 주문 개별 삭제
-exports.deleteOrder = async (userId, id) => {
+exports.deleteOrder = async (orderId) => {
   try {
-    const order = await models.Order.deleteOne({ userId: userId, id: id });
-    return order;
+    return await models.Order.deleteOne({
+      _id: orderId,
+    }).exec();
   } catch (err) {
     throw new Error('삭제 할 수 없습니다.');
   }

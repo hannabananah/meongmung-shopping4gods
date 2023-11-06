@@ -1,9 +1,9 @@
-const models = require('../models/index');
+const models = require('../models');
 
 exports.getAllCategories = async (name) => {
   let res;
   if (name) {
-    res = await models.Category.find({ name }).populate('Category');
+    res = await models.Category.find({ name }).populate('Category').exec();
   } else {
     res = await models.Category.find({});
   }
@@ -15,8 +15,8 @@ exports.getCategoryByName = async (name) => {
   let category;
   try {
     // findOne함수에서 자채적으로 없으면 에러를 throw 한다.
-    category = await models.Category.findOne({ name });
-  } catch (error) {
+    category = await models.Category.findOne({ name }).exec();
+  } catch (err) {
     // 디비쪽 문제일때 에러처리는 여기서..
     throw new Error(`Unhandled type: ${name}`);
   }
@@ -27,6 +27,18 @@ exports.getCategoryByName = async (name) => {
   }
 
   return category.name;
+};
+
+exports.getProductByCategoryName = async (name) => {
+  const products = await models.Product.find({})
+    .populate({
+      path: 'category',
+      match: { name },
+    })
+    .exec();
+  console.log(products);
+  const filteredProducts = products.filter((product) => product.category);
+  return filteredProducts;
 };
 
 exports.createCategory = async ({ name }) => {
@@ -40,15 +52,15 @@ exports.createCategory = async ({ name }) => {
 
 exports.updateCategory = async (_id, name) => {
   try {
-    await models.Category.updateOne({ _id }, { name });
-  } catch (error) {
-    throw new Error(error);
+    await models.Category.updateOne({ _id }, { name }).exec();
+  } catch (err) {
+    throw new Error(err);
   }
 };
 
 exports.deleteCategory = async (_id) => {
   try {
-    const result = await models.Category.findOneAndDelete({ _id });
+    const result = await models.Category.findOneAndDelete({ _id }).exec();
 
     return result.name;
   } catch (err) {

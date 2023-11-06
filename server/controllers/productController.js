@@ -1,12 +1,16 @@
 const productService = require('../services/productService');
 
 exports.getAllProducts = async (req, res, next) => {
-  const productList = await productService.getAllProduct();
+  try {
+    const productList = await productService.getAllProduct();
 
-  res.json({
-    status: 200,
-    productList,
-  });
+    res.json({
+      status: 200,
+      productList,
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.getProductById = async (req, res, next) => {
@@ -18,7 +22,7 @@ exports.getProductById = async (req, res, next) => {
     if (product === null) {
       return res
         .status(400)
-        .json({ status: 400, message: '사용자를 찾을 수 없습니다.' });
+        .json({ status: 400, message: '해당 상품을 찾을 수 없습니다.' });
     }
 
     res.json(product);
@@ -27,23 +31,17 @@ exports.getProductById = async (req, res, next) => {
   }
 };
 
-exports.getProductByCategoryName = async (req, res, next) => {
-  const { name } = req.params;
-
-  const product = await productService.getProductByCategoryName(name);
-  res.status(200).json({ products: product });
-};
-
 exports.createProduct = async (req, res, next) => {
   try {
-    const { name, desc, category, img_url, price } = req.body;
+    const { name, desc, category, img_url, price, manufacturer } = req.body;
 
-    const product = await productService.createProduct({
+    await productService.createProduct({
       name,
       desc,
       category,
       img_url,
       price,
+      manufacturer,
     });
 
     res.status(200).json({
@@ -62,7 +60,7 @@ exports.createProduct = async (req, res, next) => {
 exports.updateProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, desc, category, img_url, price } = req.body;
+    const { name, desc, category, img_url, price, manufacturer } = req.body;
 
     const status = await productService.updateProduct(
       id,
@@ -71,9 +69,12 @@ exports.updateProduct = async (req, res, next) => {
       category,
       img_url,
       price,
+      manufacturer,
     );
-
-    res.json(status);
+    res.status(200).json({
+      status: 200,
+      message: '상품 수정 성공',
+    });
   } catch (err) {
     next(err);
   }
@@ -83,7 +84,7 @@ exports.deleteProduct = async (req, res, next) => {
     const { id } = req.params;
     const product = await productService.getProductById(id);
 
-    if (product == null) {
+    if (product === null) {
       return res
         .status(404)
         .json({ status: 404, message: '해당 상품이 존재하지 않습니다.' });
@@ -91,7 +92,10 @@ exports.deleteProduct = async (req, res, next) => {
 
     const status = await productService.deleteProduct(product);
 
-    res.json(status);
+    res.status(200).json({
+      status: 200,
+      message: '상품 삭제 성공',
+    });
   } catch (err) {
     next(err);
   }

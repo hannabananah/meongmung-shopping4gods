@@ -3,8 +3,12 @@ const categoryService = require('../services/categoryService');
 exports.getAllCategory = async (req, res, next) => {
   const { name } = req.query;
 
-  const list = await categoryService.getAllCategories(name);
-  res.status(200).json({ status: 200, message: list });
+  try {
+    const list = await categoryService.getAllCategories(name);
+    res.status(200).json({ status: 200, message: list });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.getCategoryByName = async (req, res, next) => {
@@ -16,12 +20,23 @@ exports.getCategoryByName = async (req, res, next) => {
     // 없으면 다른 값을 전달해준다.
     if (categoryName === null) {
       return res.json({
-        status: 400,
+        status: 404,
         message: `해당 카테고리를 찾을 수 없습니다. (${name})`,
       });
     }
 
     res.json({ status: 200, message: `${categoryName}을 찾았습니다.` });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getProductByCategoryName = async (req, res, next) => {
+  try {
+    const { name } = req.params;
+
+    const product = await categoryService.getProductByCategoryName(name);
+    res.status(200).json({ products: product });
   } catch (err) {
     next(err);
   }

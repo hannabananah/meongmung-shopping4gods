@@ -18,7 +18,6 @@ exports.signup = async function (email, password, phone, name) {
     });
 
     const token = jwt.createToken(result.email, result.isAdmin);
-
     return token;
   } catch (err) {
     throw new Error(err);
@@ -26,7 +25,7 @@ exports.signup = async function (email, password, phone, name) {
 };
 
 exports.login = async function (email, password) {
-  const user = await models.User.findOne({ email });
+  const user = await models.User.findOne({ email }).exec();
 
   if (!user) {
     throw new Error('이메일과 비밀번호를 확인해 주세요.');
