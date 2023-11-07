@@ -13,6 +13,7 @@ let saveCartGoods = localStorage.getItem('cartList')
   : [];
 
 function cartCreateHTML(product, i) {
+  console.log(i);
   return `
     <div class="flex border-t border-gray-300 items-center  ">
     <div class=" lg:w-6/12 py-2 ">
@@ -36,7 +37,7 @@ function cartCreateHTML(product, i) {
           </h2>
          <button
          class="item-remove text-gray-500 hover:text-gray-200"
-          data-id="${i}"
+          id="${i}"
         >
           삭제
         </button>
@@ -51,7 +52,7 @@ function cartCreateHTML(product, i) {
           <button
             class="count-minus py-2 hover:text-gray-700"
             data-value="minus"
-            data-id=${i}
+            id=${i}
           >
           <span class="m-auto text-2xl font">−</span>
           </button>
@@ -63,7 +64,7 @@ function cartCreateHTML(product, i) {
           <button
             class="count-plus py-2 hover:text-gray-700"
             data-value="plus"
-            data-id=${i}
+            id=${i}
           >
           <span class="m-auto text-2xl font">+</span>
           </button>
@@ -135,9 +136,9 @@ export function saveCart(saveCartGoods) {
 }
 
 // 모든 장바구니 버튼에 대한 클릭 핸들러
-export const buttonClickHandler = function () {
+export const buttonClickHandler = function (e) {
   // 클릭한 버튼의 데이터(product-id)를 가져옴
-  const productId = event.target.dataset.productId;
+  const productId = e.target.dataset.productId;
 
   // 해당 제품을 찾아냄
   const selectedProduct = data.goods.find(
@@ -174,10 +175,9 @@ function deleteCart(e) {
   const cartRemoveBtns = document.querySelectorAll('.item-remove');
   cartRemoveBtns.forEach((cartRemoveBtn) => {
     if (e.target === cartRemoveBtn) {
-      console.log(e.target);
-      const cleanCart = saveCartGoods.findIndex((item) => {
-        return item.id;
-      });
+      
+      const cleanCart = e.target.id;
+      
       //cart-storage에서 삭제
       saveCartGoods.splice(cleanCart, 1);
       //cart-page에서 삭제
@@ -201,10 +201,9 @@ function singleGoodsControl(e, plusMinusBtns) {
 
   plusMinusBtns.forEach((plusMinusBtn) => {
     if (e.target.parentNode === plusMinusBtn) {
-      const cartdataId = saveCartGoods.findIndex((item) => {
-        return item.id;
-      });
+      const cartdataId = e.target.parentNode.id;
       const pickGoods = saveCartGoods[cartdataId];
+      console.log(cartdataId)
       //cart-storage에서 수량 증감
       if (plusMinusBtn.dataset.value === 'plus') {
         pickGoods.order++;

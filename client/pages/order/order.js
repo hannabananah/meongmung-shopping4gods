@@ -4,12 +4,14 @@ import Swal from 'sweetalert2';
 
 init();
 
+let id = localStorage.getItem('id');
 const token = localStorage.getItem('token');
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const addressBtn = document.getElementById('getAddress');
 const addressNum = document.getElementById('addressNum');
 const address = document.getElementById('address');
+const addressDetail = document.getElementById('addressDetail');
 const selectAddress = document.getElementById('selectAddress');
 let totalPrice =0 
 let totalOrder =0;
@@ -20,6 +22,9 @@ const txtTotal = document.getElementById('totalcost');
 
 const name = document.getElementById('name');
 const telnum = document.getElementById('telnum');
+
+let addressid;
+let products;
 
 const getUser = () => {
     fetch(`${API_BASE_URL}/users/me` , {
@@ -42,12 +47,10 @@ const getUser = () => {
     const user = data.user;
     name.value = user.name;
     telnum.value = user.phone;
-    if(user.address)
+    id = data._id;
+    if(user.address){
     addressBtn.style.display ="none";
-   
-    else
-    selectAddress.style.display = "none";
-    
+   }
 }
 
 
@@ -55,14 +58,12 @@ const getUser = () => {
 const loadItem = () => {
    const orderlist = document.getElementById('order_list');
    
-   let products = JSON.parse(localStorage.getItem('cartList')); //장바구니 리스트로 변경해야 함
+    products = JSON.parse(localStorage.getItem('cartList')); //장바구니 리스트로 변경해야 함
    if(localStorage.getItem('product')) {
      products = JSON.parse(localStorage.getItem('product'))
-     localStorage.removeItem('product');
    }
 
    products.forEach((product) => {   
-    console.log(product.id);
     const orderCard = document.createElement('div');
     orderCard.classList.add('product-card');
     orderCard.innerHTML = 
@@ -80,7 +81,6 @@ const loadItem = () => {
 
     totalPrice += product.price * product.order;
     totalOrder += product.order * 1;
-    console.log(totalPrice);
 })    
     txtCost.innerHTML = totalPrice;
     txtQuantity.innerHTML = totalOrder;
@@ -102,6 +102,15 @@ addressBtn.addEventListener('click', function() {
 
 //결제하기api
 const postOrder = () => {
+  let postProducts =[];
+    products.forEach(element => {
+      let product = {
+        product: element.id,
+        quantity: element.order
+      }
+      postProducts.push(product)
+    });
+
     fetch(`${API_BASE_URL}/orders` , {
         method: 'POST',
         headers: {
@@ -109,28 +118,63 @@ const postOrder = () => {
             'Authorization': `Bearer ${token}`
           },
         body: JSON.stringify({
-    
+          totalPrice: totalPrice,
+          userId: id,
+          products: postProducts,
+          address: addressid
         }),
       })
         .then((response) => response.json())
         .then((data) => {
-          
+          console.log(data)
          // console.log(data)
          // console.log(localStorage.getItem('token'));
     
-          new Swal('주문이 완료되었습니다!', '', 'success').then(() => {
+        if(data.status === 200){  new Swal('주문이 완료되었습니다!', '', 'success').then(() => {
             location.href="/";
-        });
+        });}
         })
         .catch(error => console.log(error));
 }
 
 
-const btnSubmit = document.getElementById('submit');
+//결제하기api
+const postAddress = () => {
+  fetch(`${API_BASE_URL}/addresses` , {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      body: JSON.stringify({
+        userId: id,
+        recipient: name.value,
+        name : address.value,
+        zipCode:addressNum.value,
+        detailAddress:addressDetail.value,
+        phone: telnum.value,
+
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        addressid = data.address._id;
+        console.log(data)
+        console.log(addressid)
+        postOrder();
+       // console.log(localStorage.getItem('token'));
+      })
+      .catch(error => console.log(error));
+}
+
+
+const btnSubmit = document.querySelector('form');
 btnSubmit.addEventListener('submit', function(e){
     e.preventDefault();
-    postOrder();
-    localStorage.removeItem('product'); //바로구매 초기화
+    postAddress();
+
+  if(localStorage.getItem('product')) {localStorage.removeItem('product');} //바로구매 초기화
+  else  localStorage.removeItem('cartList'); //바로구매 초기화
 })
 
 
