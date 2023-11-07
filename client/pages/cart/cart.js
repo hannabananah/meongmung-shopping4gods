@@ -12,7 +12,8 @@ let saveCartGoods = localStorage.getItem('cartList')
   ? JSON.parse(localStorage.getItem('cartList'))
   : [];
 
-function cartCreateHTML(product) {
+function cartCreateHTML(product, i) {
+  console.log(i);
   return `
     <div class="flex border-t border-gray-300 items-center  ">
     <div class=" lg:w-6/12 py-2 ">
@@ -20,8 +21,8 @@ function cartCreateHTML(product) {
         <div class="md:w-1/3">
             <a href="#">
               <img
-                src="${product.image}"
-                alt="${product.productName}"
+                src="${product.imgUrl}"
+                alt="${product.name}"
                 class="md:h-24 md:w-24 "
               />
             </a>
@@ -31,12 +32,12 @@ function cartCreateHTML(product) {
             <a
               href="#"
               class="text-lg font-bold hover:text-gray-200"
-              >${product.productName}</a
+              >${product.name}</a
             >
           </h2>
          <button
          class="item-remove text-gray-500 hover:text-gray-200"
-          data-id="${product.id}"
+          id="${i}"
         >
           삭제
         </button>
@@ -51,7 +52,7 @@ function cartCreateHTML(product) {
           <button
             class="count-minus py-2 hover:text-gray-700"
             data-value="minus"
-            data-id=${product.id}
+            id=${i}
           >
           <span class="m-auto text-2xl font">−</span>
           </button>
@@ -63,7 +64,7 @@ function cartCreateHTML(product) {
           <button
             class="count-plus py-2 hover:text-gray-700"
             data-value="plus"
-            data-id=${product.id}
+            id=${i}
           >
           <span class="m-auto text-2xl font">+</span>
           </button>
@@ -98,7 +99,7 @@ window.addEventListener('load', totalPrice);
 //cart total number of goods
 export function totalCartCount() {
   const countBox = saveCartGoods.reduce((prev, curr) => {
-    return prev + curr.order;
+    return prev + curr.order * 1;
   }, 0);
   const totalCounts = document.querySelectorAll('.top-cart-count');
   totalCounts.forEach((totalCount) => {
@@ -113,10 +114,11 @@ window.addEventListener('load', totalCartCount);
 
 // cart-page paint
 export function paintCartPage() {
+  let i= 0;
   const loadCartGoods = localStorage.getItem('cartList');
   if (cartContainer !== null) {
     cartContainer.innerHTML = JSON.parse(loadCartGoods)
-      .map((product) => cartCreateHTML(product))
+      .map((product) => cartCreateHTML(product, i++))
       .join('');
     if (cartContainer.children.length !== 0) {
       cartEmpty.classList.add('hidden');
@@ -134,9 +136,9 @@ export function saveCart(saveCartGoods) {
 }
 
 // 모든 장바구니 버튼에 대한 클릭 핸들러
-export const buttonClickHandler = function () {
+export const buttonClickHandler = function (e) {
   // 클릭한 버튼의 데이터(product-id)를 가져옴
-  const productId = event.target.dataset.productId;
+  const productId = e.target.dataset.productId;
 
   // 해당 제품을 찾아냄
   const selectedProduct = data.goods.find(
@@ -173,9 +175,9 @@ function deleteCart(e) {
   const cartRemoveBtns = document.querySelectorAll('.item-remove');
   cartRemoveBtns.forEach((cartRemoveBtn) => {
     if (e.target === cartRemoveBtn) {
-      const cleanCart = saveCartGoods.findIndex((item) => {
-        return item.id === parseInt(cartRemoveBtn.dataset.id);
-      });
+      
+      const cleanCart = e.target.id;
+      
       //cart-storage에서 삭제
       saveCartGoods.splice(cleanCart, 1);
       //cart-page에서 삭제
@@ -199,10 +201,9 @@ function singleGoodsControl(e, plusMinusBtns) {
 
   plusMinusBtns.forEach((plusMinusBtn) => {
     if (e.target.parentNode === plusMinusBtn) {
-      const cartdataId = saveCartGoods.findIndex((item) => {
-        return item.id === parseInt(plusMinusBtn.dataset.id);
-      });
+      const cartdataId = e.target.parentNode.id;
       const pickGoods = saveCartGoods[cartdataId];
+      console.log(cartdataId)
       //cart-storage에서 수량 증감
       if (plusMinusBtn.dataset.value === 'plus') {
         pickGoods.order++;

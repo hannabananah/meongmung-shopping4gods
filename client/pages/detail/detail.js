@@ -1,11 +1,48 @@
 import '../../index.css';
 import { init } from '../main.js';
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-
-import 'sweetalert2/src/sweetalert2.scss'
+import Swal from 'sweetalert2';
+import { totalCartCount } from '/cart/cart';
 
 init();
 
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
+const img = document.getElementById('img');
+const txtname = document.getElementById('productName');
+const txtcost = document.getElementById('cost');
+let product;
+
+const id_query = new URLSearchParams(location.search).get("id"); //querystring으로 상품아이디 받아옴
+console.log(id_query);
+
+const getProduct= ()=> {
+    fetch(`${API_BASE_URL}/products/${id_query}` , {
+      method: 'GET',
+    })
+      .then((response) => 
+        response.json())
+      .then((data) => {
+        console.log(data);
+        loadItem(data);
+        product = {
+          id: data._id,
+          name : data.name,
+          order: target.value,
+          imgUrl: data.img_url, //img.src로 하면 안돼서 일단 이렇게..
+          price : data.price
+      }
+      
+      })
+      .catch(error => console.log(error));
+  }
+  
+const loadItem =(data) =>{
+    img.src = data.img_url;
+    img.alt = data.img_url;
+    txtname.innerHTML = data.name;
+    txtcost.innerHTML = data.price;
+}
+  
+getProduct();
 //수량 counter
 const target = document.getElementById('input');
 let value = Number(target.value);
@@ -29,15 +66,49 @@ const cartbtn = document.getElementById('cartbtn');
 const buybtn = document.getElementById('buybtn');
 
 cartbtn.addEventListener("click", function(){
-    //이미 장바구니에 있을 경우 예외처리
-    // swal('잠시만요', '이미 장바구니에 추가되어 있습니다', 'warning').then(() => {
-    //     // location.href = '../cart/';
-    //    });
+  // 모든 장바구니 버튼에 대한 클릭 핸들러
+  let selectedProduct = product;
+ console.log(selectedProduct);
+
+  // 이미 장바구니에 있는 상품인지 확인
+  if (saveCartGoods.some((product) => product.id === selectedProduct.id)) {
+    console.log('이미 장바구니에 있는 상품입니다.');
+    alert('장바구니에 있는 상품입니다.');
+  } else {
+    alert('장바구니에 담았습니다.');
+    selectedProduct.order = target.value;
+    saveCartGoods.push(selectedProduct);
+    console.log('장바구니에 추가');
+  }
+  // 장바구니 정보를 localStorage에 업데이트
+  localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
+  saveCart(saveCartGoods);
+  console.log('저장완료');
+
+
     new Swal('장바구니에 담겼습니다', '', 'success').then(() => {
         location.href = '/cart/';
       });
 })
 
 buybtn.addEventListener("click", function(){
+    product.order = target.value;
+  
+    let productlist = [];
+    productlist.push(product);
+    console.log(JSON.stringify(productlist));
+    localStorage.setItem('product',JSON.stringify(productlist));
     location.href = '/order/';
 })
+
+
+export function saveCart() {
+  localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
+  location.href = '/cart/';
+}
+
+export let saveCartGoods = localStorage.getItem('cartList')
+  ? JSON.parse(localStorage.getItem('cartList'))
+  : [];
+
+totalCartCount;
