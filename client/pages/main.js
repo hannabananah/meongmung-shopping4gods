@@ -1,8 +1,6 @@
 import '../style.css';
 import '../index.css';
 import 'flowbite';
-const userId = localStorage.getItem('id');
-const token = localStorage.getItem('token');
 
 
 export function init() {
@@ -19,9 +17,10 @@ export function init() {
     />
   </div>
   
+
   <div id="headerbtn">
    
-  </div>
+ </div>
   </header>`;
  
 const headerBtns = document.querySelector('#headerbtn');
@@ -74,4 +73,6 @@ window.addEventListener('DOMContentLoaded', () => {
   init();
 
 });
+
+
 

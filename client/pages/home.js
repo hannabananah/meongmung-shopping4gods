@@ -1,6 +1,7 @@
 import '../index.css';
 import { init } from '/main.js';
 import 'flowbite';
+import { totalCartCount } from './cart/cart';
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 let api = `${API_BASE_URL}/products/`;
@@ -30,7 +31,7 @@ function renderProducts(data) {
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
             <div class="flex items-center justify-between ">
             <span class="text-gray-900 font-bold text-2xl">${product.price}원</span>
-            <img src="/images/cart.svg" id="cart-${product._id}"></img>
+            <button class ="cart-add" id="cart-${product._id}"><img src="/images/cart.svg"/></button>
             </div>
             </div>
           `;
@@ -39,7 +40,7 @@ function renderProducts(data) {
       }
       const card = document.querySelector(`#product-${product._id}`)
       card.addEventListener('click',function(){
-        location.href = `/detail/?id=${product._id}`;
+       // location.href = `/detail/?id=${product._id}`;
       })
     });
   }
@@ -112,3 +113,55 @@ function renderProducts(data) {
     getCategories();
   });
     
+
+
+
+// 모든 장바구니 버튼에 대한 클릭 핸들러
+const buttonClickHandler = function () {
+  
+  // 클릭한 버튼의 데이터(product-id)를 가져옴
+  const productId = this.dataset.productId;
+
+  // 해당 제품을 찾아냄
+  const selectedProduct = data.find(
+    (product) => product._id === parseInt(productId),
+  );
+
+  // 이미 장바구니에 있는 상품인지 확인
+  if (saveCartGoods.some((product) => product.id === selectedProduct.id)) {
+    console.log('이미 장바구니에 있는 상품입니다.');
+    alert('장바구니에 있는 상품입니다.');
+  } else {
+    alert('장바구니에 담았습니다.');
+    selectedProduct.cart = true;
+    selectedProduct.order = 1;
+    saveCartGoods.push(selectedProduct);
+    console.log('장바구니에 추가');
+  }
+  // 장바구니 정보를 localStorage에 업데이트
+  localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
+  saveCart(saveCartGoods);
+  console.log('저장완료');
+};
+
+// 모든 장바구니 버튼에 클릭 핸들러를 추가
+const cartbtns = document.querySelectorAll('.cart-add');
+cartbtns.forEach((cartbtn) => {
+  cartbtn.addEventListener('click',function(){ 
+    console.log('dk');
+    buttonClickHandler()
+  });
+});
+
+// localStorage에 기본 장바구니 정보를 저장
+
+export function saveCart() {
+  localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
+  location.href = '/cart/';
+}
+
+export let saveCartGoods = localStorage.getItem('cartList')
+  ? JSON.parse(localStorage.getItem('cartList'))
+  : [];
+
+totalCartCount;
