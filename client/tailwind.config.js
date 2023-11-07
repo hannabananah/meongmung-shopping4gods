@@ -8,6 +8,12 @@ export default {
   ],
   theme: {
     extend: {},
+    colors: {
+      transparent: 'transparent',
+      white: '#ffffff',
+      'setting-btn': '#00A4AC',
+      'setting-btn-effect': '#009599',
+    },
   },
   plugins: [flowbitePlugin],
 };
