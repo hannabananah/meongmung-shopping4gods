@@ -4,7 +4,7 @@ import { init } from '../main.js';
 init();
 
 function selectAll(selectAll) {
-  const checkboxes = document.getElementsByName('category');
+  const checkboxes = document.getElementsByName('product');
 
   checkboxes.forEach((checkbox) => {
     checkbox.checked = selectAll.checked;
