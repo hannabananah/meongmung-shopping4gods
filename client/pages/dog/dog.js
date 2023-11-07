@@ -91,7 +91,7 @@ const renderList = async () => {
     <div class='flex-1'>${dog.name}</div>
     <div class='w-[100px]'>${dog.age}</div>
     <div class='w-[100px]'>${dog.size}</div>
-    <div class='w-[100px]'>2023-11-7</div>
+    <div class='w-[100px]'><button id="${dog._id}" class="update-btn hover:underline">수정하기</button></div>
     <div class='w-[100px]'><img id="${dog._id}" class='dog-id mx-auto hover:cursor-pointer' src="/images/trash.svg"/></div>
   </div>`;
   }
@@ -102,6 +102,14 @@ const renderList = async () => {
 
 const bindEvents = (document) => {
   const rows = document.querySelectorAll('.dog-id');
+  const updateBtns = document.querySelectorAll('.update-btn');
+
+  for (const btn of updateBtns) {
+    btn.addEventListener('click', (e) => {
+      console.log(e.target.id);
+      location.href = `/dog/edit/?id=${e.target.id}`;
+    });
+  }
 
   for (const row of rows) {
     row.addEventListener('click', (e) => {
