@@ -76,3 +76,22 @@ exports.deleteOrderByOrderId = async function (req, res, next) {
     next(err.message);
   }
 };
+
+// 선택된 주문만 삭제
+exports.deleteOneOrder = async function (req, res, next) {
+  const { orderIds } = req.body;
+
+  try {
+    const orders = await adminOrderService.cancelSelectedOrders(orderIds);
+
+    res.json({
+      status: 200,
+      message: '선택한 주문이 취소되었습니다.',
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
