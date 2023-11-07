@@ -38,27 +38,9 @@ exports.getProductById = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
-    const {
-      name,
-      desc,
-      category,
-      img_url,
-      price,
-      manufacturer,
-      recommendDogAge,
-      recommendDogSize,
-    } = req.body;
+    const productProps = req.body;
 
-    await productService.createProduct({
-      name,
-      desc,
-      category,
-      img_url,
-      price,
-      manufacturer,
-      recommendDogAge,
-      recommendDogSize,
-    });
+    await productService.createProduct(productProps);
 
     res.status(200).json({
       status: 200,
@@ -75,29 +57,10 @@ exports.createProduct = async (req, res, next) => {
 
 exports.updateProduct = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const {
-      name,
-      desc,
-      category,
-      img_url,
-      price,
-      manufacturer,
-      recommendDogAge,
-      recommendDogSize,
-    } = req.body;
+    const { _id } = req.params;
+    const productProps = req.body;
 
-    const status = await productService.updateProduct({
-      id,
-      name,
-      desc,
-      category,
-      img_url,
-      price,
-      manufacturer,
-      recommendDogAge,
-      recommendDogSize,
-    });
+    const status = await productService.updateProduct({ _id }, productProps);
     res.status(200).json({
       status: 200,
       message: '상품 수정 성공',

@@ -30,38 +30,9 @@ exports.createProduct = async (productProps) => {
   return product;
 };
 
-exports.updateProduct = async (product) => {
+exports.updateProduct = async (_id, productData) => {
   try {
-    const {
-      id: _id,
-      name,
-      desc,
-      category,
-      img_url,
-      price,
-      summary,
-      discount,
-      isNewArrival,
-      manufacturer,
-      recommendDogAge,
-      recommendDogSize,
-    } = product;
-    const data = await models.Product.updateOne(
-      { _id },
-      {
-        name,
-        desc,
-        category,
-        img_url,
-        price,
-        summary,
-        discount,
-        isNewArrival,
-        manufacturer,
-        recommendDogAge,
-        recommendDogSize,
-      },
-    ).exec();
+    const data = await models.Product.updateOne({ _id }, productData).exec();
 
     if (!data.acknowledged) {
       return { state: 200, message: '수정 실패' };
