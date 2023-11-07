@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const dogController = require('../controllers/dogController');
 const { isAuth } = require('../middleware/isAuth');
+const validator = require('../middleware/validator');
+const { dog } = require('../middleware/validators');
 
 const router = Router();
 
@@ -11,10 +13,15 @@ router.get('/dogs', isAuth, dogController.getAllDogs);
 router.get('/dogs/:dogId', isAuth, dogController.getDogById);
 
 // 강아지 생성
-router.post('/dogs', isAuth, dogController.createDog);
+router.post('/dogs', isAuth, validator(dog.create), dogController.createDog);
 
 // 강아지 수정
-router.put('/dogs/:dogId', isAuth, dogController.updateDog);
+router.put(
+  '/dogs/:dogId',
+  isAuth,
+  validator(dog.update),
+  dogController.updateDog,
+);
 
 // 강아지 삭제
 router.delete('/dogs/:dogId', isAuth, dogController.deleteDog);

@@ -2,11 +2,16 @@ const productService = require('../services/productService');
 
 exports.getAllProducts = async (req, res, next) => {
   try {
-    const products = await productService.getAllProduct();
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 9;
+
+    const result = await productService.getAllProduct(page, perPage);
 
     res.json({
       status: 200,
-      products,
+      products: result.products,
+      page: result.page,
+      totalPages: result.totalPages,
     });
   } catch (err) {
     next(err);

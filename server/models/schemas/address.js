@@ -1,11 +1,20 @@
 const { Schema } = require('mongoose');
 
-const shippingAddressSchema = new Schema(
+const addressSchema = new Schema(
   {
-    // 수령자
+    // 유저데이터
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+    },
+    // 주소지 라벨
+    name: {
+      type: String,
+      required: true,
+    },
+    // 수령인
+    recipient: {
+      type: String,
     },
     // 우편번호
     zipCode: {
@@ -15,7 +24,7 @@ const shippingAddressSchema = new Schema(
       required: true,
     },
     // 주소
-    address: {
+    detailAddress: {
       type: String,
       required: true,
     },
@@ -31,8 +40,9 @@ const shippingAddressSchema = new Schema(
     },
   },
   {
-    collection: 'shippingAddress',
+    collection: 'address',
+    timestamps: true,
   },
 );
 
-module.exports = shippingAddressSchema;
+module.exports = addressSchema;
