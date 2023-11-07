@@ -3,8 +3,8 @@ const dogService = require('../services/dogService');
 exports.getAllDogs = async (req, res, next) => {
   const userId = req.userId;
   try {
-    const dogList = await dogService.getAllDogs(userId);
-    res.json({ status: 200, dogList });
+    const dogs = await dogService.getAllDogs(userId);
+    res.json({ status: 200, dogs });
   } catch (err) {
     next(err);
   }
