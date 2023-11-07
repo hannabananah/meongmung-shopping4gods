@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>멍뭉이들</title>
+  </head>
+  <body>
+    <div id="header-wrapper"></div>
+    <section class="py-24 font-poppins">
+      <div class="px-4 py-4 mx-auto max-w-7xl lg:py-4 md:px-6">
+        <div>
+          <h2 class="mb-4 text-2xl font-bold">주문상품정보</h2>
+          <div class="p-4 border border-gray-700 border-x-0 bg-gray-20">
+            <div class="mb-4 -mx-4 md:flex">
+              <div class="px-4 md:w-1/6 lg:w-2/12">
+                <h2 class="font-bold">주문일자</h2>
+              </div>
+              <div class="w-full px-4 mb-6 md:w-4/6 lg:w-4/12 md:mb-0">
+                <h2 class="font-bold">상품정보</h2>
+              </div>
+
+              <div class="px-4 md:w-1/6 lg:w-2/12">
+                <h2 class="font-bold text-center">수량</h2>
+              </div>
+              <div class="px-4 text-center lg:block lg:w-2/12">
+                <h2 class="font-bold">상품구매금액</h2>
+              </div>
+              <div class="px-4 md:w-1/6 lg:w-2/12 text-center">
+                <h2 class="font-bold">주문처리상태</h2>
+              </div>
+            </div>
+
+            <div class="flex items-center py-6 border-t border-gray-300">
+              <div class="px-2 lg:w-2/12">
+                <p class="mb-4">2023-11-03</p>
+                <button
+                  data-action="cancle-button"
+                  class="text-gray-500 text-sm py-1 px-1 border border-gray-500 shadow hover:border-gray-200"
+                >
+                  취소신청
+                </button>
+              </div>
+              <div class="px-4 mb-6 md:w-4/6 lg:w-4/12 md:mb-0">
+                <div class="flex flex-wrap items-center -mx-4">
+                  <div class="w-full px-4 mb-3 md:w-1/3">
+                    <a href="#">
+                      <img
+                        src="/images/Dog_ball.jpg"
+                        alt=""
+                        class="object-cover w-full h-full"
+                      />
+                    </a>
+                  </div>
+                  <div class="w-2/3 px-4">
+                    <h2 class="mb-2 text-xl font-bold">
+                      <a href="#" class="text-lg font-bold hover:text-gray-200"
+                        >장난감 공</a
+                      >
+                    </h2>
+                  </div>
+                </div>
+              </div>
+
+              <div class="lg:w-2/12 text-center">
+                <p class="text-sm">1</p>
+              </div>
+              <div class="px-4 text-center md:w-1/6 lg:w-2/12">
+                <p class="text-lg font-bold">8,000</p>
+              </div>
+              <div class="px-4 text-center md:w-1/6 lg:w-2/12">
+                <p class="text-sm text-red-600">배송준비중</p>
+              </div>
+            </div>
+
+            <div class="flex items-center py-4 border-t border-gray-300">
+              <div class="px-4 mb-6 ml-auto :w-1/4 md:mb-0">
+                <h2 class="flex font-bold">
+                  총 결제금액:
+                  <p class="px-4 text-red-600">8,000원</p>
+                </h2>
+              </div>
+            </div>
+
+            <div class="flex items-center py-6 border-t border-gray-300">
+              <div class="px-2 lg:w-2/12">
+                <p class="mb-4">2023-11-02</p>
+                <button
+                  data-action="cancle-button"
+                  class="text-gray-500 text-sm py-1 px-1 border border-gray-400 shadow hover:border-gray-200"
+                >
+                  취소신청
+                </button>
+              </div>
+              <div class="px-4 mb-6 md:w-4/6 lg:w-4/12 md:mb-0">
+                <div class="flex flex-wrap items-center -mx-4">
+                  <div class="w-full px-4 mb-3 md:w-1/3">
+                    <a href="#">
+                      <img
+                        src="/images/02.png"
+                        alt=""
+                        class="object-cover w-full h-full"
+                      />
+                    </a>
+                  </div>
+                  <div class="w-2/3 px-4">
+                    <h2 class="mb-2 text-xl font-bold">
+                      <a href="#" class="text-lg font-bold hover:text-gray-200"
+                        >딩동펫</a
+                      >
+                    </h2>
+                  </div>
+                </div>
+              </div>
+              <div class="lg:w-2/12 text-center">
+                <p class="text-sm">1</p>
+              </div>
+              <div class="px-4 text-center md:w-1/6 lg:w-2/12">
+                <p class="text-lg font-bold">1,0000</p>
+              </div>
+              <div class="px-4 text-center md:w-1/6 lg:w-2/12">
+                <p class="text-sm text-red-600">배송준비중</p>
+              </div>
+            </div>
+
+            <div class="flex items-center py-4 border-t border-gray-300">
+              <div class="px-4 mb-6 ml-auto :w-1/4 md:mb-0">
+                <h2 class="flex font-bold">
+                  총 결제금액:
+                  <p class="px-4 text-red-600">10,000원</p>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
+
+<script type="module" src="./adminProductlist.js"></script>
