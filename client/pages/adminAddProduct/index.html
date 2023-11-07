@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="h-full">
+    <div id="header-wrapper"></div>
+
+    <section class="bg-gray-50">
+      <div
+        class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+      >
+        <div
+          class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0"
+        >
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1
+              class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+            >
+              상품 추가
+            </h1>
+            <form class="space-y-4 md:space-y-6" action="#">
+              <div>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  for="file_input"
+                  >상품 이미지</label
+                >
+                <input
+                  class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  aria-describedby="file_input_help"
+                  id="file_input"
+                  type="file"
+                  accept="image/*"
+                />
+
+                <p
+                  class="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                  id="file_input_help"
+                >
+                  SVG, PNG, JPG or GIF (MAX. 800x400px).
+                </p>
+                <div id="image_preview" class="mt-2"></div>
+              </div>
+              <div>
+                <label
+                  for="name"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >상품명</label
+                >
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  for="category"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >카테고리</label
+                >
+                <select
+                  type="text"
+                  name="category"
+                  id="category"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="카테고리 선택"
+                  required
+                >
+                  <option value="장난감">장난감</option>
+                  <option value="옷">옷</option>
+                  <option value="사료">사료</option>
+                  <option value="간식">간식</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  for="price"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >가격</label
+                >
+                <input
+                  type="text"
+                  name="price"
+                  id="price"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="description"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >상품 상세설명</label
+                >
+                <textarea
+                  type="text"
+                  name="description"
+                  id="description"
+                  class="resize-none bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  required
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="w-full text-white bg-blue-800 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                등록하기
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+  <div id="footer" class="absolute bottom-0"></div>
+</html>
+
+<script type="module" src="./adminAddProduct.js"></script>
