@@ -1,4 +1,28 @@
 const models = require('../models');
+const dogService = require('./dogService');
+
+exports.getProductsByRecommend = async (userId) => {
+  // 사용자의 견종 받아오기
+  const dogs = await dogService.getAllDogs(userId);
+
+  const sizes = dogs.map((dog) => dog.size);
+  const ages = dogs.map((dog) => dog.age);
+
+  // 상품 목록 받아오기
+  const recommendProducts = await models.Product.find({
+    $and: [
+      { recommendDogSize: { $in: sizes } },
+      {
+        $or: [
+          { 'recommendDogAge.min': { $lte: Math.max(...ages) } },
+          { 'recommendDogAge.max': { $gte: Math.min(...ages) } },
+        ],
+      },
+    ],
+  });
+
+  return recommendProducts;
+};
 
 exports.getAllCategories = async () => {
   const categories = await models.Category.find({});
