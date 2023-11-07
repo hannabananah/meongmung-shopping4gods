@@ -11,7 +11,8 @@ const addressBtn = document.getElementById('getAddress');
 const addressNum = document.getElementById('addressNum');
 const address = document.getElementById('address');
 const selectAddress = document.getElementById('selectAddress');
-
+let totalPrice =0 
+let totalOrder =0;
 
 const txtQuantity = document.getElementById('quantity');
 const txtCost = document.getElementById('cost');
@@ -54,9 +55,10 @@ const getUser = () => {
 const loadItem = () => {
    const orderlist = document.getElementById('order_list');
    
-   let products = JSON.parse(localStorage.getItem('cart')); //장바구니 리스트로 변경해야 함
+   let products = JSON.parse(localStorage.getItem('cartList')); //장바구니 리스트로 변경해야 함
    if(localStorage.getItem('product')) {
      products = JSON.parse(localStorage.getItem('product'))
+     localStorage.removeItem('product');
    }
 
    products.forEach((product) => {   
@@ -68,7 +70,7 @@ const loadItem = () => {
     <tr class='w-full border-b-2 items-center border-gray-100 flex pb-2'>
         <td class='items-center place-content-start '> 
         <img class='w-32 rounded-md border-2 border-gray-50 p-3' src='${product.imgUrl}' alt = '${product.imgUrl}'/> </td>
-        <td><p class='text-sm text-gray-600'>${product.name} X ${product.quantity}개 </p><p class='font-semibold'>${product.cost}원 </p></td>
+        <td><p class='text-sm text-gray-600'>${product.name} X ${product.order}개 </p><p class='font-semibold'>${product.price}원 </p></td>
         </tr> 
     </table>`
 
@@ -76,10 +78,13 @@ const loadItem = () => {
         orderlist.appendChild(orderCard);
       }
 
-    txtTotal.innerHTML = product.cost;
-    txtCost.innerHTML =product.cost;
-    txtQuantity.innerHTML = product.quantity;
-})
+    totalPrice += product.price * product.order;
+    totalOrder += product.order * 1;
+    console.log(totalPrice);
+})    
+    txtCost.innerHTML = totalPrice;
+    txtQuantity.innerHTML = totalOrder;
+    txtTotal.innerHTML = totalPrice;
 }
 
 
@@ -104,7 +109,7 @@ const postOrder = () => {
             'Authorization': `Bearer ${token}`
           },
         body: JSON.stringify({
-            
+    
         }),
       })
         .then((response) => response.json())
