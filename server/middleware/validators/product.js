@@ -10,6 +10,8 @@ exports.create = Joi.object({
   discount: Joi.boolean().optional(),
   isNewArrival: Joi.boolean().optional(),
   manufacturer: Joi.string().required(),
+  dogAge: Joi.number().optional(),
+  dogSize: Joi.string().optional(),
 });
 
 exports.update = Joi.object({
@@ -22,4 +24,6 @@ exports.update = Joi.object({
   discount: Joi.boolean().optional(),
   isNewArrival: Joi.boolean().optional(),
   manufacturer: Joi.string().optional(),
+  dogAge: Joi.number().optional(),
+  dogSize: Joi.string().optional(),
 });

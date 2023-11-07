@@ -24,8 +24,6 @@ const dogSchema = new Schema({
     type: Number,
     required: true,
   },
-  // dog와 suggestion은 다대다 관계
-  suggestions: [{ type: Schema.Types.ObjectId, ref: 'Suggestion' }],
 });
 
 module.exports = dogSchema;

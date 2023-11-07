@@ -30,6 +30,8 @@ exports.createProduct = async ({
   img_url,
   price,
   manufacturer,
+  recommendDogAge,
+  recommendDogSize,
 }) => {
   const product = await models.Product.create({
     name,
@@ -38,6 +40,8 @@ exports.createProduct = async ({
     img_url,
     price,
     manufacturer,
+    recommendDogAge,
+    recommendDogSize,
   });
   return product;
 };
@@ -55,6 +59,8 @@ exports.updateProduct = async (product) => {
       discount,
       isNewArrival,
       manufacturer,
+      recommendDogAge,
+      recommendDogSize,
     } = product;
     const data = await models.Product.updateOne(
       { _id },
@@ -68,6 +74,8 @@ exports.updateProduct = async (product) => {
         discount,
         isNewArrival,
         manufacturer,
+        recommendDogAge,
+        recommendDogSize,
       },
     ).exec();
 

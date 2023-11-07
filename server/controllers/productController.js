@@ -38,7 +38,16 @@ exports.getProductById = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
-    const { name, desc, category, img_url, price, manufacturer } = req.body;
+    const {
+      name,
+      desc,
+      category,
+      img_url,
+      price,
+      manufacturer,
+      recommendDogAge,
+      recommendDogSize,
+    } = req.body;
 
     await productService.createProduct({
       name,
@@ -47,6 +56,8 @@ exports.createProduct = async (req, res, next) => {
       img_url,
       price,
       manufacturer,
+      recommendDogAge,
+      recommendDogSize,
     });
 
     res.status(200).json({
@@ -65,7 +76,16 @@ exports.createProduct = async (req, res, next) => {
 exports.updateProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, desc, category, img_url, price, manufacturer } = req.body;
+    const {
+      name,
+      desc,
+      category,
+      img_url,
+      price,
+      manufacturer,
+      recommendDogAge,
+      recommendDogSize,
+    } = req.body;
 
     const status = await productService.updateProduct({
       id,
@@ -75,6 +95,8 @@ exports.updateProduct = async (req, res, next) => {
       img_url,
       price,
       manufacturer,
+      recommendDogAge,
+      recommendDogSize,
     });
     res.status(200).json({
       status: 200,
