@@ -3,6 +3,7 @@ import { init } from '../main.js';
 
 init();
 
+// select box 전체선택
 function selectAll(selectAll) {
   const checkboxes = document.getElementsByName('product');
 

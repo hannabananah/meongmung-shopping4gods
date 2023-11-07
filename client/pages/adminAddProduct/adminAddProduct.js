@@ -3,6 +3,7 @@ import { init } from '../main.js';
 
 init();
 
+// 가격 세자릿수마다 콤마 붙이기
 function numberWithCommas(x) {
   return x.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
