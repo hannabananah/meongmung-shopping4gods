@@ -8,19 +8,34 @@
   <body>
     <div id="header-wrapper"></div>
     <div class="p-10">
-      <form class="flex flex-col mx-56 my-56">
+      <form class="flex flex-col mx-32 my-56 gap-2" action="#">
+        <label
+        for="email"
+       ></label
+      >
         <input
-          type="text"
+          type="email"
           placeholder="이메일"
-          class="py-5 focus:outline-none border-b-2"
+          id="email"
+          name="email"
+          required=""
+          class="py-5 focus:outline-none border-b-2 border-gray-200 rounded-2xl"
         />
+
+        <label
+        for="password"
+        ></label
+      >
         <input
           type="password"
           placeholder="비밀번호"
-          class="py-5 focus:outline-none border-b-2"
+          id='password'
+          name='password'
+          required=""
+          class="py-5 focus:outline-none border-b-2 border-gray-200 rounded-2xl"
         />
         <button
-          type="button"
+          type="submit" id='loginbtn'
           class="bg-gray-300 rounded-sm py-5 mt-4 hover:bg-gray-200 focus:ring-4 focus:ring-gray-200"
         >
           로그인
@@ -33,12 +48,13 @@
         </button>
         <button
           type="button"
-          class="bg-green-400 rounded-sm py-5 mt-4 hover:bg-green-600 focus:ring-4 focus:ring-green-300"
+          class="bg-green-400 rounded-sm py-5  hover:bg-green-600 focus:ring-4 focus:ring-green-300"
         >
           소셜 로그인
         </button>
       </form>
     </div>
   </body>
+  <div id='footer'></div>
 </html>
 <script type="module" src="./login.js"></script>

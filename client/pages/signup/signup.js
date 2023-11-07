@@ -37,10 +37,6 @@ const postUser = () => {
     .then((data) => {
       
       console.log(data)
-      localStorage.setItem('id', email.value);
-      localStorage.setItem('token', data.token);
-      console.log(localStorage.getItem('token'));
-
       new Swal('회원가입 완료', '반갑습니다!', 'success').then(() => {
         location.href="/login/";
     });

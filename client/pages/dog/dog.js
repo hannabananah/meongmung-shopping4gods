@@ -8,8 +8,6 @@ const btn = document.querySelector('form');
 const token = localStorage.getItem('token');
 let userId = localStorage.getItem('userId');
 
-
-const dogId = document.getElementById('dogid');
 const name = document.getElementById('name');
 const size = document.getElementById('size');
 const age = document.getElementById('age');
@@ -30,7 +28,6 @@ btn.addEventListener('submit', function (e) {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-         dogId: dogId.value,
          userId: userId,
          name: name.value,
          size: size.value,
@@ -54,7 +51,6 @@ btn.addEventListener('submit', function (e) {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-         dogId: dogId.value,
          userId: userId,
          name: name.value,
          size: size.value,

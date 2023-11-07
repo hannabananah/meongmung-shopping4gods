@@ -10,14 +10,18 @@ const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 const addressBtn = document.getElementById('getAddress');
 const addressNum = document.getElementById('addressNum');
 const address = document.getElementById('address');
+const selectAddress = document.getElementById('selectAddress');
+
 
 const txtQuantity = document.getElementById('quantity');
 const txtCost = document.getElementById('cost');
 const txtTotal = document.getElementById('totalcost');
 
+const name = document.getElementById('name');
+const telnum = document.getElementById('telnum');
 
 const getUser = () => {
-    fetch(`${API_BASE_URL}/users/` , {
+    fetch(`${API_BASE_URL}/users/me` , {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -26,13 +30,23 @@ const getUser = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
-            loadUser(data)
+        if(data.status === 200)
+        { console.log(data)
+            loadUser(data)}
       });
   };
 
   const loadUser = (data) =>{
     //TODO 화면세팅
+    const user = data.user;
+    name.value = user.name;
+    telnum.value = user.phone;
+    if(user.address)
+    addressBtn.style.display ="none";
+   
+    else
+    selectAddress.style.display = "none";
+    
 }
 
 
@@ -43,7 +57,6 @@ const loadItem = () => {
    let products = JSON.parse(localStorage.getItem('cart')); //장바구니 리스트로 변경해야 함
    if(localStorage.getItem('product')) {
      products = JSON.parse(localStorage.getItem('product'))
-     localStorage.removeItem('product'); //바로구매 초기화
    }
 
    products.forEach((product) => {   
@@ -112,6 +125,7 @@ const btnSubmit = document.getElementById('submit');
 btnSubmit.addEventListener('submit', function(e){
     e.preventDefault();
     postOrder();
+    localStorage.removeItem('product'); //바로구매 초기화
 })
 
 
