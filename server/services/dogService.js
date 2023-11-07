@@ -3,13 +3,6 @@ const models = require('../models');
 exports.getAllDogs = async (userId) => {
   try {
     const dogs = await models.Dog.find({ userId }).exec();
-    if (dogs.length === 0) {
-      const err = {
-        status: 400,
-        message: '등록된 강아지 정보가 없습니다.',
-      };
-      return err;
-    }
 
     return dogs;
   } catch (err) {
