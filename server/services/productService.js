@@ -23,25 +23,9 @@ exports.getProductById = async (_id) => {
   return await models.Product.findOne({ _id }).exec();
 };
 
-exports.createProduct = async ({
-  name,
-  desc,
-  category,
-  img_url,
-  price,
-  manufacturer,
-  recommendDogAge,
-  recommendDogSize,
-}) => {
+exports.createProduct = async (productProps) => {
   const product = await models.Product.create({
-    name,
-    desc,
-    category,
-    img_url,
-    price,
-    manufacturer,
-    recommendDogAge,
-    recommendDogSize,
+    ...productProps,
   });
   return product;
 };

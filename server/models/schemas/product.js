@@ -22,7 +22,10 @@ const productSchema = new Schema(
     // 제조사
     manufacturer: { type: String, required: true },
     // 추천상품을 위한 강아지 나이
-    recommendDogAge: [{ type: Number, min: 0, max: 20 }],
+    recommendDogAge: {
+      min: Number,
+      max: Number,
+    },
     // 추천상품을 위한 강아지 크기
     recommendDogSize: [
       {

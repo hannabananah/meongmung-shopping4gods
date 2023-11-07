@@ -1,5 +1,20 @@
 const categoryService = require('../services/categoryService');
 
+exports.getProductsByRecommend = async (req, res, next) => {
+  try {
+    const userId = req.userId;
+
+    const recommends = await categoryService.getProductsByRecommend(userId);
+
+    res.status(200).json({
+      status: 200,
+      recommends,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getAllCategories = async (req, res, next) => {
   try {
     const list = await categoryService.getAllCategories();
