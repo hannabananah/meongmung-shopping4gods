@@ -29,18 +29,21 @@ function renderProducts(data) {
     const products = data; // JSON 데이터에서 제품 목록을 가져옴
   
     // 가져온 데이터를 사용하여 동적으로 제품 목록 생성
+    if(products < 1){
+      productList.innerHTML += `<p class='text-lg text-center text-gray-500 font-bold py-10'>상품 준비중입니다...</p>`
+    }
     products.forEach((product) => {
       // 제품 항목을 생성하고 추가하는 코드
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
       productCard.innerHTML = `
-      <div class="bg-white rounded-lg shadow p-8" id="product-${product._id}">
+      <div class=" bg-white p-8" id="product-${product._id}">
       <div class="relative overflow-hidden">
-            <img class="object-cover w-full " 
+            <img class="bg-white object-cover w-full p-8" 
             src="${product.img_url}" alt="${product.img_url}" />
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
             <div class="flex items-center justify-between ">
-            <span class="text-gray-900 font-bold text-2xl">${product.price}원</span>
+            <span class="text-gray-900 font-bold text-3xl">${product.price}원</span>
             <button class ="cart-add" id="cart-${product._id}"><img src="/images/cart.svg"/></button>
             </div>
             </div>
@@ -99,7 +102,7 @@ function renderProducts(data) {
         categoryCard.innerHTML = `
         <input type='radio' id = 'category-${categories._id}' name = 'buttons'
         class="hidden peer">
-        <label for="category-${categories._id}" class="inline-flex items-center justify-between  p-4 text-lg text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <label for="category-${categories._id}" class="inline-flex items-center justify-between  p-4 text-lg text-gray-500 bg-white cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
      ${categories.name}</label></input> `;
       
         if (categoryList) {
