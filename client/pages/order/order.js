@@ -10,7 +10,7 @@ const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const addressBtn = document.getElementById('getAddress');
 const addressNum = document.getElementById('addressNum');
-const address = document.getElementById('address');
+const addressmain = document.getElementById('address');
 const addressDetail = document.getElementById('addressDetail');
 const selectAddress = document.getElementById('selectAddress');
 let totalPrice =0 
@@ -23,6 +23,7 @@ const txtTotal = document.getElementById('totalcost');
 const name = document.getElementById('name');
 const telnum = document.getElementById('telnum');
 
+let addresses = [];
 let addressid;
 let products;
 
@@ -48,9 +49,6 @@ const getUser = () => {
     name.value = user.name;
     telnum.value = user.phone;
     id = data._id;
-    if(user.address){
-    addressBtn.style.display ="none";
-   }
 }
 
 
@@ -88,15 +86,43 @@ const loadItem = () => {
 }
 
 
+const loadAddress = () =>{
+
+  const selectAddress = document.getElementById('selectAddress');
+  
+  let inputhtml = `<option value='none' class='text-gray-500'>직접 입력</option>`
+  addresses.forEach((address) => {   
+    inputhtml +=`<option value='${address._id}' id ='' class='text-gray-500'>${address.name}</option>`
+})
+if(selectAddress) {selectAddress.innerHTML = inputhtml}
+}
+
 //daum 주소 입력받기
 addressBtn.addEventListener('click', function() {
-    new daum.Postcode({
-        oncomplete: function(data) {
-            addressNum.value = data.zonecode;    
-            address.value = data.address;
+  new daum.Postcode({
+      oncomplete: function(data) {
+          addressNum.value = data.zonecode;    
+          addressmain.value = data.address;
+          selectAddress.value = 'none';
 
-        }
-    }).open();
+      }
+  }).open();
+})
+
+selectAddress.addEventListener('change', function(){
+      if(selectAddress.value!='none'){let address = addresses.find(e=>e._id === selectAddress.value)
+      console.log(address)
+      addressNum.value = address.zipCode;    
+      addressmain.value = address.name;
+      addressDetail.value = address.detailAddress
+      addressDetail.readOnly = true;
+    }
+      else{
+        addressDetail.readOnly = false;
+        addressNum.value = '';    
+      addressmain.value = '';
+      addressDetail.value = ''
+      }
 })
 
 
@@ -149,7 +175,7 @@ const postAddress = () => {
       body: JSON.stringify({
         userId: id,
         recipient: name.value,
-        name : address.value,
+        name : addressmain.value,
         zipCode:addressNum.value,
         detailAddress:addressDetail.value,
         phone: telnum.value,
@@ -167,12 +193,37 @@ const postAddress = () => {
       .catch(error => console.log(error));
 }
 
+const getAddress = () => {
+  fetch(`${API_BASE_URL}/addresses` , {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        
+        if(data.addresses){
+          addresses= data.addresses;
+          loadAddress();}
+       // console.log(localStorage.getItem('token'));
+      })
+      .catch(error => console.log(error));
+}
+
+
+
+
 
 const btnSubmit = document.querySelector('form');
 btnSubmit.addEventListener('submit', function(e){
     e.preventDefault();
-    postAddress();
-
+    if(selectAddress.value === 'none' ) postAddress();
+    else {
+      addressid = selectAddress.value;
+      postOrder(); 
+    }
   if(localStorage.getItem('product')) {localStorage.removeItem('product');} //바로구매 초기화
   else  localStorage.removeItem('cartList'); //바로구매 초기화
 })
@@ -182,4 +233,5 @@ btnSubmit.addEventListener('submit', function(e){
 window.addEventListener('DOMContentLoaded', () => {
     loadItem();
     getUser();
+    getAddress();
   });
