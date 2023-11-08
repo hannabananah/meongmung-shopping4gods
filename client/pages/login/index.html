@@ -7,48 +7,33 @@
   </head>
   <body>
     <div id="header-wrapper"></div>
-    <div class="p-10">
-      <form class="flex flex-col mx-32 my-56 gap-2" action="#">
-        <label
-        for="email"
-       ></label
-      >
+    <div class="w-auto h-auto md:h-screen flex flex-col justify-center items-center ">
+      <form class="flex flex-col justify-around items-center h-3/6 w-96 border shadow-md p-5 rounded-2xl">
         <input
           type="email"
           placeholder="이메일"
-          id="email"
-          name="email"
-          required=""
-          class="py-5 focus:outline-none border-b-2 border-gray-200 rounded-2xl"
+          class="py-3 rounded-2xl w-5/6 bg-gray-50 border-gray-300"
         />
-
-        <label
-        for="password"
-        ></label
-      >
         <input
           type="password"
           placeholder="비밀번호"
-          id='password'
-          name='password'
-          required=""
-          class="py-5 focus:outline-none border-b-2 border-gray-200 rounded-2xl"
+          class="py-3 rounded-2xl w-5/6 bg-gray-50 border-gray-300"
         />
         <button
-          type="submit" id='loginbtn'
-          class="bg-gray-300 rounded-sm py-5 mt-4 hover:bg-gray-200 focus:ring-4 focus:ring-gray-200"
+          type="button"
+          class="bg-blue-800 text-white rounded-2xl py-3 w-5/6 hover:bg-blue-900 focus:ring-4 focus:ring-blue-500"
         >
           로그인
         </button>
         <button
           type="button"
-          class="bg-yellow-300 rounded-sm py-5 mt-4 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300"
+          class="bg-yellow-300 text-white rounded-2xl py-3 w-5/6 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300"
         >
           소셜 로그인
         </button>
         <button
           type="button"
-          class="bg-green-400 rounded-sm py-5  hover:bg-green-600 focus:ring-4 focus:ring-green-300"
+          class="bg-green-400 text-white rounded-2xl py-3 w-5/6 hover:bg-green-600 focus:ring-4 focus:ring-green-300"
         >
           소셜 로그인
         </button>
