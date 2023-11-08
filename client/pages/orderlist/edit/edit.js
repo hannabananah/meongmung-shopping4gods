@@ -19,13 +19,18 @@ async function renderContent() {
     const updateBtn = content.querySelector('.update-btn');
     const orderForm = content.querySelector('#order-form');
     const btns = content.querySelectorAll('button');
-
+    let btnsLength = btns.length;
     for (const btn of btns) {
       if (btn.innerText === '수정하기') {
       } else {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
           const wrap = content.querySelector(`#wrap-${btn.id}`);
+          --btnsLength;
+          if (btnsLength <= 1) {
+            alert('최소 하나는 있어야 합니다.');
+            return;
+          }
           wrap.remove();
         });
       }
@@ -135,9 +140,9 @@ function generatorTemplate(order) {
       <div class="w-[25%] flex items-center justify-center font-bold">${(
         +product.product.price * +product.quantity
       ).toLocaleString('ko-KR')}</div>
-      <button id=${
+      <div  class="w-[25%] flex items-center justify-center "><button id=${
         product.product._id
-      } class="w-[25%] flex items-center justify-center text-red-500">삭제</button>
+      } class="text-red-500 border rounded-md px-4 py-2 hover:bg-red-500 hover:text-white">삭제</button></div>
       </div>`,
       )
       .join('')}

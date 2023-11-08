@@ -10,15 +10,12 @@
     <main class="my-48">
       <h1 class="text-xl m-10">마이페이지</h1>
       <div class="flex flex-wrap w-full border-yellow-200">
-        <button
-          type="button"
-          class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
-        > <a
-        href="/orderlist/"
-        class="bg-gray-200 text-center m-5 w-96 py-20 hover:bg-gray-300"
-      >
-          주문조회</a>
-        </button>
+        <a
+          href="/orderlist/"
+          class="bg-gray-200 text-center m-5 w-96 py-20 hover:bg-gray-300"
+        >
+          주문조회
+        </a>
         <button
           type="button"
           class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
@@ -32,17 +29,16 @@
           강아지정보 관리
         </a>
 
+        <a
+          href="/address/"
+          class="bg-gray-200 text-center m-5 w-96 py-20 hover:bg-gray-300"
+        >
+          배송지정보 관리
+        </a>
+
         <button
-        type="button"
-        class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
-      > <a
-      href="/address/"
-      class="bg-gray-200 text-center m-5 w-96 py-20 hover:bg-gray-300"
-    >
-        배송지정보 관리</a>
-      </button>
-        <button
-          type="button" id='deleteUser'
+          type="button"
+          id="deleteUser"
           class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
         >
           회원 탈퇴
@@ -50,6 +46,6 @@
       </div>
     </main>
   </body>
-  <div id='footer'></div>
+  <div id="footer"></div>
 </html>
 <script type="module" src="./mypage.js"></script>
