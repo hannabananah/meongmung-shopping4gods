@@ -40,9 +40,18 @@ function renderProducts(data) {
       }
       const card = document.querySelector(`#product-${product._id}`)
       card.addEventListener('click',function(){
-       // location.href = `/detail/?id=${product._id}`;
+        location.href = `/detail/?id=${product._id}`;
       })
-    });
+
+      // 모든 장바구니 버튼에 클릭 핸들러를 추가
+      const cartbtn = document.querySelector(`#cart-${product._id}`);
+  
+      cartbtn.addEventListener('click',function(){ 
+          console.log(product._id);
+         buttonClickHandler(product);
+        });
+});
+  
   }
   
   function renderCategories(data) {
@@ -117,15 +126,16 @@ function renderProducts(data) {
 
 
 // 모든 장바구니 버튼에 대한 클릭 핸들러
-const buttonClickHandler = function () {
-  
-  // 클릭한 버튼의 데이터(product-id)를 가져옴
-  const productId = this.dataset.productId;
+const buttonClickHandler = function (data) {
 
-  // 해당 제품을 찾아냄
-  const selectedProduct = data.find(
-    (product) => product._id === parseInt(productId),
-  );
+  const selectedProduct = {
+    id: data._id,
+    name : data.name,
+    order: 0,
+    imgUrl: data.img_url,
+    price : data.price,
+  }
+ console.log(selectedProduct);
 
   // 이미 장바구니에 있는 상품인지 확인
   if (saveCartGoods.some((product) => product.id === selectedProduct.id)) {
@@ -133,7 +143,6 @@ const buttonClickHandler = function () {
     alert('장바구니에 있는 상품입니다.');
   } else {
     alert('장바구니에 담았습니다.');
-    selectedProduct.cart = true;
     selectedProduct.order = 1;
     saveCartGoods.push(selectedProduct);
     console.log('장바구니에 추가');
@@ -144,14 +153,7 @@ const buttonClickHandler = function () {
   console.log('저장완료');
 };
 
-// 모든 장바구니 버튼에 클릭 핸들러를 추가
-const cartbtns = document.querySelectorAll('.cart-add');
-cartbtns.forEach((cartbtn) => {
-  cartbtn.addEventListener('click',function(){ 
-    console.log('dk');
-    buttonClickHandler()
-  });
-});
+
 
 // localStorage에 기본 장바구니 정보를 저장
 

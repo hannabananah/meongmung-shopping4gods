@@ -3,8 +3,16 @@ const categoryController = require('../controllers/categoryController');
 const { isAdmin } = require('../middleware/isAdmin');
 const validator = require('../middleware/validator');
 const { category } = require('../middleware/validators');
+const { isAuth } = require('../middleware/isAuth');
 
 const router = Router();
+
+// 추천 상품 조회
+router.get(
+  '/categories/recommends',
+  isAuth,
+  categoryController.getProductsByRecommend,
+);
 
 // 전체 카테고리 조회
 router.get('/categories', categoryController.getAllCategories);

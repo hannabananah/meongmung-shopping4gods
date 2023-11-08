@@ -1,35 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div id="header-wrapper"></div>
+import '../../../index.css';
+import { init } from '../../main.js';
 
-    <section class='h-screen flex justify-center items-center'>
-      <div class='w-3/4'>
-          <h2 class='text-2xl font-bold mb-5'>강이지 정보 등록</h2>
-          <section id='dog-list' class='w-full flex flex-col'>
-              <div class='w-full bg-zinc-400 text-white h-14 flex justify-between items-center px-10 text-center'>
-                <div class='font-bold flex-1'>이름</div>
-                <div class='font-bold w-[100px]'>나이</div>
-                <div class='font-bold w-[100px]'>크기</div>
-                <div class='font-bold w-[100px]'>수정</div>
-                <div class='font-bold w-[100px]'>삭제</div>
-              </div>
-          </section>
-          <div class='mt-5 text-right space-x-1'>
-            <button class='dog-add-btn border rounded-md px-4 py-2 border-slate-500 hover:bg-slate-500 hover:text-white'>추가하기</button>
-          </div>
-      </div>
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-    </section>
-  </body>
-  <div id='footer'></div>
-  <div id='modal' class='hidden w-screen h-screen fixed top-0 left-0 bg-slate-600/50 z-[9999] flex justify-center items-center'>
-    <section class="w-2/5">
+const content = document.querySelector('#content');
+const token = localStorage.getItem('token');
+
+async function renderContent() {
+  console.dir(location);
+  const id = location.search.split('=')[1];
+  const res = await getDogById(id);
+
+  if (res.status === 200) {
+    const template = generatorTemplate(res.dog);
+    content.innerHTML = template;
+
+    const form = content.querySelector('form');
+
+    bindEvent(form, id);
+  }
+}
+
+function bindEvent(document, id) {
+  document.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.name.value;
+    const size = document.size.value;
+    const age = document.age.value;
+
+    fetch(`${API_BASE_URL}dogs/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name,
+        size,
+        age,
+      }),
+    })
+      .then(() => {
+        location.href = '/dog/';
+      })
+      .catch((err) => console.err(err));
+  });
+}
+
+function generatorTemplate(dog) {
+  const { _id, userId, name, size, age } = dog;
+
+  let template = `
+  <section class="w-2/5">
       <div
         class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0"
       >
@@ -42,7 +64,7 @@
             >
               강아지 정보
             </h1>
-            <form class="space-y-4 md:space-y-6" action="#">
+            <form id='dog-form' class="space-y-4 md:space-y-6" method='POST'>
  
               <div>  
                 <label
@@ -56,9 +78,11 @@
                   id="name"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   required=""
+                  value="${name}"
                 />
               </div>
-
+      
+            
               <div>
                 <label
                   for="size"
@@ -69,16 +93,15 @@
                   type="text"
                   name="size"
                   id="size"
+                  value="${size}"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="username"
                   required=""
-                >
-                  <option value="초소형견">초소형견</option>
-                  <option value="소형견">소형견</option>
-                  <option value="중형견">중형견</option>
-                  <option value="대형견">대형견</option>
-                  <option value="초대형견">초대형견</option>
-                </select>
+                ><option value='초소형견'>초소형견</option>
+                <option value='중형견'>중형견</option>
+                <option value='대형견'>대형견</option>
+                <option value='초대형견'>초대형견</option></select>
+
               </div>
               <div>
                 <label
@@ -90,6 +113,7 @@
                   type="number"
                   name="age"
                   id="age"
+                  value="${age}"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   required=""
                 />
@@ -98,15 +122,33 @@
                 type="submit"
                 class="w-full text-white bg-blue-800 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
-                강아지 등록하기
+                강아지 수정하기
               </button>
+        
+       
             </form>
           </div>
         </div>
       </div>
     </section>
-  </body>
-  <div id='footer'></div>
-</html>
+  `;
 
-<script type="module" src="dog.js"></script>
+  return template;
+}
+
+async function getDogById(id) {
+  const res = await fetch(`${API_BASE_URL}dogs/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+
+  return data;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  renderContent();
+});

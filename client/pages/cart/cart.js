@@ -7,36 +7,38 @@ const cartContainer = document.querySelector('.cart-container');
 const cartTotalPrice = document.querySelector('.total-price');
 const cartBox = document.querySelector('.cart-container-box');
 const cartEmpty = document.querySelector('.empty');
+const deleteAll = document.querySelector('#deleteAll')
 
 let saveCartGoods = localStorage.getItem('cartList')
   ? JSON.parse(localStorage.getItem('cartList'))
   : [];
 
-function cartCreateHTML(product) {
+function cartCreateHTML(product, i) {
+  console.log(i);
   return `
     <div class="flex border-t border-gray-300 items-center  ">
-    <div class=" lg:w-6/12 py-2 ">
+    <div class=" w-3/6 py-2 ">
       <div class="flex items-center">
-        <div class="md:w-1/3">
+        <div class="w-1/3">
             <a href="#">
               <img
-                src="${product.image}"
-                alt="${product.productName}"
+                src="${product.imgUrl}"
+                alt="${product.name}"
                 class="md:h-24 md:w-24 "
               />
             </a>
         </div>
-        <div class="w-2/3 px-4">
+        <div class="w-full px-4">
           <h2 class="mb-2 text-xl font-bold">
             <a
               href="#"
               class="text-lg font-bold hover:text-gray-200"
-              >${product.productName}</a
+              >${product.name}</a
             >
           </h2>
          <button
          class="item-remove text-gray-500 hover:text-gray-200"
-          data-id="${product.id}"
+          id="${i}"
         >
           삭제
         </button>
@@ -44,38 +46,50 @@ function cartCreateHTML(product) {
         </div>
       </div>
     </div>
-    <div class=" px-4  lg:w-2/12">
-      <p class="text-lg font-bold text-blue-500">${product.price}</p>
+    <div class="w-2/12">
+      <p class="text-lg text-center font-bold text-blue-500">${product.price}</p>
     </div>
-    <div class="custom-number-input">
+    <div class="custom-number-input w-2/12 text-center">
           <button
             class="count-minus py-2 hover:text-gray-700"
             data-value="minus"
-            data-id=${product.id}
+            id=${i}
           >
           <span class="m-auto text-2xl font">−</span>
           </button>
           <input
             type="number"
-            class="count w-10 px-1 py-1 items-center text-center border-1 rounded-md bg-gray-50"
+            class="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none 
+            count w-10 px-1 py-1 items-center text-center border-1 rounded-md bg-gray-50"
             value=${product.order}
           />
           <button
             class="count-plus py-2 hover:text-gray-700"
             data-value="plus"
-            data-id=${product.id}
+            id=${i}
           >
           <span class="m-auto text-2xl font">+</span>
           </button>
           </div>
-    <div class=" px-4 ml-auto lg:w-2/12">
-      <p class="single-total-price text-lg font-bold text-center text-blue-500">
+    <div class="text-center  w-2/12">
+      <p class="single-total-price text-lg font-bold text-blue-500">
         ${(product.price * product.order).toLocaleString()}
       </p>
     </div>
   </div>
  `;
 }
+
+if(deleteAll){
+ deleteAll.addEventListener('click',function(){
+   localStorage.removeItem('cartList');
+   while ( cartContainer.hasChildNodes() )
+   {
+    cartContainer.removeChild( cartContainer.firstChild );       
+   }
+ })
+}
+
 
 //total price
 function totalPrice() {
@@ -98,7 +112,7 @@ window.addEventListener('load', totalPrice);
 //cart total number of goods
 export function totalCartCount() {
   const countBox = saveCartGoods.reduce((prev, curr) => {
-    return prev + curr.order;
+    return prev + curr.order * 1;
   }, 0);
   const totalCounts = document.querySelectorAll('.top-cart-count');
   totalCounts.forEach((totalCount) => {
@@ -113,10 +127,11 @@ window.addEventListener('load', totalCartCount);
 
 // cart-page paint
 export function paintCartPage() {
+  let i= 0;
   const loadCartGoods = localStorage.getItem('cartList');
   if (cartContainer !== null) {
     cartContainer.innerHTML = JSON.parse(loadCartGoods)
-      .map((product) => cartCreateHTML(product))
+      .map((product) => cartCreateHTML(product, i++))
       .join('');
     if (cartContainer.children.length !== 0) {
       cartEmpty.classList.add('hidden');
@@ -134,9 +149,9 @@ export function saveCart(saveCartGoods) {
 }
 
 // 모든 장바구니 버튼에 대한 클릭 핸들러
-export const buttonClickHandler = function () {
+export const buttonClickHandler = function (e) {
   // 클릭한 버튼의 데이터(product-id)를 가져옴
-  const productId = event.target.dataset.productId;
+  const productId = e.target.dataset.productId;
 
   // 해당 제품을 찾아냄
   const selectedProduct = data.goods.find(
@@ -173,9 +188,9 @@ function deleteCart(e) {
   const cartRemoveBtns = document.querySelectorAll('.item-remove');
   cartRemoveBtns.forEach((cartRemoveBtn) => {
     if (e.target === cartRemoveBtn) {
-      const cleanCart = saveCartGoods.findIndex((item) => {
-        return item.id === parseInt(cartRemoveBtn.dataset.id);
-      });
+      
+      const cleanCart = e.target.id;
+      
       //cart-storage에서 삭제
       saveCartGoods.splice(cleanCart, 1);
       //cart-page에서 삭제
@@ -199,10 +214,9 @@ function singleGoodsControl(e, plusMinusBtns) {
 
   plusMinusBtns.forEach((plusMinusBtn) => {
     if (e.target.parentNode === plusMinusBtn) {
-      const cartdataId = saveCartGoods.findIndex((item) => {
-        return item.id === parseInt(plusMinusBtn.dataset.id);
-      });
+      const cartdataId = e.target.parentNode.id;
       const pickGoods = saveCartGoods[cartdataId];
+      console.log(cartdataId)
       //cart-storage에서 수량 증감
       if (plusMinusBtn.dataset.value === 'plus') {
         pickGoods.order++;

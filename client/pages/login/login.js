@@ -24,7 +24,7 @@ const loginUser = () =>  {
     .then((response) => response.json())  //상태
     .then((data) => {
        
-       if(data.status !=404){ 
+       if(!data.status){ 
         
         localStorage.setItem('id', email.value);
         localStorage.setItem('token', data.token);
@@ -33,6 +33,9 @@ const loginUser = () =>  {
         new Swal('로그인 완료', '반갑습니다!', 'success').then(() => {
             location.href="/";
         });}
+        else{
+    new Swal('다시 시도해주세요', data.message,  'warning').then(() => {  
+  });}
     })
     .catch(error => console.log(error));  //에러캐치
 }

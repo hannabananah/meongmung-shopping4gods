@@ -1,23 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   </head>
   <body>
     <div id="header-wrapper"></div>
 
     <section class='h-screen flex justify-center items-center'>
       <div class='w-3/4'>
-          <h2 class='text-2xl font-bold mb-5'>강이지 정보 등록</h2>
+          <h2 class='text-2xl font-bold mb-5'>배송지 정보 등록</h2>
           <section id='dog-list' class='w-full flex flex-col'>
               <div class='w-full bg-zinc-400 text-white h-14 flex justify-between items-center px-10 text-center'>
-                <div class='font-bold flex-1'>이름</div>
-                <div class='font-bold w-[100px]'>나이</div>
-                <div class='font-bold w-[100px]'>크기</div>
+                <div class='font-bold w-[100px]'>우편번호</div>
+                <div class='font-bold w-[180px]'>주소</div>
+                <div class='font-bold flex-1'>상세</div>
                 <div class='font-bold w-[100px]'>수정</div>
-                <div class='font-bold w-[100px]'>삭제</div>
+                <div class='font-bold w-[80px]'>삭제</div>
               </div>
           </section>
           <div class='mt-5 text-right space-x-1'>
@@ -29,7 +30,7 @@
   </body>
   <div id='footer'></div>
   <div id='modal' class='hidden w-screen h-screen fixed top-0 left-0 bg-slate-600/50 z-[9999] flex justify-center items-center'>
-    <section class="w-2/5">
+    <section class="w-3/5">
       <div
         class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0"
       >
@@ -40,15 +41,15 @@
             <h1
               class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
             >
-              강아지 정보
+              배송지 정보
             </h1>
-            <form class="space-y-4 md:space-y-6" action="#">
+            <form id='address-form' class="space-y-3 md:space-y-6" method='POST'>
  
               <div>  
                 <label
                   for="name"
                   class="block mb-2 text-sm font-medium text-gray-900"
-                  >이름</label
+                  >수령인</label
                 >
                 <input
                   type="text"
@@ -59,54 +60,88 @@
                 />
               </div>
 
-              <div>
+
+              <div>  
                 <label
-                  for="size"
+                  for="phone"
                   class="block mb-2 text-sm font-medium text-gray-900"
-                  >크기</label
-                >
-                <select
-                  type="text"
-                  name="size"
-                  id="size"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="username"
-                  required=""
-                >
-                  <option value="초소형견">초소형견</option>
-                  <option value="소형견">소형견</option>
-                  <option value="중형견">중형견</option>
-                  <option value="대형견">대형견</option>
-                  <option value="초대형견">초대형견</option>
-                </select>
-              </div>
-              <div>
-                <label
-                  for="age"
-                  class="block mb-2 text-sm font-medium text-gray-900"
-                  >나이</label
+                  >전화번호</label
                 >
                 <input
-                  type="number"
-                  name="age"
-                  id="age"
+                  type="tel"
+                  name="phone"
+                  id="phone"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   required=""
                 />
+              </div>     
+              
+           <div>
+            <label
+                  for="zipCode"
+                  class="block text-sm mb-2 font-medium text-gray-900"
+                  >주소</label>
+              <div class='flex'>  
+            
+             
+                <input
+                  type="text"
+                  name="zipCode"
+                  id="zipCode"
+                  class="flex-1 mr-1 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600  w-3/4 p-2.5"
+                  required=""
+                  readonly
+                />  
+                <button class='w-[70px] bg-gray-400 p-2 text-sm rounded-lg text-white' id='getAddress'>주소찾기</button>
+                 
               </div>
+      
+            
+              <div>
+                <label
+                  for="mainAddress"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  ></label
+                >
+                <input
+                  type="text"
+                  name="mainAddress"
+                  id="mainAddress"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  readonly
+                  required=""
+                ></input>
+
+              </div>
+              <div>
+                <label
+                  for="detailAddress"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  ></label
+                >
+                <input
+                  type="text"
+                  name="detailAddress"
+                  id="detailAddress"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  required=""
+                  placeholder='상세주소'
+                />
+              </div></div>
               <button
                 type="submit"
                 class="w-full text-white bg-blue-800 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
-                강아지 등록하기
+                배송지 등록하기
               </button>
+        
+       
             </form>
           </div>
         </div>
       </div>
     </section>
-  </body>
-  <div id='footer'></div>
+  </div>
 </html>
 
-<script type="module" src="dog.js"></script>
+<script type="module" src="address.js"></script>
