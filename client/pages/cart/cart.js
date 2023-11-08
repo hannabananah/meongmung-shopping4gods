@@ -7,6 +7,7 @@ const cartContainer = document.querySelector('.cart-container');
 const cartTotalPrice = document.querySelector('.total-price');
 const cartBox = document.querySelector('.cart-container-box');
 const cartEmpty = document.querySelector('.empty');
+const deleteAll = document.querySelector('#deleteAll')
 
 let saveCartGoods = localStorage.getItem('cartList')
   ? JSON.parse(localStorage.getItem('cartList'))
@@ -16,9 +17,9 @@ function cartCreateHTML(product, i) {
   console.log(i);
   return `
     <div class="flex border-t border-gray-300 items-center  ">
-    <div class=" lg:w-6/12 py-2 ">
+    <div class=" w-3/6 py-2 ">
       <div class="flex items-center">
-        <div class="md:w-1/3">
+        <div class="w-1/3">
             <a href="#">
               <img
                 src="${product.imgUrl}"
@@ -27,7 +28,7 @@ function cartCreateHTML(product, i) {
               />
             </a>
         </div>
-        <div class="w-2/3 px-4">
+        <div class="w-full px-4">
           <h2 class="mb-2 text-xl font-bold">
             <a
               href="#"
@@ -45,10 +46,10 @@ function cartCreateHTML(product, i) {
         </div>
       </div>
     </div>
-    <div class=" px-4  lg:w-2/12">
-      <p class="text-lg font-bold text-blue-500">${product.price}</p>
+    <div class="w-2/12">
+      <p class="text-lg text-center font-bold text-blue-500">${product.price}</p>
     </div>
-    <div class="custom-number-input">
+    <div class="custom-number-input w-2/12 text-center">
           <button
             class="count-minus py-2 hover:text-gray-700"
             data-value="minus"
@@ -58,7 +59,8 @@ function cartCreateHTML(product, i) {
           </button>
           <input
             type="number"
-            class="count w-10 px-1 py-1 items-center text-center border-1 rounded-md bg-gray-50"
+            class="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none 
+            count w-10 px-1 py-1 items-center text-center border-1 rounded-md bg-gray-50"
             value=${product.order}
           />
           <button
@@ -69,14 +71,25 @@ function cartCreateHTML(product, i) {
           <span class="m-auto text-2xl font">+</span>
           </button>
           </div>
-    <div class=" px-4 ml-auto lg:w-2/12">
-      <p class="single-total-price text-lg font-bold text-center text-blue-500">
+    <div class="text-center  w-2/12">
+      <p class="single-total-price text-lg font-bold text-blue-500">
         ${(product.price * product.order).toLocaleString()}
       </p>
     </div>
   </div>
  `;
 }
+
+if(deleteAll){
+ deleteAll.addEventListener('click',function(){
+   localStorage.removeItem('cartList');
+   while ( cartContainer.hasChildNodes() )
+   {
+    cartContainer.removeChild( cartContainer.firstChild );       
+   }
+ })
+}
+
 
 //total price
 function totalPrice() {
