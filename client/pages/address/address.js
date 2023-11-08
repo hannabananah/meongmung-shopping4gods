@@ -10,7 +10,7 @@ const token = localStorage.getItem('token');
 if (!token) {
   location.href = '/';
 }
-
+const label = document.getElementById('label');
 const name = document.getElementById('name');
 const phone = document.getElementById('phone');
 const zipCode = document.getElementById('zipCode');
@@ -55,6 +55,7 @@ btn.addEventListener('submit', function (e) {
 });
 
 const postAddresss = () => {
+    console.log(name.value);
   fetch(`${API_BASE_URL}/addresses`, {
     method: 'POST',
     headers: {
@@ -62,11 +63,10 @@ const postAddresss = () => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-    
         recipient: name.value,
-        name : mainAddress.value,
+        name : label.value,
         zipCode:zipCode.value,
-        detailAddress:detailAddress.value,
+        detailAddress:`${mainAddress.value}+${detailAddress.value}`,
         phone: phone.value,
     }),
   })
@@ -109,10 +109,12 @@ const renderList = async () => {
   }
 
   for (const address of res.addresses) {
-    template += `<div class='w-full border-b border-b-zinc-200 gap-x-2 py-10 flex justify-between items-center px-10 text-center'>
+    let arr=address.detailAddress.split("+");
+    template += `<div class='w-full border-b border-b-zinc-200 gap-x-2 py-10 flex justify-between items-center px-5 text-center'>
+    <div class='w-[100px]'>${address.name}</div>
     <div class='w-[100px] '>${address.zipCode}</div>
-    <div class='w-[180px]'>${address.name}</div>
-    <div class='flex-1'>${address.detailAddress}</div>
+    <div class='flex-1 '>${arr[0]}</div>
+    <div class='w-[100px]'>${arr[1]}</div>
     <div class='w-[100px]'><button id="${address._id}" class="update-btn hover:underline">수정하기</button></div>
     <div class='w-[80px]'><img id="${address._id}" class='dog-id mx-auto hover:cursor-pointer' src="/images/trash.svg"/></div>
   </div>`;

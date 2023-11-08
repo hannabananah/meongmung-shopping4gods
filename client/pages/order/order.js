@@ -121,9 +121,11 @@ addressBtn.addEventListener('click', function() {
 selectAddress.addEventListener('change', function(){
       if(selectAddress.value!='none'){let address = addresses.find(e=>e._id === selectAddress.value)
       console.log(address)
+      let sliceaddress = address.detailAddress.split('+')
+      
       addressNum.value = address.zipCode;    
-      addressmain.value = address.name;
-      addressDetail.value = address.detailAddress
+      addressmain.value = sliceaddress[0]
+      addressDetail.value = sliceaddress[1]
       addressDetail.readOnly = true;
     }
       else{
@@ -179,9 +181,9 @@ const postAddress = () => {
       body: JSON.stringify({
         userId: id,
         recipient: name.value,
-        name : addressmain.value,
+        name : "임시주소",
         zipCode:addressNum.value,
-        detailAddress:addressDetail.value,
+        detailAddress:`${addressmain.value}+${addressDetail.value}`,
         phone: telnum.value,
 
       }),
