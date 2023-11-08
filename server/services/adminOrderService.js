@@ -82,24 +82,3 @@ exports.deleteOrderByOrderId = async function (orderId) {
     throw new Error('삭제 실패');
   }
 };
-
-// 선택된 주문 취소
-exports.cancelSelectedOrders = async function (orderIds) {
-  try {
-    const orders = await models.Order.find({
-      _id: { $in: orderIds },
-      status: '배송전',
-    });
-
-    if (orders.length === 0) {
-      throw new Error('선택한 주문을 취소할 수 없습니다.');
-    }
-
-    // 선택한 주문을 삭제
-    for (const order of orders) {
-      await order.remove();
-    }
-  } catch (err) {
-    throw err;
-  }
-};

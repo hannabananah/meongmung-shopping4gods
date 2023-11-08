@@ -38,11 +38,4 @@ router.delete(
   adminOrderController.deleteOrderByOrderId,
 );
 
-// 특정 선택된 주문 삭제
-router.delete(
-  '/admins/orders/cancel',
-  isAdmin,
-  adminOrderController.deleteOneOrder,
-);
-
 module.exports = router;
