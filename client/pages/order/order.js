@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 
 init();
 
+
 let id = localStorage.getItem('id');
 const token = localStorage.getItem('token');
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -26,6 +27,13 @@ const telnum = document.getElementById('telnum');
 let addresses = [];
 let addressid;
 let products;
+
+if (!token) {
+  new Swal('로그인 필요', '구매를 위해 로그인해야 합니다', 'warning').then(() => {{
+    location.href = '/login';
+  }})
+}
+
 
 const getUser = () => {
     fetch(`${API_BASE_URL}/users/me` , {

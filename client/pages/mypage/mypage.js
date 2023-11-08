@@ -8,6 +8,12 @@ const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 const token = localStorage.getItem('token');
 const deletBtn = document.getElementById('deleteUser');
 
+
+if (!token) {
+    location.href = '/';
+  }
+  
+
 const deleteUser = () => {
     fetch(`${API_BASE_URL}/users` , {
         method: 'DELETE',
