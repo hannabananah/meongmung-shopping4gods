@@ -5,8 +5,18 @@ import { totalCartCount } from './cart/cart';
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 let api = `${API_BASE_URL}/products/`;
+const dog = localStorage.getItem('dog');
+const token = localStorage.getItem('token');
 
 const all = document.getElementById('all');
+const recommend = document.getElementById('recommendlabel');
+
+const params = location.search;
+console.log(params); // ?page=5
+
+const param = new URLSearchParams(params);
+const page = param.get('page');  // 5
+
 
 function renderProducts(data) {
     const productList = document.getElementById('product-list');
@@ -16,21 +26,24 @@ function renderProducts(data) {
     {
       productList.removeChild( productList.firstChild );       
     }
-    const products = data.products; // JSON 데이터에서 제품 목록을 가져옴
+    const products = data; // JSON 데이터에서 제품 목록을 가져옴
   
     // 가져온 데이터를 사용하여 동적으로 제품 목록 생성
+    if(products < 1){
+      productList.innerHTML += `<p class='text-lg text-center text-gray-500 font-bold py-10'>상품 준비중입니다...</p>`
+    }
     products.forEach((product) => {
       // 제품 항목을 생성하고 추가하는 코드
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
       productCard.innerHTML = `
-      <div class="bg-white rounded-lg shadow p-8" id="product-${product._id}">
+      <div class=" bg-white p-8" id="product-${product._id}">
       <div class="relative overflow-hidden">
-            <img class="object-cover w-full " 
+            <img class="bg-white object-cover w-full p-8" 
             src="${product.img_url}" alt="${product.img_url}" />
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
             <div class="flex items-center justify-between ">
-            <span class="text-gray-900 font-bold text-2xl">${product.price}원</span>
+            <span class="text-gray-900 font-bold text-3xl">${product.price}원</span>
             <button class ="cart-add" id="cart-${product._id}"><img src="/images/cart.svg"/></button>
             </div>
             </div>
@@ -53,10 +66,32 @@ function renderProducts(data) {
 });
   
   }
+
+  function renderPages(datalen){
+    const pagelist = document.getElementById('pages');
+    let puthtml = '';
+    if(datalen>1)
+      {for(let i=1;i<= datalen;i++){
+        puthtml += `<div><input type='radio' id='${i}' name= 'page' class='hidden peer' value = '${i}'><label for='${i}' id='page' name='${i}' class='p-3 peer-checked:text-blue-600 peer-checked:font-bold peer-checked:border-b-2'>${i}</label></input></div>`
+      }}
+  if(pagelist) pagelist.innerHTML = puthtml;
   
+  const pages = document.querySelectorAll('#page');
+  if(page){pages[page-1].parentNode.firstChild.checked = true;}
+  else pages[0].parentNode.firstChild.checked= true;
+  pages.forEach((page) => {
+    page.addEventListener('click', function(e){
+        console.log(e.target.innerHTML);
+        location = `?page=${e.target.innerHTML}`
+    });
+  });
+  }
+  
+  
+
   function renderCategories(data) {
     const categoryList = document.getElementById('category-list');
-  
+    if(token && (dog !== "0")) recommend.style.display = 'block';
     const categories = data.message; // JSON 데이터에서 제품 목록을 가져옴
     console.log(data.message);
     // 가져온 데이터를 사용하여 동적으로 제품 목록 생성
@@ -67,7 +102,7 @@ function renderProducts(data) {
         categoryCard.innerHTML = `
         <input type='radio' id = 'category-${categories._id}' name = 'buttons'
         class="hidden peer">
-        <label for="category-${categories._id}" class="inline-flex items-center justify-between  p-4 text-lg text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <label for="category-${categories._id}" class="inline-flex items-center justify-between  p-4 text-lg text-gray-500 bg-white cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
      ${categories.name}</label></input> `;
       
         if (categoryList) {
@@ -83,12 +118,7 @@ function renderProducts(data) {
     });
   }
   
-  
-  all.addEventListener('click',function(){
-    getProducts(api);
-  })
-
-  
+ 
   const getProducts = (api)=> {
     fetch(api , {
       method: 'GET',
@@ -97,7 +127,8 @@ function renderProducts(data) {
         response.json())
       .then((data) => {
         console.log(data);
-        renderProducts(data);
+        renderProducts(data.products);
+        renderPages(data.totalPages)
       })
       .catch(error => console.log(error));
   }
@@ -110,20 +141,43 @@ function renderProducts(data) {
       .then((response) => 
         response.json())
       .then((data) => {
+       // if(token && (dog !== "0")) recommend.style.display = 'block';
         console.log(data);
         renderCategories(data);
       })
       .catch(error => console.log(error));
   }
-  
-  window.addEventListener('DOMContentLoaded', () => {
-    init();
-    getProducts(api);
-    getCategories();
-  });
+
     
+all.addEventListener('click',function(){
+     getProducts(api+ `?page=${page}?perPage=${page}`);
+   })
 
+ recommend.addEventListener('click', function(){
+   getRecommend();
+ })
 
+ const getRecommend = ()=>{
+      fetch(`${API_BASE_URL}/categories/recommends` , {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+        .then((response) => 
+          response.json())
+        .then((data) => {
+          if(data.status===200){
+            console.log(data);
+            renderProducts(data.recommends);
+            renderPages(data.totalPages)
+        }
+        
+        })
+        .catch(error => console.log(error));
+    };
+  
 
 // 모든 장바구니 버튼에 대한 클릭 핸들러
 const buttonClickHandler = function (data) {
@@ -167,3 +221,12 @@ export let saveCartGoods = localStorage.getItem('cartList')
   : [];
 
 totalCartCount;
+
+
+  
+window.addEventListener('DOMContentLoaded', () => {
+  init();
+  getProducts(api+ `?page=${page}?perPage=${page}`);
+  getCategories();
+ 
+});

@@ -13,8 +13,11 @@
         <button
           type="button"
           class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
-        >
-          주문조회
+        > <a
+        href="/orderlist/"
+        class="bg-gray-200 text-center m-5 w-96 py-20 hover:bg-gray-300"
+      >
+          주문조회</a>
         </button>
         <button
           type="button"
@@ -28,8 +31,18 @@
         >
           강아지정보 관리
         </a>
+
         <button
-          type="button"
+        type="button"
+        class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
+      > <a
+      href="/address/"
+      class="bg-gray-200 text-center m-5 w-96 py-20 hover:bg-gray-300"
+    >
+        배송지정보 관리</a>
+      </button>
+        <button
+          type="button" id='deleteUser'
           class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
         >
           회원 탈퇴
@@ -37,5 +50,6 @@
       </div>
     </main>
   </body>
+  <div id='footer'></div>
 </html>
 <script type="module" src="./mypage.js"></script>

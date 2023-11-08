@@ -5,17 +5,11 @@ import 'flowbite';
 
 export function init() {
   document.querySelector('#header-wrapper').innerHTML = `<header
-  class=" w-full h-[80px] px-16 py-5 flex justify-between items-center shadow-sm  fixed left-0 top-0 bg-white border-b border-zinc-300 z-[100]"
+  class="w-full h-[80px] lg:px-48 px-32 py-4 pb-0 flex justify-between items-center shadow-sm  fixed left-0 top-0 bg-white bg-opacity-50  z-[100]"
   >
-  <h1 class="w-30 text-center text-lg"><a href="/">멍뭉이들</a></h1>
+  <h1 class="text-center text-lg"><a href="/"><img class='w-[180px]' src='/images/mngmng_logo.png'/></a></h1>
   
-  <div class="flex-1 mx-5">
-    <input
-      class="hidden w-full max-w-sm mx-auto border rounded-full py-2 px-4 outline-none md:block"
-      type="text"
-      placeholder="test"
-    />
-  </div>
+
   
 
   <div id="headerbtn">
