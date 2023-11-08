@@ -14,7 +14,7 @@
       data-carousel="slide"
     >
       <!-- Banner 시작 -->
-      <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+      <div class="relative h-56 overflow-hidden  md:h-96">
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
           <!-- Item 0 -->
           <img
@@ -136,12 +136,17 @@
       </button>
     </div>
 
-    <article class="m-10 space-x-2 flex" id='category-list'>
-     
-        <input type='radio' id = 'all' name = 'buttons' class="hidden peer">
-        <label for="all" class="inline-flex items-center justify-between p-4 text-lg 
+    <article class="m-10 space-x-2 flex flex-wrap" id='category-list'>
+     <div>
+        <input type='radio' id = 'all' name = 'buttons' class="hidden peer" checked>
+        <label for="all" id ='alllabel' class="inline-flex items-center justify-between p-4 text-lg 
         text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-        ALL</label></input> 
+        All</label></input> 
+</div><div>
+        <input type='radio' id = 'recommend' name = 'buttons' class="hidden peer">
+        <label for="recommend" id ='recommendlabel' class="none inline-flex items-center justify-between p-4 text-lg 
+        text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+        Recommend</label></input> </div>
     </article>
 
     <div
@@ -150,6 +155,9 @@
     >
  
   </div>
+  <ul id='pages' class='flex justify-center py-10 '>
+   <div> <input type='radio' id='1' name='page' class='hidden peer'><label for='1' class='peer-checked:text-blue-600' checked>1</label></input>
+   </div>  </ul>
   </body>
 
   <div id='footer'></div>
