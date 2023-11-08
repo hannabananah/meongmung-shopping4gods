@@ -11,21 +11,15 @@ exports.getAllAddresses = async (req, res, next) => {
 };
 
 exports.getAddressById = async (req, res, next) => {
-  const { addressId } = req.params;
+  const { id } = req.params;
 
   try {
-    const address = await addressService.getAddressById(addressId);
-    if (!address) {
-      res.status(404).json({
-        status: 404,
-        message: '해당 주소를 찾을 수 없습니다.',
-      });
-    } else {
-      res.status(200).json({
-        status: 200,
-        address,
-      });
-    }
+    const address = await addressService.getAddressById(id);
+
+    res.status(200).json({
+      status: 200,
+      address,
+    });
   } catch (err) {
     next(err);
   }

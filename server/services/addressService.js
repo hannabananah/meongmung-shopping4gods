@@ -9,13 +9,19 @@ exports.getAllAddresses = async (userId) => {
 };
 
 exports.getAddressById = async (_id) => {
-  const address = await models.Address.findOne({
-    _id,
-  }).exec();
-  if (!address) {
-    throw new Error('주소 정보를 찾을 수 없습니다.');
+  try {
+    const address = await models.Address.findOne({
+      _id,
+    }).exec();
+
+    if (!address) {
+      throw new Error('주소 정보를 찾을 수 없습니다.');
+    }
+
+    return address;
+  } catch (err) {
+    throw new Error(err);
   }
-  return address;
 };
 
 exports.createAddress = async ({
