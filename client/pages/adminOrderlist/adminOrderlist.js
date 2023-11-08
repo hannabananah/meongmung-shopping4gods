@@ -63,56 +63,6 @@ function loadOrders(orders) {
 }
 
 // 선택한 주문 취소
-const cancelOrderButton = document.querySelector('#deleteBtn');
-cancelOrderButton.addEventListener('click', cancelSelectedOrders);
-
-function cancelSelectedOrders() {
-  const checkboxes = document.getElementsByName('order');
-  const selectedOrders = Array.from(checkboxes)
-    .filter((checkbox) => checkbox.checked)
-    .map((checkbox) => checkbox.value);
-
-  if (selectedOrders.length === 0) {
-    alert('주문을 선택해주세요.');
-    return;
-  }
-
-  const pendingOrders = selectedOrders.filter((orderId) => {
-    const order = orders.find((o) => o._id === orderId);
-    return order && order.status === '배송전';
-  });
-
-  if (pendingOrders.length === 0) {
-    alert('선택한 주문 중 상태가 "배송전"인 주문이 없습니다.');
-    return;
-  }
-
-  fetch(`${API_BASE_URL}/admins/orders/cancel`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ orderIds: pendingOrders }),
-  })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error('==주문 취소에 실패했습니다.');
-      }
-      return res.json();
-    })
-    .then((data) => {
-      if (data.status === 200) {
-        alert('주문이 삭제되었습니다.');
-        getOrders();
-      } else {
-        alert('주문 취소에 실패했습니다.');
-      }
-    })
-    .catch((error) => {
-      console.error('FETCH ERROR', error);
-    });
-}
 
 // select box 전체선택
 function selectAll(selectAll) {

@@ -59,7 +59,7 @@ export function init() {
 
   document.querySelector(
     '#footer',
-  ).innerHTML = `<footer class='w-screen p-6 bg-gray-100 text-center bottom-0'>
+  ).innerHTML = `<footer class='w-screen p-12 bg-gray-100 text-center bottom-0'>
   <ul>
     <li><p>copyright ⓒ 2023 All rights reserved by meongmung.</p></li>
     <li>
