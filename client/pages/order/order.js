@@ -103,6 +103,7 @@ addressBtn.addEventListener('click', function() {
       oncomplete: function(data) {
           addressNum.value = data.zonecode;    
           addressmain.value = data.address;
+          addressDetail.readOnly = false;
           selectAddress.value = 'none';
 
       }
@@ -119,9 +120,6 @@ selectAddress.addEventListener('change', function(){
     }
       else{
         addressDetail.readOnly = false;
-        addressNum.value = '';    
-      addressmain.value = '';
-      addressDetail.value = ''
       }
 })
 
@@ -152,12 +150,10 @@ const postOrder = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
-         // console.log(data)
-         // console.log(localStorage.getItem('token'));
-    
-        if(data.status === 200){  new Swal('주문이 완료되었습니다!', '', 'success').then(() => {
-            location.href="/";
+            if(data.status ===201)
+            {  
+              new Swal('주문이 완료되었습니다!', '', 'success').then(() => {
+            location.href="/order/success/";
         });}
         })
         .catch(error => console.log(error));
