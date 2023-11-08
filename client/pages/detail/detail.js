@@ -9,6 +9,7 @@ const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 const img = document.getElementById('img');
 const txtname = document.getElementById('productName');
 const txtcost = document.getElementById('cost');
+const detail = document.getElementById('detail');
 let product;
 
 const id_query = new URLSearchParams(location.search).get("id"); //querystring으로 상품아이디 받아옴
@@ -40,6 +41,7 @@ const loadItem =(data) =>{
     img.alt = data.img_url;
     txtname.innerHTML = data.name;
     txtcost.innerHTML = data.price;
+    detail.innerHTML = data.desc
 }
   
 getProduct();
