@@ -15,19 +15,12 @@
         >
           <thead class="bg-blue-800 text-white">
             <tr>
-              <th class="px-4 py-2 text-center">
-                <input
-                  type="checkbox"
-                  name="category"
-                  value="selectall"
-                  onclick="selectAll(this)"
-                />
-              </th>
+              <th class="px-4 py-2 text-center">목차</th>
               <th class="px-4 py-2 text-center">카테고리 이름</th>
               <th class="px-4 py-2 text-center">날짜</th>
             </tr>
           </thead>
-          <tbody>
+          <!-- <tbody>
             <tr class="border-t border-gray-300">
               <td class="px-4 py-2 checkbox-cell text-center">
                 <input type="checkbox" name="category" value="select1" />
@@ -35,7 +28,8 @@
               <td class="px-4 py-2 text-center">카테고리명</td>
               <td class="px-4 py-2 text-center text-red-600">2023-11-07</td>
             </tr>
-          </tbody>
+          </tbody> -->
+          <tbody id="category_list"></tbody>
         </table>
         <div class="pt-7 flex items-center justify-center gap-2 relative">
           <input type="search" class="rounded-lg h-10" />
