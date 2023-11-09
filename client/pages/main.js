@@ -52,13 +52,9 @@ if( localStorage.getItem('id') &&localStorage.getItem('token')){
         </ul>`
 }
 
-  document.querySelector('#footer').innerHTML = `<footer class='w-screen p-12 bg-gray-100 text-center bottom-0'>
+  document.querySelector('#footer').innerHTML = `<footer class='w-screen p-24 bg-gray-100 text-center bottom-0'>
   <ul>
     <li><p>copyright ⓒ 2023 All rights reserved by meungmung.</p></li>
-    <li>
-      <a href="">
-      Contact : </a>
-    </li>
   </ul>
 </footer>`;
 }
