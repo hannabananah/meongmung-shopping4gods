@@ -38,13 +38,16 @@ function renderProducts(data) {
       productCard.classList.add('product-card');
       productCard.innerHTML = `
           <div id="product-${product._id}" class="relative overflow-hidden">
-            <img class="bg-white object-cover w-full" 
+            <img class="bg-white object-cover w-full lg:h-[400px] md:h-[300px] sm:h-[400px]" 
             src="${product.img_url}" alt="${product.img_url}" />
+            <div class='px-2'>
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
+
+            
             <div class="flex items-center justify-between ">
             <span class="text-gray-900 font-bold text-3xl">${product.price}원</span>
-            <button class ="cart-add" id="cart-${product._id}"><img src="/images/cart.svg"/></button>
-            
+            <button class ="cart-add" id="cart-${product._id}"><img class="w-[30px]" src="/images/cart.svg"/></button>
+            </div>
             </div>
           `;
       if (productList) {
@@ -92,8 +95,8 @@ function renderProducts(data) {
     const categoryList = document.getElementById('category-list');
     console.log(dog);
     if(token && (dog === "1")) {recommend.style.display = 'block';}
-    const categories = data.message; // JSON 데이터에서 제품 목록을 가져옴
-    console.log(data.message);
+    const categories = data.list; // JSON 데이터에서 제품 목록을 가져옴
+    console.log(data);
     // 가져온 데이터를 사용하여 동적으로 제품 목록 생성
     categories.forEach((category) => {
       // 제품 항목을 생성하고 추가하는 코드
