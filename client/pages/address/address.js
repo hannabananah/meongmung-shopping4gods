@@ -51,10 +51,10 @@ dogAddBtn.addEventListener('click', () => {
 btn.addEventListener('submit', function (e) {
   e.preventDefault();
 
-  postAddresss();
+  postAddresses();
 });
 
-const postAddresss = () => {
+const postAddresses = () => {
   fetch(`${API_BASE_URL}/addresses`, {
     method: 'POST',
     headers: {

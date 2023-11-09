@@ -7,6 +7,7 @@ const token = localStorage.getItem('token');
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 let orders = [];
+let list = []; // Define the list array.
 
 window.addEventListener('DOMContentLoaded', () => {
   getOrders();
@@ -33,53 +34,93 @@ function getOrders() {
     });
 }
 
+// selectAll 함수 정의
+function selectAll(checkbox) {
+  const selectAll = checkbox.checked;
+  const checkList = document.querySelectorAll('.check');
+
+  checkList.forEach((check) => {
+    check.checked = selectAll;
+  });
+
+  if (selectAll) {
+    list = Array.from(checkList).map((check) => check.value);
+  } else {
+    list = [];
+  }
+  console.log(list);
+}
+
 function loadOrders(orders) {
   const orderList = document.getElementById('order_list');
+  let content = '';
 
-  orderList.innerHTML = '';
-
-  orders.forEach((order) => {
-    const orderRow = document.createElement('tr');
-
-    orderRow.innerHTML = `
-      <td class="px-4 py-2 checkbox-cell text-center">
-        <input type="checkbox" name="order" value="${order._id}" />
-      </td>
-      <td class="px-4 py-2 text-center">${formatDate(order.createdAt)}</td>
-      <td class="px-4 py-2 text-center">${order.userId.name} (${
+  for (const order of orders) {
+    content += `
+    <tr class="border-t border-gray-300"> <td class="px-4 py-2 checkbox-cell text-center">
+      <input class="check" type="checkbox" name="order" value="${order._id}" />
+    </td>
+    <td class="px-4 py-2 text-center">${formatDate(order.createdAt)}</td>
+    <td class="px-4 py-2 text-center">${order.userId.name} (${
       order.userId.email
     })</td>
-      <td class="px-4 py-2 text-center">${order._id}</td>
-      <td class="px-4 py-2 text-center">
-        <a href="#" class=" hover:underline font-300">
-          주문 상세 보기
-        </a>
-      </td>
-      <td class="px-4 py-2 text-center text-red-600">${order.status}</td>
-    `;
+    <td class="px-4 py-2 text-center">${order._id}</td>
+    <td class="px-4 py-2 text-center">
+      <a href="#" class=" hover:underline font-300">
+        주문 상세 보기
+      </a>
+    </td>
+   
+    <td class="px-4 py-2 text-center text-red-600">${order.status}</td></tr>
+  `;
+  }
+  orderList.innerHTML = content;
 
-    orderList.appendChild(orderRow);
+  const selectAllCheckbox = document.querySelector('input[value="selectall"]');
+  const checkList = document.querySelectorAll('.check');
+
+  selectAllCheckbox.addEventListener('change', function () {
+    selectAll(this);
+  });
+
+  checkList.forEach((checkbox) => {
+    checkbox.addEventListener('change', function () {
+      const check = this.value;
+      if (this.checked) {
+        list.push(check);
+      } else {
+        list = list.filter((item) => item !== check);
+      }
+      console.log(list);
+    });
   });
 }
 
 // 선택한 주문 취소
-
-// select box 전체선택
-function selectAll(selectAll) {
-  const checkboxes = document.getElementsByName('order');
-
-  checkboxes.forEach((checkbox) => {
-    checkbox.checked = selectAll.checked;
-  });
+function chooseOrder() {
+  fetch(`${API_BASE_URL}/admins/orders`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ list }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === 200) {
+        console.log('삭제완료 모달 띄우기');
+      }
+    })
+    .catch((error) => {
+      console.error('FETCH ERROR', error);
+    });
 }
 
-window.onload = function () {
-  const selectAllCheckbox = document.querySelector('input[value="selectall"]');
-  selectAllCheckbox.addEventListener('click', function () {
-    console.log('check');
-    selectAll(this);
-  });
-};
+const deleteBtn = document.getElementById('deleteBtn');
+deleteBtn.addEventListener('click', () => {
+  chooseOrder();
+});
 
 // 날짜 형식 변환 함수
 function formatDate(dateString) {
