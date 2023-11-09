@@ -2,7 +2,7 @@ import '../../index.css';
 import { init } from '../main.js';
 
 init();
-
+//test
 const token = localStorage.getItem('token');
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
