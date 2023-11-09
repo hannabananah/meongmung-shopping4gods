@@ -52,7 +52,7 @@ function bindEvent(target, btn, form, id) {
       }
     }
 
-    fetch(`${API_BASE_URL}orders/${id}`, {
+    fetch(`${API_BASE_URL}/orders/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ function bindEvent(target, btn, form, id) {
 }
 
 async function getOrderById(id) {
-  const res = await fetch(`${API_BASE_URL}orders/${id}`, {
+  const res = await fetch(`${API_BASE_URL}/orders/${id}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
