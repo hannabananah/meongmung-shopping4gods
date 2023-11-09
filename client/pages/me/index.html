@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>멍뭉이들</title>
+  </head>
+  <body>
+    <div id="header-wrapper"></div>
+
+    <div class="min-h-screen p-20 flex items-center justify-center">
+      <div class="container p-10">
+        <div class="bg-white shadow-lg md:p-8">
+          <div class="grid gap-4 gap-y-2 text-lg font-bold grid-cols-2">
+            <div class="text-gray-600">
+              <p class="font-bold text-lg">회원정보 관리</p>
+            </div>
+
+            <form action="#">
+              <div class="lg:col-span-2">
+                <div class="md:col-span-5">
+                  <label for="name">이름</label>
+                  <h2 name="name" id="name" class="h-10 mt-1 px-4"></h2>
+                </div>
+
+                <div class="md:col-span-5">
+                  <label for="email">이메일</label>
+                  <h2 name="email" id="email" class="h-10 mt-1 px-4"></h2>
+                </div>
+
+                <div class="md:col-span-5">
+                  <label for="number">전화번호</label>
+                  <h2 name="number" id="number" class="h-10 mt-1 px-4"></h2>
+                </div>
+
+                <div class="md:col-span-5 text-right">
+                  <div class="inline-flex items-end">
+                    <button
+                      type="submit"
+                      id="edit"
+                      class="save bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                      <a href="./edit/index.html"> 수정 </a>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="footer"></div>
+  </body>
+</html>
+
+<script type="module" src="./me.js"></script>
