@@ -37,9 +37,9 @@ function renderProducts(data) {
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
       productCard.innerHTML = `
-      <div class=" bg-white p-8" id="product-${product._id}">
+      <div class=" " id="product-${product._id}">
       <div class="relative overflow-hidden">
-            <img class="bg-white object-cover w-full p-8" 
+            <img class="bg-white object-cover w-full" 
             src="${product.img_url}" alt="${product.img_url}" />
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
             <div class="flex items-center justify-between ">
@@ -114,7 +114,7 @@ function renderProducts(data) {
           
           console.log(categories.name);
           
-          getProducts(`${API_BASE_URL}categories/${categories.name}/products`)
+          getProducts(`${API_BASE_URL}/categories/${categories.name}/products`)
         })
     });
   }

@@ -9,14 +9,15 @@ const name = document.getElementById('name');
 const telnum = document.getElementById('telnum');
 const email = document.getElementById('email');
 const pswd = document.getElementById('password');
-
+const pswdCfm = document.getElementById('confirm-password');
+const pswdMsg = document.getElementById('pswdmessage');
 const btn = document.querySelector('form');
-let phone = '';
+
 
 btn.addEventListener('submit', function (e) {
   e.preventDefault();
-  
-  postUser();
+  if(pswd.value !== pswdCfm.value) pswdMsg.style.display ='block'
+  else postUser();
 
 });
 

@@ -100,7 +100,7 @@ buybtn.addEventListener("click", function(){
     productlist.push(product);
     console.log(JSON.stringify(productlist));
     localStorage.setItem('product',JSON.stringify(productlist));
-    location.href = '/order/';
+    location.href = '/order/?buy=1';
 })
 
 
