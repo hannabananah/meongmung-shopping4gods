@@ -23,20 +23,15 @@ const dogListEl = document.querySelector('#dog-list');
 const dogAddBtn = document.querySelector('.dog-add-btn');
 const modal = document.querySelector('#modal');
 
-
-
 //daum 주소 입력받기
-addressBtn.addEventListener('click', function() {
-    new daum.Postcode({
-        oncomplete: function(data) {
-            zipCode.value = data.zonecode;    
-            mainAddress.value = data.address;
-  
-        }
-    }).open();
-  })
-  
-
+addressBtn.addEventListener('click', function () {
+  new daum.Postcode({
+    oncomplete: function (data) {
+      zipCode.value = data.zonecode;
+      mainAddress.value = data.address;
+    },
+  }).open();
+});
 
 modal.addEventListener('click', (e) => {
   if (e.target.id === 'modal') {
@@ -51,11 +46,11 @@ dogAddBtn.addEventListener('click', () => {
 btn.addEventListener('submit', function (e) {
   e.preventDefault();
 
-  postAddresss();
+  postAddresses();
 });
 
-const postAddresss = () => {
-    console.log(name.value);
+const postAddresses = () => {
+  console.log(name.value);
   fetch(`${API_BASE_URL}/addresses`, {
     method: 'POST',
     headers: {
@@ -63,11 +58,11 @@ const postAddresss = () => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-        recipient: name.value,
-        name : label.value,
-        zipCode:zipCode.value,
-        detailAddress:`${mainAddress.value}+${detailAddress.value}`,
-        phone: phone.value,
+      recipient: name.value,
+      name: label.value,
+      zipCode: zipCode.value,
+      detailAddress: `${mainAddress.value}+${detailAddress.value}`,
+      phone: phone.value,
     }),
   })
     .then((response) => response.json())
@@ -109,7 +104,7 @@ const renderList = async () => {
   }
 
   for (const address of res.addresses) {
-    let arr=address.detailAddress.split("+");
+    let arr = address.detailAddress.split('+');
     template += `<div class='w-full border-b border-b-zinc-200 gap-x-2 py-10 flex justify-between items-center px-5 text-center'>
     <div class='w-[100px]'>${address.name}</div>
     <div class='w-[100px] '>${address.zipCode}</div>
