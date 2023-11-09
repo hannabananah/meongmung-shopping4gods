@@ -36,7 +36,7 @@ exports.updateProduct = async (_id, productData) => {
     const data = await models.Product.updateOne({ _id }, productData).exec();
 
     if (!data.acknowledged) {
-      return { state: 200, message: '수정 실패' };
+      return { status: 200, message: '수정 실패' };
     }
   } catch (err) {
     throw new Error(err);

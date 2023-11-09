@@ -1,5 +1,6 @@
 import '../../index.css';
 import { init } from '../main.js';
+import Swal from 'sweetalert2';
 
 init();
 
@@ -54,7 +55,12 @@ function selectAll(checkbox) {
 function loadOrders(orders) {
   const orderList = document.getElementById('order_list');
   let content = '';
-
+  if (!orders.length) {
+    content = `<tr class=" border-t w-full border-gray-300"><td colspan="5" class="text-center py-20 col-span-2">회원의 주문내역이 없습니다.</td>
+</tr>`;
+    orderList.innerHTML = content;
+    return;
+  }
   for (const order of orders) {
     content += `
     <tr class="border-t border-gray-300"> <td class="px-4 py-2 checkbox-cell text-center">
@@ -108,8 +114,11 @@ function chooseOrder() {
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log(data.status);
       if (data.status === 200) {
-        console.log('삭제완료 모달 띄우기');
+        new Swal('주문취소 성공', '', 'success').then(() => {
+          location.href = '/adminOrderlist/';
+        });
       }
     })
     .catch((error) => {

@@ -73,8 +73,9 @@ exports.deleteOrder = async function (orderList) {
     throw new Error('주문 정보가 없습니다.');
   }
   try {
-    for (item in orderList) {
-      await models.Order.deleteOne({ list: item }).exec();
+    for (item of orderList.list) {
+      console.log(item);
+      await models.Order.deleteOne({ _id: item }).exec();
     }
     return;
   } catch (err) {

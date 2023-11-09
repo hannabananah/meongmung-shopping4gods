@@ -60,7 +60,7 @@ exports.updateOrderByOrderId = async function (req, res, next) {
       status,
     });
 
-    res.json({ state: 200, message: '수정 성공' });
+    res.json({ status: 200, message: '수정 성공' });
   } catch (err) {
     next(err.message);
   }
@@ -71,7 +71,7 @@ exports.deleteOrder = async function (req, res, next) {
     const list = req.body;
     await adminOrderService.deleteOrder(list);
 
-    res.json({ state: 200, message: '삭제 성공' });
+    res.json({ status: 200, message: '삭제 성공' });
   } catch (err) {
     next(err.message);
   }
@@ -84,7 +84,7 @@ exports.deleteOrderByOrderId = async function (req, res, next) {
     console.log('orderList', orderList);
     await adminOrderService.deleteOrderByOrderId(orderId, orderList);
 
-    res.json({ state: 200, message: '삭제 성공' });
+    res.json({ status: 200, message: '삭제 성공' });
   } catch (err) {
     next(err.message);
   }
