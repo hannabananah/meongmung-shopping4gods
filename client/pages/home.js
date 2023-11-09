@@ -40,10 +40,13 @@ function renderProducts(data) {
             <img class="bg-white object-cover w-full" 
             <img class="bg-white object-cover w-full" 
             src="${product.img_url}" alt="${product.img_url}" />
+            <div class='px-2'>
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
+
+            
             <div class="flex items-center justify-between ">
             <span class="text-gray-900 font-bold text-3xl">${product.price}원</span>
-            <button class ="cart-add" id="cart-${product._id}"><img src="/images/cart.svg"/></button>
+            <button class ="cart-add" id="cart-${product._id}"><img class="w-[30px]" src="/images/cart.svg"/></button>
             </div>
             </div>
           `;
