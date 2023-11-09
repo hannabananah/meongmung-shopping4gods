@@ -2,7 +2,6 @@ import '../style.css';
 import '../index.css';
 import 'flowbite';
 
-
 export function init() {
   document.querySelector('#header-wrapper').innerHTML = `<header
   class="w-full h-[80px] lg:px-42 px-32 py-4 pb-0 flex justify-between items-center shadow-sm  fixed left-0 top-0 bg-white bg-opacity-50  z-[100]"
@@ -16,10 +15,10 @@ export function init() {
    
  </div>
   </header>`;
- 
-const headerBtns = document.querySelector('#headerbtn');
-if( localStorage.getItem('id') &&localStorage.getItem('token')){
-  headerBtns.innerHTML =` 
+
+  const headerBtns = document.querySelector('#headerbtn');
+  if (localStorage.getItem('id') && localStorage.getItem('token')) {
+    headerBtns.innerHTML = ` 
       <ul class="flex gap-6">
           <li class="hover:text-gray-400">
             <a href="/mypage/">마이페이지</a>
@@ -30,15 +29,15 @@ if( localStorage.getItem('id') &&localStorage.getItem('token')){
           <li class="hover:text-gray-400">
             <a href="/cart/">장바구니</a>
           </li>
-        </ul>`
-        const logoutbtn = document.getElementById('logout');
+        </ul>`;
+    const logoutbtn = document.getElementById('logout');
 
-        logoutbtn.addEventListener('click',function(){
-          localStorage.removeItem('id');
-          localStorage.removeItem('token');
-        })
-      }else {
-        headerBtns.innerHTML =` 
+    logoutbtn.addEventListener('click', function () {
+      localStorage.removeItem('id');
+      localStorage.removeItem('token');
+    });
+  } else {
+    headerBtns.innerHTML = ` 
       <ul class="flex gap-6">
           <li class="hover:text-gray-400">
             <a href="/login/">로그인</a>
@@ -49,12 +48,14 @@ if( localStorage.getItem('id') &&localStorage.getItem('token')){
           <li class="hover:text-gray-400">
             <a href="/cart/">장바구니</a>
           </li>
-        </ul>`
-}
+        </ul>`;
+  }
 
-  document.querySelector('#footer').innerHTML = `<footer class='w-screen p-12 bg-gray-100 text-center bottom-0'>
+  document.querySelector(
+    '#footer',
+  ).innerHTML = `<footer class='w-screen p-12 bg-gray-100 text-center bottom-0'>
   <ul>
-    <li><p>copyright ⓒ 2023 All rights reserved by meungmung.</p></li>
+    <li><p>copyright ⓒ 2023 All rights reserved by meongmung.</p></li>
     <li>
       <a href="">
       Contact : </a>
@@ -65,8 +66,4 @@ if( localStorage.getItem('id') &&localStorage.getItem('token')){
 
 window.addEventListener('DOMContentLoaded', () => {
   init();
-
 });
-
-
-

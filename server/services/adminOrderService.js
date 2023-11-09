@@ -67,7 +67,29 @@ exports.updateOrderByOrderId = async function (orderData) {
   }
 };
 
-exports.deleteOrderByOrderId = async function (orderId) {
+exports.deleteOrder = async function (orderList) {
+  console.log('오더리스트', orderList);
+  if (!orderList) {
+    throw new Error('주문 정보가 없습니다.');
+  }
+  try {
+    for (item in orderList) {
+      await models.Order.deleteOne({ list: item }).exec();
+    }
+    return;
+  } catch (err) {
+    throw new Error('삭제 실패' + err);
+  }
+};
+
+exports.deleteOrderByOrderId = async function (orderId, orderList) {
+  if (!orderId && orderList) {
+    for (item in orderList) {
+      await models.Order.deleteOne({ _id: item }).exec();
+    }
+    return;
+  }
+
   const order = await models.Order.findOne({ _id: orderId }).exec();
 
   if (!order) {
