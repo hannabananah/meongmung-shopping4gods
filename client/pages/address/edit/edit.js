@@ -18,6 +18,18 @@ async function renderContent() {
     const form = content.querySelector('form');
 
     bindEvent(form, id);
+
+    const addressBtn = document.getElementById('getAddress');
+
+    //daum 주소 입력받기
+    addressBtn.addEventListener('click', function() {
+      new daum.Postcode({
+          oncomplete: function(data) {
+              form.zipCode.value = data.zonecode;    
+              form.mainAddress.value = data.address;
+          }
+      }).open();
+    })
   }
 }
 
@@ -25,7 +37,7 @@ async function renderContent() {
 function bindEvent(document, id) {
   document.addEventListener('submit', (e) => {
     e.preventDefault();
-    const recipient = document.name.value;
+    const name = document.name.value;
     const phone = document.phone.value;
     const zipCode = document.zipCode.value;
     const detailAddress = document.detailAddress.value;
@@ -38,10 +50,9 @@ function bindEvent(document, id) {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-     
-        name : mainAddress,
+        name: name,
         zipCode:zipCode,
-        detailAddress:detailAddress,
+        detailAddress:`${mainAddress}+${detailAddress}`,
         phone: phone,
       }),
     })
@@ -50,11 +61,12 @@ function bindEvent(document, id) {
       })
       .catch((err) => console.err(err));
   });
+
 }
 
 function generatorTemplate(address) {
   const {recipient ,phone,zipCode, name, detailAddress } = address;
-
+  let detailAddr = detailAddress.split('+')
   let template = `
   <section class="w-3/5">
   <div
@@ -75,13 +87,13 @@ function generatorTemplate(address) {
             <label
               for="name"
               class="block mb-2 text-sm font-medium text-gray-900"
-              >수령인</label
+              >라벨</label
             >
             <input
               type="text"
               name="name"
               id="name"
-              value='${recipient}'
+              value='${name}'
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               required=""
             />
@@ -121,7 +133,7 @@ function generatorTemplate(address) {
               required=""
               readonly
             />  
-            <button class='w-[70px] bg-gray-400 p-2 text-sm rounded-lg text-white' id='getAddress'>주소찾기</button>
+            <input class='w-[70px] bg-gray-400 p-2 text-sm rounded-lg text-white' id='getAddress' value='주소찾기' readonly></input>
              
           </div>
   
@@ -136,7 +148,7 @@ function generatorTemplate(address) {
               type="text"
               name="mainAddress"
               id="mainAddress"
-              value="${name}"
+              value="${detailAddr[0]}"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               readonly
               required=""
@@ -155,7 +167,7 @@ function generatorTemplate(address) {
               id="detailAddress"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               required=""
-              value="${detailAddress}"
+              value="${detailAddr[1]}"
               placeholder='상세주소'
             />
           </div></div>

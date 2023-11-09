@@ -7,49 +7,47 @@
   </head>
   <body>
     <div id="header-wrapper"></div>
-    <main class="my-48">
-      <h1 class="text-xl m-10">마이페이지</h1>
-      <div class="flex flex-wrap w-full border-yellow-200">
-        <button
+
+    <main class="py-48 w-screen lg:px-48 bg-gray-50 space-y-5">
+      <h1 class="text-xl">마이페이지</h1>
+      <div class="grid grid-cols-3 w-full gap-5">
+        <a href="/orderlist/"
+          type="button" href="/orderlist/index.html"
+          class="bg-teal-500 text-center text-white shadow text-xl rounded-md py-20 hover:bg-teal-600"
+        >
+          주문조회
+      </a>
+        <a
           type="button"
-          class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
-        > <a
-        href="/orderlist/"
-        class="bg-gray-200 text-center m-5 w-96 py-20 hover:bg-gray-300"
-      >
-          주문조회</a>
-        </button>
-        <button
-          type="button"
-          class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
+          class="bg-teal-500 text-center text-white shadow text-xl rounded-md py-20 hover:bg-teal-600"
+
         >
           회원정보 관리
-        </button>
+      </a>
         <a
-          href="/dog/"
-          class="bg-gray-200 text-center m-5 w-96 py-20 hover:bg-gray-300"
+          href="/dog/index.html"
+          class="bg-teal-500 text-center text-white shadow text-xl rounded-md py-20 hover:bg-teal-600"
         >
           강아지정보 관리
         </a>
 
-        <button
+
+        <a href="/address/index.html"
         type="button"
-        class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
-      > <a
-      href="/address/"
-      class="bg-gray-200 text-center m-5 w-96 py-20 hover:bg-gray-300"
-    >
+        class="bg-teal-500 text-center text-white shadow text-xl rounded-md py-20 hover:bg-teal-600"
+      > 
         배송지정보 관리</a>
-      </button>
-        <button
+      
+        <a
           type="button" id='deleteUser'
-          class="bg-gray-200 m-5 w-96 py-20 hover:bg-gray-300"
+          class="bg-teal-500 text-center text-white shadow text-xl rounded-md py-20 hover:bg-teal-600"
+
         >
           회원 탈퇴
-        </button>
+    </a>
       </div>
     </main>
   </body>
-  <div id='footer'></div>
+  <div id="footer"></div>
 </html>
 <script type="module" src="./mypage.js"></script>
