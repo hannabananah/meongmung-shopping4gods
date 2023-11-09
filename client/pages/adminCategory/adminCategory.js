@@ -83,9 +83,9 @@ const renderList = async () => {
     return;
   } else localStorage.setItem('category', 1);
   console.log(res.list);
-  for (const category of res.list) {
+  for (const [index, category] of res.list.entries()) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
-    <div class='w-[100px]'>${parseInt(category) + 1}</div>
+    <div class='w-[100px]'>${index + 1}</div>
     <div class='flex-1'>${category.name}</div>
     <div class='w-[100px]'><button id="${
       category._id
