@@ -53,17 +53,20 @@ export function init() {
 
   document.querySelector(
     '#footer',
-  ).innerHTML = `<footer class='w-screen p-12 bg-gray-100 text-center bottom-0'>
-  <ul>
-    <li><p>copyright ⓒ 2023 All rights reserved by meongmung.</p></li>
-    <li>
-      <a href="">
-      Contact : </a>
-    </li>
+  ).innerHTML = `<footer class="bg-zinc-700 text-zinc-900 py-4">
+  <ul class="flex flex-wrap justify-center gap-4">
+      <li>copyright &copy; 2023 All rights reserved by meongmung.</li>
+      <li>Contact: <a href="mailto:info@yourwebsite.com" class="underline">info@yourwebsite.com</a></li>
+      <li><a href="/privacy-policy" class="underline">Privacy Policy</a> | <a href="/terms-of-service" class="underline">Terms of Service</a></li>
+      <li><a href="/sitemap" class="underline">Sitemap</a></li>
+      <li>Follow us on: <a href="https://twitter.com/yourwebsite" class="underline">Twitter</a> | <a href="https://facebook.com/yourwebsite" class="underline">Facebook</a></li>
+      <li>FAQ: <a href="/faq" class="underline">Frequently Asked Questions</a></li>
+      <li>Powered by Your Company</li>
   </ul>
-</footer>`;
+  </footer>`;
 }
 
 window.addEventListener('DOMContentLoaded', () => {
   init();
 });
+
