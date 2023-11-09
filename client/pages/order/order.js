@@ -4,6 +4,9 @@ import Swal from 'sweetalert2';
 
 init();
 
+const params = location.search;
+const param = new URLSearchParams(params);
+const buy = param.get('buy');  // 5
 
 let id = localStorage.getItem('id');
 const token = localStorage.getItem('token');
@@ -62,12 +65,14 @@ const getUser = () => {
 
 //장바구니/바로구매 상품 보여주기
 const loadItem = () => {
+
+
    const orderlist = document.getElementById('order_list');
    
-    products = JSON.parse(localStorage.getItem('cartList')); //장바구니 리스트로 변경해야 함
-   if(localStorage.getItem('product')) {
+     //장바구니 리스트로 변경해야 함
+    if(buy == 1) {
      products = JSON.parse(localStorage.getItem('product'))
-   }
+   }else {products = JSON.parse(localStorage.getItem('cartList'));}
 
    products.forEach((product) => {   
     const orderCard = document.createElement('div');
@@ -76,7 +81,7 @@ const loadItem = () => {
     `<table class="w-full h-full">
     <tr class='w-full border-b-2 items-center border-gray-100 flex pb-2'>
         <td class='items-center place-content-start '> 
-        <img class='w-32 rounded-md border-2 border-gray-50 p-3' src='${product.imgUrl}' alt = '${product.imgUrl}'/> </td>
+        <img class='w-24  p-3' src='${product.imgUrl}' alt = '${product.imgUrl}'/> </td>
         <td><p class='text-sm text-gray-600'>${product.name} X ${product.order}개 </p><p class='font-semibold'>${product.price}원 </p></td>
         </tr> 
     </table>`
@@ -230,8 +235,8 @@ btnSubmit.addEventListener('submit', function(e){
       addressid = selectAddress.value;
       postOrder(); 
     }
-  if(localStorage.getItem('product')) {localStorage.removeItem('product');} //바로구매 초기화
-  else  localStorage.removeItem('cartList'); //바로구매 초기화
+  if(buy == 1) {localStorage.removeItem('product');} //바로구매 초기화
+  else  localStorage.removeItem('cartList'); 
 })
 
 

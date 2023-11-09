@@ -37,9 +37,9 @@ function renderProducts(data) {
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
       productCard.innerHTML = `
-      <div class=" bg-white p-8" id="product-${product._id}">
+      <div class=" " id="product-${product._id}">
       <div class="relative overflow-hidden">
-            <img class="bg-white object-cover w-full p-8" 
+            <img class="bg-white object-cover w-full" 
             src="${product.img_url}" alt="${product.img_url}" />
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
             <div class="flex items-center justify-between ">
@@ -72,10 +72,10 @@ function renderProducts(data) {
     let puthtml = '';
     if(datalen>1)
       {for(let i=1;i<= datalen;i++){
-        puthtml += `<div><input type='radio' id='${i}' name= 'page' class='hidden peer' value = '${i}'><label for='${i}' id='page' name='${i}' class='p-3 peer-checked:text-blue-600 peer-checked:font-bold peer-checked:border-b-2'>${i}</label></input></div>`
+        puthtml += `<div><input type='radio' id='${i}' name= 'page' class='hidden peer' value = '${i}'><label for='${i}' id='page' name='${i}' class='p-3 peer-checked:text-teal-600 peer-checked:font-bold peer-checked:border-b-2'>${i}</label></input></div>`
       }}
   if(pagelist) pagelist.innerHTML = puthtml;
-  
+  if(datalen>1){
   const pages = document.querySelectorAll('#page');
   if(page){pages[page-1].parentNode.firstChild.checked = true;}
   else pages[0].parentNode.firstChild.checked= true;
@@ -84,38 +84,42 @@ function renderProducts(data) {
         console.log(e.target.innerHTML);
         location = `?page=${e.target.innerHTML}`
     });
-  });
+  });}
   }
   
   
 
   function renderCategories(data) {
     const categoryList = document.getElementById('category-list');
-    if(token && (dog !== "0")) recommend.style.display = 'block';
+    console.log(dog);
+    if(token && (dog === "1")) {recommend.style.display = 'block';}
     const categories = data.message; // JSON 데이터에서 제품 목록을 가져옴
     console.log(data.message);
     // 가져온 데이터를 사용하여 동적으로 제품 목록 생성
-    categories.forEach((categories) => {
+    categories.forEach((category) => {
       // 제품 항목을 생성하고 추가하는 코드
         const categoryCard = document.createElement('div');
         categoryCard.classList.add('category-card');
         categoryCard.innerHTML = `
-        <input type='radio' id = 'category-${categories._id}' name = 'buttons'
+
+        <input type='radio' id = 'category-${category._id}' name = 'buttons'
         class="hidden peer">
-        <label for="category-${categories._id}" class="inline-flex items-center justify-between  p-4 text-lg text-gray-500 bg-white cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-     ${categories.name}</label></input> `;
-      
+        <label for="category-${category._id}" class="border-l inline-flex items-center justify-between  px-6 my-4 text-lg text-gray-500 bg-white cursor-pointer  peer-checked:text-teal-600 ">
+     ${category.name}</label></input> `;
+        
         if (categoryList) {
           categoryList.appendChild(categoryCard);
         }
-        const btnCategory = document.querySelector(`#category-${categories._id}`)
+        const btnCategory = document.querySelector(`#category-${category._id}`)
         btnCategory.addEventListener('click',function(){
           
-          console.log(categories.name);
+          console.log(category.name);
           
-          getProducts(`${API_BASE_URL}categories/${categories.name}/products`)
+          getProducts(`${API_BASE_URL}/categories/${category.name}/products`)
         })
-    });
+        categories[categories.length-1]
+   
+      });
   }
   
  
