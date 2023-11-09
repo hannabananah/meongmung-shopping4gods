@@ -5,58 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>멍뭉이들</title>
   </head>
-  <body class="h-full">
+  <body class="h-screen overflow-x-hidden">
     <div id="header-wrapper"></div>
-    <section class="py-24 font-poppins">
-      <div class="px-4 py-4 mx-auto max-w-7xl lg:py-4 md:px-6">
-        <h2 class="mb-4 text-2xl font-bold">카테고리 관리</h2>
-        <table
-          class="w-full table-auto bg-white px-4 border-t-2 border-b-2 border-gray-300"
+
+    <section class='h-screen flex justify-center items-center'>
+      <div class='w-3/4'>
+          <h2 class='text-2xl font-bold mb-5'>카테고리 조회</h2>
+          <section id='category-list' class='w-full flex flex-col'>
+              <div class='w-full bg-zinc-400 text-white h-14 flex justify-between items-center px-10 text-center'>
+                <div class='font-bold w-[100px]'>번호</div>
+                <div class='font-bold flex-1'>이름</div>
+                <div class='font-bold w-[100px]'>수정</div>
+                <div class='font-bold w-[100px]'>삭제</div>
+              </div>
+          </section>
+          <div class='mt-5 text-right space-x-1'>
+            <button class='category-add-btn border rounded-md px-4 py-2 border-slate-500 hover:bg-slate-500 hover:text-white'>추가하기</button>
+          </div>
+      </div>
+
+    </section>
+  </body>
+  <div id='footer'></div>
+  <div id='modal' class='hidden w-screen h-screen fixed top-0 left-0 bg-slate-600/50 z-[9999] flex justify-center items-center'>
+    <section class="w-2/5">
+      <div
+        class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0"
+      >
+        <div
+          class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0"
         >
-          <thead class="bg-blue-800 text-white">
-            <tr>
-              <th class="px-4 py-2 text-center">목차</th>
-              <th class="px-4 py-2 text-center">카테고리 이름</th>
-              <th class="px-4 py-2 text-center">날짜</th>
-            </tr>
-          </thead>
-          <!-- <tbody>
-            <tr class="border-t border-gray-300">
-              <td class="px-4 py-2 checkbox-cell text-center">
-                <input type="checkbox" name="category" value="select1" />
-              </td>
-              <td class="px-4 py-2 text-center">카테고리명</td>
-              <td class="px-4 py-2 text-center text-red-600">2023-11-07</td>
-            </tr>
-          </tbody> -->
-          <tbody id="category_list"></tbody>
-        </table>
-        <div class="pt-7 flex items-center justify-center gap-2 relative">
-          <input type="search" class="rounded-lg h-10" />
-          <button
-            type="button"
-            class="focus:outline-none text-white bg-blue-800 hover:bg-blue-900 focus:ring-1 focus:ring-blue-800 font-medium rounded-lg text-xs w-16 h-10 p-2 dark:bg-blue-900 dark:hover:bg-blue-800 dark:focus:ring-blue-900"
-          >
-            추가
-          </button>
-          <div class="absolute right-0">
-            <button
-              type="button"
-              class="focus:outline-none text-blue-800 border-2 border-blue-800 focus:ring-1 ring-blue-800 font-semibold rounded-lg text-xs w-16 h-10 p-2 dark:bg-blue-800 dark:hover:bg-blue-800 dark:focus:ring-blue-800"
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1
+              class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
             >
-              수정
-            </button>
-            <button
-              type="button"
-              class="focus:outline-none text-blue-800 border-2 border-blue-800 focus:ring-1 ring-blue-800 font-semibold rounded-lg text-xs w-16 h-10 p-2 dark:bg-blue-800 dark:hover:bg-blue-800 dark:focus:ring-blue-800"
-            >
-              삭제
-            </button>
+              카테고리 추가
+            </h1>
+            <form class="space-y-4 md:space-y-6" action="#">
+ 
+              <div>  
+                <label
+                  for="name"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >이름</label
+                >
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  required=""
+                />
+              </div>
+
+              <button
+                type="submit"
+                class="w-full text-white bg-blue-800 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                카테고리 추가하기
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </section>
   </body>
-  <div id="footer" class="absolute bottom-0"></div>
+  <div id='footer'></div>
 </html>
+
 <script type="module" src="./adminCategory.js"></script>

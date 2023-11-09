@@ -10,8 +10,9 @@ export default {
     extend: {},
     colors: {
       transparent: 'transparent',
-      'setting-btn': '#00A4AC',
-      'setting-btn-effect': '#009599',
+      'zinc-400': '#999',
+      'teal-500': '#009688',
+      'teal-600': '#00897B',
     },
   },
   plugins: [flowbitePlugin],
