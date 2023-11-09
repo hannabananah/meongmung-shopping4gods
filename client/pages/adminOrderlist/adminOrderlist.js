@@ -34,7 +34,7 @@ function getOrders() {
     });
 }
 
-// selectAll 함수 정의
+// 체크박스 전체선택 함수 정의
 function selectAll(checkbox) {
   const selectAll = checkbox.checked;
   const checkList = document.querySelectorAll('.check');
