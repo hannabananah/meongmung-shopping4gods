@@ -28,7 +28,7 @@ if( localStorage.getItem('id') &&localStorage.getItem('token')){
             <a href="">로그아웃</a>
           </li>
           <li class="hover:text-gray-400">
-            <a href="/cart/">장바구니</a>
+            <a href="/cart/"><img src='/images/cart.svg'/></a>
           </li>
         </ul>`
         const logoutbtn = document.getElementById('logout');

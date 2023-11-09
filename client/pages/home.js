@@ -37,15 +37,14 @@ function renderProducts(data) {
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
       productCard.innerHTML = `
-      <div class=" " id="product-${product._id}">
-      <div class="relative overflow-hidden">
+          <div id="product-${product._id}" class="relative overflow-hidden">
             <img class="bg-white object-cover w-full" 
             src="${product.img_url}" alt="${product.img_url}" />
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
             <div class="flex items-center justify-between ">
             <span class="text-gray-900 font-bold text-3xl">${product.price}원</span>
             <button class ="cart-add" id="cart-${product._id}"><img src="/images/cart.svg"/></button>
-            </div>
+            
             </div>
           `;
       if (productList) {
