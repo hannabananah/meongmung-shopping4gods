@@ -56,6 +56,7 @@ function loadOrders(orders) {
   let content = '';
 
   for (const order of orders) {
+ 
     content += `
     <tr class="border-t border-gray-300"> <td class="px-4 py-2 checkbox-cell text-center">
       <input class="check" type="checkbox" name="order" value="${order._id}" />
@@ -65,14 +66,18 @@ function loadOrders(orders) {
       order.userId.email
     })</td>
     <td class="px-4 py-2 text-center">${order._id}</td>
-    <td class="px-4 py-2 text-center">
-      <a href="#" class=" hover:underline font-300">
-        주문 상세 보기
-      </a>
-    </td>
-   
-    <td class="px-4 py-2 text-center text-red-600">${order.status}</td></tr>
-  `;
+    <td class="px-4 py-2 text-center text-red-600"> `
+      if(order.status ==='배송전') content+=` <select class='rounded border-gray-300'>
+    <option value="배송전" selected>
+    배송전
+  </option>
+  <option value="배송중" class="select-option">
+    배송중
+  </option>
+  <option value="배송완료" class="select-option">
+    배송완료
+  </option></select></td></tr>`
+ ;
   }
   orderList.innerHTML = content;
 
