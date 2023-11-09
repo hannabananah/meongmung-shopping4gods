@@ -35,10 +35,8 @@ function renderProducts(data) {
     const productCard = document.createElement('div');
     productCard.classList.add('product-card');
     productCard.innerHTML = `
-      <div class=" " id="product-${product._id}">
-      <div class="relative overflow-hidden">
-            <img class="bg-white object-cover w-full" 
-            <img class="bg-white object-cover w-full" 
+          <div id="product-${product._id}" class="relative overflow-hidden">
+            <img class="bg-white object-cover w-full lg:h-[380px] md:h-[300px] sm:h-[380px]" 
             src="${product.img_url}" alt="${product.img_url}" />
             <div class='px-2'>
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
@@ -97,8 +95,8 @@ function renderCategories(data) {
   if (token && dog === '1') {
     recommend.style.display = 'block';
   }
-  const categories = data.message; // JSON 데이터에서 제품 목록을 가져옴
-  console.log(data.message);
+  const categories = data.list; // JSON 데이터에서 제품 목록을 가져옴
+  console.log(data);
   // 가져온 데이터를 사용하여 동적으로 제품 목록 생성
   categories.forEach((category) => {
     // 제품 항목을 생성하고 추가하는 코드
