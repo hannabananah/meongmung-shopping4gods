@@ -66,10 +66,23 @@ exports.updateOrderByOrderId = async function (req, res, next) {
   }
 };
 
+exports.deleteOrder = async function (req, res, next) {
+  try {
+    const list = req.body;
+    await adminOrderService.deleteOrder(list);
+
+    res.json({ state: 200, message: '삭제 성공' });
+  } catch (err) {
+    next(err.message);
+  }
+};
+
 exports.deleteOrderByOrderId = async function (req, res, next) {
   try {
     const { orderId } = req.params;
-    await adminOrderService.deleteOrderByOrderId(orderId);
+    const orderList = req.body;
+    console.log('orderList', orderList);
+    await adminOrderService.deleteOrderByOrderId(orderId, orderList);
 
     res.json({ state: 200, message: '삭제 성공' });
   } catch (err) {

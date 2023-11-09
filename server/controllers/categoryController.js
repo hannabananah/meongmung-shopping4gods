@@ -18,7 +18,7 @@ exports.getProductsByRecommend = async (req, res, next) => {
 exports.getAllCategories = async (req, res, next) => {
   try {
     const list = await categoryService.getAllCategories();
-    res.status(200).json({ status: 200, message: list });
+    res.json({ status: 200, list });
   } catch (err) {
     next(err);
   }

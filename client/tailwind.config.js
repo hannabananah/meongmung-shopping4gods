@@ -8,6 +8,12 @@ export default {
   ],
   theme: {
     extend: {},
+    colors: {
+      transparent: 'transparent',
+      'zinc-400': '#999',
+      'teal-500': '#009688',
+      'teal-600': '#00897B',
+    },
   },
   plugins: [flowbitePlugin],
 };
