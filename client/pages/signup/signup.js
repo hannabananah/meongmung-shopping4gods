@@ -36,7 +36,7 @@ const postUser = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data)
+   
      if(!data.status){ 
      // 
       new Swal('회원가입 완료', '반갑습니다!', 'success').then(() => {

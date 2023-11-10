@@ -28,6 +28,8 @@ function getOrders() {
       if (data.status === 200) {
         orders = data.orders;
         loadOrders(data.orders);
+      }else{
+        location.href = '/'; //로드 실패하면 리디렉션
       }
     })
     .catch((error) => {
@@ -49,7 +51,7 @@ function putOrders(orderStatus, id) {
   })
     .then((response) => response.json())
     .then((data) => {
-      
+
         console.log(data);
       
     })
@@ -73,7 +75,7 @@ function selectAll(checkbox) {
   } else {
     list = [];
   }
-  console.log(list);
+
 }
 
 function loadOrders(orders) {
@@ -117,7 +119,6 @@ function loadOrders(orders) {
     const dropdownState = dropdown.id.split('_');
     dropdown.value = dropdownState[1]
     dropdown.addEventListener('change', function () {
-     //console.log(this.id);
       putOrders(this.value, dropdownState[0]);
    
     });
@@ -157,7 +158,6 @@ function loadOrders(orders) {
       } else {
         list = list.filter((item) => item !== check);
       }
-      console.log(list);
     });
   });
 }
@@ -174,7 +174,6 @@ function chooseOrder() {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data.status);
       if (data.status === 200) {
         new Swal('주문취소 성공', '', 'success').then(() => {
           location.href = '/adminOrderlist/';
