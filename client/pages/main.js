@@ -29,7 +29,7 @@ export function init() {
             <a href="#">로그아웃</a>
           </li>
           <li class="hover:text-gray-400">
-            <a href="/cart/"><img src='/images/cart.svg'/></a>
+            <a href="/cart/">장바구니</a>
           </li>
         </ul>`;
     const logoutbtn = document.getElementById('logout');

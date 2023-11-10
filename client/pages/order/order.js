@@ -49,7 +49,7 @@ const getUser = () => {
       .then((response) => response.json())
       .then((data) => {
         if(data.status === 200)
-        { console.log(data)
+        {
             loadUser(data)}
       });
   };
@@ -125,7 +125,7 @@ addressBtn.addEventListener('click', function() {
 
 selectAddress.addEventListener('change', function(){
       if(selectAddress.value!='none'){let address = addresses.find(e=>e._id === selectAddress.value)
-      console.log(address)
+    
       let sliceaddress = address.detailAddress.split('+')
       
       addressNum.value = address.zipCode;    
@@ -196,8 +196,7 @@ const postAddress = () => {
       .then((response) => response.json())
       .then((data) => {
         addressid = data.address._id;
-        console.log(data)
-        console.log(addressid)
+        
         postOrder();
        // console.log(localStorage.getItem('token'));
       })

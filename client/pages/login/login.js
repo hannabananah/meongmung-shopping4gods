@@ -27,7 +27,7 @@ const loginUser = () => {
       if (!data.status) {
         localStorage.setItem('id', email.value);
         localStorage.setItem('token', data.token);
-        console.log(localStorage.getItem('token'));
+     
 
         new Swal('로그인 완료', '반갑습니다!', 'success').then(() => {
           location.href = '/';

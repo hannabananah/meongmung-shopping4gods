@@ -50,7 +50,7 @@ btn.addEventListener('submit', function (e) {
 });
 
 const postAddresses = () => {
-  console.log(name.value);
+
   fetch(`${API_BASE_URL}/addresses`, {
     method: 'POST',
     headers: {
@@ -67,7 +67,7 @@ const postAddresses = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+  
       if (data.status === 200) {
         location.href = '/address/';
       }
@@ -94,7 +94,7 @@ const renderList = async () => {
   let template = ``;
 
   const res = await getAddress();
-  console.log(res);
+ 
   if (!res.addresses.length) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
     <div class='flex-1'>사용자의 배송지 정보가 없습니다.</div>
@@ -125,7 +125,7 @@ const bindEvents = (document) => {
 
   for (const btn of updateBtns) {
     btn.addEventListener('click', (e) => {
-      console.log(e.target.id);
+   
       location.href = `/address/edit/?id=${e.target.id}`;
     });
   }
