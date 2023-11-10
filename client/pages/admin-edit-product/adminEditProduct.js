@@ -75,7 +75,6 @@ form.addEventListener('submit', async (e) => {
 
   const img_url = await uploadImage(fileInput)
     .then((url) => {
-      console.log('----', url);
       return url;
     })
     .catch((err) => console.err(err));
@@ -119,7 +118,7 @@ async function editProduct({
     .then((response) => response.json())
     .then((data) => {
       if (data.status === 200) {
-        // location.href = '/adminProductlist/';
+        location.href = '/adminProductlist/';
       }
     })
     .catch((error) => console.log(error));

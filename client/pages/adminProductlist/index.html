@@ -16,12 +16,7 @@
           <thead class="bg-blue-800 text-white">
             <tr>
               <th class="px-4 py-2 text-center">
-                <input
-                  type="checkbox"
-                  name="product"
-                  value="selectall"
-                  onclick="selectAll(this)"
-                />
+                <input type="checkbox" name="product" value="selectall" />
               </th>
               <th class="px-4 py-2 text-center">번호</th>
               <th class="px-4 py-2 text-center">상품명</th>
@@ -33,7 +28,7 @@
           </thead>
           <tbody id="product-list"></tbody>
         </table>
-        <div class="text-right pt-7">
+        <div class="text-right pt-7 flex align-middle gap-2 justify-end">
           <button
             id="deleteBtn"
             type="button"
@@ -44,7 +39,7 @@
           <a
             href="/adminAddProduct/"
             type="button"
-            class="focus:outline-none text-white bg-blue-800 hover:bg-blue-900 focus:ring-1 focus:ring-blue-800 font-medium rounded-lg text-xs w-16 h-10 p-2 dark:bg-blue-900 dark:hover:bg-blue-800 dark:focus:ring-blue-900"
+            class="text-center pt-3 pl-2.5 focus:outline-none text-white bg-blue-800 hover:bg-blue-900 focus:ring-1 focus:ring-blue-800 font-medium rounded-lg text-xs w-16 h-10 p-2 dark:bg-blue-900 dark:hover:bg-blue-800 dark:focus:ring-blue-900"
           >
             추가
           </a>

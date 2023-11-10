@@ -54,7 +54,7 @@ const renderList = async (products) => {
     template += `
       <tr class="border-t border-gray-300">
       <td class="px-4 py-2 checkbox-cell text-center">
-        <input type="checkbox" name="product" value="select1" />
+        <input class="check" type="checkbox" name="product" value="${_id}" />
       </td>
       <td class="px-4 py-2 text-center">${index + 1}</td>
       <td class="px-4 py-2 text-center font-bold">${name}</td>
