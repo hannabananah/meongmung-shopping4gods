@@ -68,9 +68,17 @@ export function init() {
 
   document.querySelector(
     '#footer',
-  ).innerHTML = `<footer class='w-screen p-24 bg-gray-100 text-center bottom-0'>
-  <ul>
-    <li><p>copyright ⓒ 2023 All rights reserved by meongmung.</p></li>
+  ).innerHTML = `<footer class='overflow-x-hidden w-screen p-12 bg-gray-700 text-center bottom-0'>
+  <ul class='text-white'>
+    <li><p>copyright &copy; 2023 All rights reserved by meongmung.</p></li>
+    <li>이메일: <a href="mailto:mngmng@gmail.com" class="hover:underline">mngmng@gmail.com</a></li>
+    <li>찾아오시는 길: (04799) <a target="_blank" href="https://naver.me/Fcu63dOf" class="hover:underline">서울 성동구 아차산로17길 48 성수낙낙 2F 멍뭉랩</a></li>
+    <li><img class='w-[180px]' src='/images/mngmng_logo.png'/></li>
+    <li>대표자: 구기윤</li>
+    <li>대표전화: <a href='tel:0904-1229' class="hover:underline">0904-1229</a></li>
+    <li><a href="https://feather-ticket-ba0.notion.site/323b434b07974e65954916c97cffb840" class="font-bold">개인정보처리방침</a> | <a href="https://feather-ticket-ba0.notion.site/01d0159518f8499e993c8aafe2a811a0" class="hover:underline">이용약관</a></li>
+    <li>Follow us on: <a href="https://twitter.com/yourwebsite" class="underline">Twitter</a> | <a href="https://facebook.com/yourwebsite" class="underline">Facebook</a></li>
+    <li>FAQ: <a href="/faq" class="underline">Frequently Asked Questions</a></li>
   </ul>
 </footer>`;
 }
