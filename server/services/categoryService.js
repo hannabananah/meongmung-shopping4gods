@@ -1,32 +1,62 @@
-const models = require('../models/index');
+const models = require('../models');
+const dogService = require('./dogService');
 
-exports.getAllCategories = async (name) => {
-  let res;
-  if (name) {
-    res = await models.Category.find({ name }).populate('Category');
-  } else {
-    res = await models.Category.find({});
-  }
+exports.getProductsByRecommend = async (userId) => {
+  // 사용자의 견종 받아오기
+  const dogs = await dogService.getAllDogs(userId);
 
-  return res;
+  const sizes = dogs.map((dog) => dog.size);
+  const ages = dogs.map((dog) => dog.age);
+
+  // 상품 목록 받아오기
+  const recommendProducts = await models.Product.find({
+    $and: [
+      { recommendDogSize: { $in: sizes } },
+      {
+        $or: [
+          { 'recommendDogAge.min': { $lte: Math.max(...ages) } },
+          { 'recommendDogAge.max': { $gte: Math.min(...ages) } },
+        ],
+      },
+    ],
+  });
+
+  return recommendProducts;
+};
+
+exports.getAllCategories = async () => {
+  const categories = await models.Category.find({});
+
+  return categories;
 };
 
 exports.getCategoryByName = async (name) => {
-  let category;
   try {
     // findOne함수에서 자채적으로 없으면 에러를 throw 한다.
-    category = await models.Category.findOne({ name });
-  } catch (error) {
+    const category = await models.Category.findOne({ name }).exec();
+
+    // 찾는 이름이 없는 경우
+    if (!category) {
+      throw new Error(`${name}라는 이름이 존재 하지 않습니다.`);
+    }
+
+    return category.name;
+  } catch (err) {
     // 디비쪽 문제일때 에러처리는 여기서..
     throw new Error(`Unhandled type: ${name}`);
   }
+};
 
-  // 찾는 이름이 없는 경우
-  if (category === null) {
-    return null;
-  }
-
-  return category.name;
+exports.getProductsByCategoryName = async (name) => {
+  const products = await models.Product.find({})
+    .populate({
+      path: 'category',
+      match: { name },
+    })
+    .exec();
+  console.log(products);
+  const filteredProducts = products.filter((product) => product.category);
+  return filteredProducts;
 };
 
 exports.createCategory = async ({ name }) => {
@@ -40,15 +70,15 @@ exports.createCategory = async ({ name }) => {
 
 exports.updateCategory = async (_id, name) => {
   try {
-    await models.Category.updateOne({ _id }, { name });
-  } catch (error) {
-    throw new Error(error);
+    await models.Category.updateOne({ _id }, { name }).exec();
+  } catch (err) {
+    throw new Error(err);
   }
 };
 
 exports.deleteCategory = async (_id) => {
   try {
-    const result = await models.Category.findOneAndDelete({ _id });
+    const result = await models.Category.findOneAndDelete({ _id }).exec();
 
     return result.name;
   } catch (err) {

@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const adminOrderController = require('../controllers/adminOrderController');
 const { isAdmin } = require('../middleware/isAdmin');
+const validator = require('../middleware/validator');
+const { admin } = require('../middleware/validators');
 
 const router = Router();
 
@@ -25,8 +27,12 @@ router.get(
 router.put(
   '/admins/orders/:orderId',
   isAdmin,
+  validator(admin.update),
   adminOrderController.updateOrderByOrderId,
 );
+
+// 특정 주문 삭제(orderId를 안가져오는 경우)
+router.delete('/admins/orders', isAdmin, adminOrderController.deleteOrder);
 
 // 특정 주문 삭제
 router.delete(

@@ -1,140 +1,87 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>멍뭉이들</title>
+    
   </head>
   <body>
     <div id="header-wrapper"></div>
+    <form  action="#">
+    <section class="cart-page px-10 py-48 font-poppins">
+      <div class=" mx-auto max-w-7xl  md:px-6 space-y-4">
+        <div>
+          <h1 class="inline-block text-4xl font-bold">장바구니</h1>
+          <button class='float-right bg-slate-100 p-2' id='deleteAll'>전체삭제</button></div>
+          <div class="p-8 border w-full border-gray-800 border-r-0 border-l-0">
+            <ul class="w-full items-center flex mb-4">
+              <li class=" w-6/12 font-bold">상품정보</li>
+              <li class=" text-center w-2/12 font-bold">판매가</li>
+              <li class="text-center w-2/12 font-bold">총수량</li>        
+              <li class="text-center w-2/12 font-bold">
+                  소계<li>
+              
+            </ul>
 
-    <main id="product" class="w-full p-40">
-      <section class="cart">
-        <nav>
-          <h1 class="font-bold leading-9 text-lg">장바구니</h1>
-          <p class="text-right">
-            HOME >
-            <strong>장바구니</strong>
-          </p>
-        </nav>
-        <form action="#">
-          <table
-            class="w-full border-t border-b border-collapse border-separate"
-          >
-            <tr
-              class="py-5 px-20 border-b border-solid border-gray-300 bg-gray-200"
-            >
-              <th><input type="checkbox" name="all" /></th>
-              <th>상품정보</th>
-              <th>총수량</th>
-              <th>판매가</th>
-              <th>소계</th>
-            </tr>
-            <tr class="hidden">
-              <td colspan="7">장바구니에 상품이 없습니다.</td>
-            </tr>
-            <tr
-              class="py-5 px-20 border-b border-solid border-gray-300 text-center"
-            >
-              <td><input type="checkbox" name="1" /></td>
-              <td>
-                <article class="flex items-center">
-                  <a href="#">
-                    <img
-                      src="/images/Dog_ball.jpg"
-                      alt="1"
-                      class="w-20 h-20 rounded-lg mr-2"
-                    />
-                  </a>
-                  <div>
-                    <h2><a href="#" class="text-lg font-bold">장난감 공</a></h2>
-                  </div>
-                </article>
-              </td>
-              <td>1</td>
-              <td>8,000</td>
-              <td>8,000</td>
-            </tr>
-            <tr
-              class="py-5 px-20 border-b border-solid border-gray-300 text-center"
-            >
-              <td><input type="checkbox" name="1" /></td>
-              <td>
-                <article class="flex items-center">
-                  <a href="#">
-                    <img
-                      src="/images/02.png"
-                      alt="1"
-                      class="w-20 h-20 rounded-lg mr-2"
-                    />
-                  </a>
-                  <div>
-                    <h2><a href="#" class="text-lg font-bold">딩동펫</a></h2>
-                  </div>
-                </article>
-              </td>
-              <td>1</td>
-              <td>17,000</td>
-              <td>17,000</td>
-            </tr>
-            <tr
-              class="py-5 px-20 border-b border-solid border-gray-300 text-center"
-            >
-              <td><input type="checkbox" name="1" /></td>
-              <td>
-                <article class="flex items-center">
-                  <a href="#">
-                    <img
-                      src="/images/03.png"
-                      alt="1"
-                      class="w-20 h-20 rounded-lg mr-2"
-                    />
-                  </a>
-                  <div>
-                    <h2><a href="#" class="text-lg font-bold">도기맨</a></h2>
-                  </div>
-                </article>
-              </td>
-              <td>1</td>
-              <td>27,000</td>
-              <td>27,000</td>
-            </tr>
-          </table>
-          <input
-            type="button"
-            name="del"
-            value="선택삭제"
-            class="font-bold text-lg border border-gray-300 border-b border-t bg-gray-200 text-gray-700 p-2 my-6"
-          />
-          <div
-            class="total float-right w-96 h-96 p-5 bg-white border border-gray-300 mt-4"
-          >
-            <h2 class="font-bold text-lg border-b border-gray-900 mb-2 pb-2">
-              전체합계
-            </h2>
-            <table class="w-full">
-              <tr>
-                <td class="text-sm text-gray-600">상품수</td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td class="text-sm text-gray-600">상품금액</td>
-                <td class>27,000</td>
-              </tr>
-              <tr>
-                <td class="text-sm text-gray-600">전체주문금액</td>
-                <td class="text-red-600 font-bold text-xl">26,000</td>
-              </tr>
-            </table>
-            <input
-              type="submit"
-              value="주문하기"
-              class="w-full h-16 text-white bg-red-500 text-xl border border-red-600 border-b border-t mt-4"
-            />
+            <!-- cart -->
+           
+              <div class="empty border">
+                <p>Your cart is empty</p>
+              </div>
+              <div class="cart-container-box hidden">
+               
+                <div id="cart-list" class="cart-container grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                 <!-- 상품 목록이 동적으로 추가될 예정  -->
+                </div>            
+              </div>             
           </div>
-        </form>
-      </section>
-    </main>
+          <div class="flex p-4 justify-between">
+            <div class="w-full px-4 mb-4 lg:w-1/2">
+              <div class="flex flex-wrap items-center gap-4"></div>
+            </div>
+            <div class="w-full px-4 mb-4 lg:w-1/2">
+              <div class="cart-total p-6 border border-gray-200 md:p-8">
+                <div class="total border-b border-gray-300 dark:border-gray-700 mb-4">
+                  <h2
+                    class="total-title mb-8 text-3xl font-bold text-gray-700 dark:text-gray-400"
+                  >
+                    전체합계
+                  </h2>
+                </div>
+                <div class="flex items-center justify-between pb-4 mb-4">
+                  <span class="text-gray-700 dark:text-gray-400">상품수</span>
+                  <span
+                    class="top-cart-count text-xl font-bold text-gray-700 dark:text-gray-400"
+                    >3</span
+                  >
+                </div>
+                <div class="flex items-center justify-between pb-4 mb-4">
+                  <span class="text-gray-700 dark:text-gray-400"
+                    >전체주문금액</span
+                  >
+                  <span
+                    class="total-price  text-xl font-bold text-gray-700 dark:text-gray-400"
+                    ></span
+                  >
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <button
+                    class="block w-full py-4 font-bold text-center text-gray-100 uppercase bg-teal-600 rounded-md hover:bg-teal-500"
+                  > <a href="/order/" class="control-btn total-order">주문하기</a>
+                    
+                  </button>
+                
+               </div>
+          </div>
+       
+      </div>
+    </section></form>
   </body>
+  <div id='footer'></div>
 </html>
-<script type="module" src="cartPage.js"></script>
+
+
+<script type="module" src="./cart.js"></script>
+

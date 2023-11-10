@@ -1,21 +1,29 @@
 const { Router } = require('express');
 const userController = require('../controllers/userController');
-
+const validator = require('../middleware/validator');
+const { user } = require('../middleware/validators');
+const { isAuth } = require('../middleware/isAuth');
+const { isAdmin } = require('../middleware/isAdmin');
 const router = Router();
 
 // 전체 유저 조회
-router.get('/users', userController.getAllUsers);
+router.get('/users', isAdmin, userController.getAllUsers);
 
 // 유저 정보 조회
-router.get('/users/:id', userController.getUserById);
+router.get('/users/me', isAuth, userController.getUserById);
 
-// 유저 생성
-router.post('/users', userController.createUser);
+// 유저 생성 - (deprecated)
+// router.post('/users', userController.createUser);
 
 // 유저 수정
-router.put('/users/:id', userController.updateUser);
+router.put(
+  '/users',
+  isAuth,
+  validator(user.updateUser),
+  userController.updateUser,
+);
 
 // 유저 삭제
-router.delete('/users/:id', userController.deleteUser);
+router.delete('/users', isAuth, userController.disableAccountUser);
 
 module.exports = router;

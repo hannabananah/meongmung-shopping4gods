@@ -1,46 +1,64 @@
-const models = require('../models/index');
+const models = require('../models');
 
-exports.getAllDogs = async () => {
-  return await models.Dog.find({});
+exports.getAllDogs = async (userId) => {
+  try {
+    const dogs = await models.Dog.find({ userId }).exec();
+
+    return dogs;
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
-exports.getDogById = async (id) => {
+exports.getDogById = async (userId, dogId) => {
   try {
-    const dog = await models.Dog.findOne({ id });
+    const dog = await models.Dog.findOne({ userId, _id: dogId }).exec();
 
-    if (dog === null) {
-      const error = {
-        status: 400,
+    if (!dog) {
+      const err = {
+        status: 404,
         message: '해당하는 강아지를 찾을 수 없습니다.',
       };
-      return error;
+      return err;
     }
 
     return dog;
   } catch (err) {
-    throw new Error('서버 오류 입니다.');
+    throw new Error(err);
   }
 };
 
-exports.createDog = async (dog) => {
-  const res = await models.Dog.create(dog);
-  return res;
-};
-
-exports.updateDog = async (id, dog) => {
+exports.createDog = async (dogData) => {
   try {
-    const res = await models.Dog.updateOne({ id }, { ...dog });
-    return res;
-  } catch (error) {
-    throw new Error('업데이트 할 수 없습니다.');
-  }
-};
-
-exports.deleteDog = async (id) => {
-  try {
-    const res = await models.Dog.deleteOne({ id });
-    return res;
+    const createdDog = await models.Dog.create(dogData);
+    return createdDog;
   } catch (err) {
-    throw new Error('삭제 할 수 없습니다.');
+    throw new Error(err);
+  }
+};
+
+exports.updateDog = async (dogId, updatedData) => {
+  try {
+    const updatedDog = await models.Dog.findByIdAndUpdate(dogId, updatedData, {
+      new: true,
+    });
+    if (!updatedDog) {
+      throw new Error('해당 ID의 강아지를 찾을 수 없습니다.');
+    }
+    return updatedDog;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+exports.deleteDog = async (dogId) => {
+  try {
+    const deletedDog = await models.Dog.findByIdAndDelete(dogId);
+    if (!deletedDog) {
+      throw new Error('해당 ID의 강아지를 찾을 수 없습니다.');
+    }
+    return deletedDog;
+  } catch (err) {
+    throw new Error(err);
   }
 };

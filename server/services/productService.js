@@ -1,57 +1,48 @@
-const models = require('../models/index');
+const models = require('../models');
 
-exports.getAllProduct = async () => {
-  const res = await models.Product.find({});
+exports.getAllProduct = async (page, perPage) => {
+  try {
+    const totalProducts = await models.Product.countDocuments();
+    const totalPages = Math.ceil(totalProducts / perPage);
+    const products = await models.Product.find({})
+      .populate('category')
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .exec();
 
-  return res;
+    return {
+      products,
+      page,
+      totalPages,
+    };
+  } catch (error) {
+    throw new Error('상품을 가져올 수 없습니다.');
+  }
 };
 
 exports.getProductById = async (_id) => {
-  const product = await models.Product.findOne({ _id });
-
-  return product;
+  return await models.Product.findOne({ _id }).exec();
 };
 
-exports.getProductByCategoryName = async (name) => {
-  const products = await models.Product.find({})
-    .populate({
-      path: 'category',
-      match: { name },
-    })
-    .exec();
-
-  const filteredProducts = products.filter((product) => product.category);
-  return filteredProducts;
-};
-
-exports.createProduct = async ({ name, desc, category, img_url, price }) => {
+exports.createProduct = async (productProps) => {
   const product = await models.Product.create({
-    name,
-    desc,
-    category,
-    img_url,
-    price,
+    ...productProps,
   });
   return product;
 };
 
-exports.updateProduct = async (_id, name, desc, category, img_url, price) => {
+exports.updateProduct = async (_id, productData) => {
   try {
-    const data = await models.Product.updateOne(
-      { _id },
-      { name, desc, category, img_url, price },
-    );
+    const data = await models.Product.updateOne({ _id }, productData).exec();
+
     if (!data.acknowledged) {
-      return { state: 200, message: '수정 실패' };
+      return { status: 200, message: '수정 실패' };
     }
-    return { state: 200, massage: '수정 성공' };
-  } catch (error) {
-    throw new Error('업데이트 할 수 없습니다.');
+  } catch (err) {
+    throw new Error(err);
   }
 };
 
 exports.deleteProduct = async (_id) => {
-  const res = await models.Product.deleteOne({ _id });
-
-  return res;
+  return await models.Product.deleteOne({ _id }).exec();
 };

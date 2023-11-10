@@ -4,8 +4,16 @@ const { User } = require('../models');
 exports.isAuth = async function (req, res, next) {
   const header = req.get('Authorization');
 
-  if (!(header && header.startsWith('Bearer'))) {
-    return res.status(401).json({ message: 'Authorization 오류 입니다.' });
+  if (!header) {
+    return res
+      .status(401)
+      .json({ message: 'Authorization:오류, 로그인 토큰이 필요합니다.' });
+  }
+
+  if (!header.startsWith('Bearer')) {
+    return res
+      .status(401)
+      .json({ message: 'Authorization:오류, 지원하지 않는 포맷입니다.' });
   }
 
   const token = header.split(' ')[1];
@@ -16,9 +24,12 @@ exports.isAuth = async function (req, res, next) {
     const user = await User.findOne({ email: decoded.email });
 
     if (!user) {
-      return res.status(401).json({ message: 'Authorization 오류 입니다.' });
+      return res
+        .status(401)
+        .json({ message: '해당 유저가 존재하지 않습니다.' });
     }
     req.user = user;
+    req.userId = user._id.toString();
     next();
   } catch (err) {
     if (err.message.includes('expired')) next('토큰 기한이 만료 되었습니다.');
