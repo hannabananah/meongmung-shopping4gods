@@ -68,7 +68,7 @@ export function init() {
 
   document.querySelector(
     '#footer',
-  ).innerHTML = `<footer class='w-screen pt-8 pl-20 pb-6 pr-20 text-center bottom-0 border-t-0 border-gray-200'>
+  ).innerHTML = `<footer class='w-full pt-8 pl-20 pb-6 pr-20 text-center bottom-0 border-t-0 border-gray-200'>
   <ul class='text-sm text-left flex flex-col gap-y-1'>
   <li><img class='w-[180px]' src='/images/mngmng_logo.png' alt='멍뭉이들 대표로고'/></li>
   <li class='mt-6'><a href="https://feather-ticket-ba0.notion.site/323b434b07974e65954916c97cffb840/"> <strong>개인정보처리방침</strong></a> | <a href="https://feather-ticket-ba0.notion.site/01d0159518f8499e993c8aafe2a811a0" class="hover:underline">이용약관</a></li>
