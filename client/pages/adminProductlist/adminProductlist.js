@@ -3,14 +3,17 @@ import { init } from '../main.js';
 
 init();
 
-const API_BASE_URL = import.meta.env.VITE_BASE_URL;
-
 const token = localStorage.getItem('token');
+const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const productListEl = document.querySelector('#product-list');
 
 let products = [];
 let list = [];
+
+window.addEventListener('DOMContentLoaded', () => {
+  getProducts();
+});
 
 // 상품리스트 조회
 const getProducts = async () => {
@@ -42,13 +45,12 @@ const renderList = async (products) => {
     template += `<tr class=" border-t w-full border-gray-300"><td colspan="5" class="text-center py-20 col-span-2">상품 정보가 없습니다.</td>
     </tr>`;
 
-    localStorage.setItem('product', 0);
     productListEl.insertAdjacentHTML('beforeend', template);
     return;
-  } else localStorage.setItem('product', 1);
+  }
   console.log(products);
 
-  products.map(({ name, category, price }, index) => {
+  products.map(({ name, category, createdAt, price }, index) => {
     template += `
       <tr class="border-t border-gray-300">
       <td class="px-4 py-2 checkbox-cell text-center">
@@ -60,14 +62,14 @@ const renderList = async (products) => {
       <td class="px-4 py-2 text-center">
           ${price.toLocaleString('ko-KR')}원
       </td>
-      <td class="px-4 py-2 text-center">${formatDate(category.createdAt)}</td>
+      <td class="px-4 py-2 text-center">${formatDate(createdAt)}</td>
       <td class="px-4 py-2 text-center text-red-600"><button class="update-btn hover:underline">수정하기</button></td>
       </tr>
       `;
   });
-
+  console.log(productListEl);
   productListEl.insertAdjacentHTML('beforeend', template);
-  bindEvents(productListEl);
+  // bindEvents(productListEl);
 
   // selectAll 함수 정의
   function selectAll(checkbox) {
