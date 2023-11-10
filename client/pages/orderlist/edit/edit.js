@@ -71,6 +71,10 @@ function bindEvent(target, btn, form, id) {
               location.href = '/orderlist/';
             },
           );
+        } else if (data.status === 400) {
+          new Swal('수정 불가', data.message, 'warning').then(() => {
+            location.href = '/orderlist/';
+          });
         }
       })
       .catch((error) => console.log(error));
