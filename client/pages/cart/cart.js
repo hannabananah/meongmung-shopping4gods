@@ -45,12 +45,12 @@ function cartCreateHTML(product, i) {
           <h2 class="mb-2 text-xl font-bold">
             <a
               href="#"
-              class="text-lg font-bold hover:text-gray-200"
+              class="text-lg font-bold hover:text-gray-400"
               >${product.name}</a
             >
           </h2>
          <button
-         class="item-remove text-gray-500 hover:text-gray-200"
+         class="item-remove text-gray-500 hover:text-gray-400"
           id="${i}"
         >
           삭제
@@ -60,7 +60,7 @@ function cartCreateHTML(product, i) {
       </div>
     </div>
     <div class="w-2/12">
-      <p class="text-lg text-center font-bold text-blue-500">${product.price.toLocaleString()}</p>
+      <p class="text-lg text-center font-bold text-slate-800">${product.price.toLocaleString()}</p>
     </div>
     <div class="custom-number-input w-2/12 text-center">
           <button
@@ -85,7 +85,7 @@ function cartCreateHTML(product, i) {
           </button>
           </div>
     <div class="text-center  w-2/12">
-      <p class="single-total-price text-lg font-bold text-blue-500">
+      <p class="single-total-price text-lg font-bold text-slate-800">
         ${(product.price * product.order).toLocaleString()}
       </p>
     </div>
