@@ -57,10 +57,10 @@ exports.createProduct = async (req, res, next) => {
 
 exports.updateProduct = async (req, res, next) => {
   try {
-    const { _id } = req.params;
+    const { id } = req.params;
     const productProps = req.body;
 
-    const status = await productService.updateProduct({ _id }, productProps);
+    const status = await productService.updateProduct(id, productProps);
     res.status(200).json({
       status: 200,
       message: '상품 수정 성공',

@@ -50,7 +50,7 @@ const renderList = async (products) => {
   }
   console.log(products);
 
-  products.map(({ name, category, createdAt, price }, index) => {
+  products.map(({ name, category, createdAt, price, _id }, index) => {
     template += `
       <tr class="border-t border-gray-300">
       <td class="px-4 py-2 checkbox-cell text-center">
@@ -63,13 +63,13 @@ const renderList = async (products) => {
           ${price.toLocaleString('ko-KR')}원
       </td>
       <td class="px-4 py-2 text-center">${formatDate(createdAt)}</td>
-      <td class="px-4 py-2 text-center text-red-600"><button class="update-btn hover:underline">수정하기</button></td>
+      <td class="px-4 py-2 text-center text-red-600"><button id="${_id}" class="update-btn hover:underline">수정하기</button></td>
       </tr>
       `;
   });
   console.log(productListEl);
   productListEl.insertAdjacentHTML('beforeend', template);
-  // bindEvents(productListEl);
+  bindEvents(productListEl);
 
   // selectAll 함수 정의
   function selectAll(checkbox) {
@@ -114,8 +114,8 @@ const bindEvents = (document) => {
 
   for (const btn of updateBtns) {
     btn.addEventListener('click', (e) => {
-      console.log(e.target.name);
-      location.href = `/adminProductlist/edit/?productName=${e.target.name}&id=${e.target.id}`;
+      console.log(e.target.id);
+      location.href = `/admin-edit-product/?id=${e.target.id}`;
     });
   }
 };

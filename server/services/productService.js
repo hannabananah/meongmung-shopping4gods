@@ -32,6 +32,7 @@ exports.createProduct = async (productProps) => {
 };
 
 exports.updateProduct = async (_id, productData) => {
+  console.log('sads', _id, productData);
   try {
     const data = await models.Product.updateOne({ _id }, productData).exec();
 

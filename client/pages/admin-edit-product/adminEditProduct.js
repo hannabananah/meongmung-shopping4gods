@@ -16,8 +16,16 @@ const descriptionInput = document.querySelector('#description');
 const priceInput = document.querySelector('#price');
 const manufacturerInput = document.querySelector('#manufacturer');
 
-const getProduct = async () => {
-  return fetch(`${API_BASE_URL}/products`, {
+const uri = location.search;
+const productId = uri.split('=')[1];
+console.log(productId);
+
+window.addEventListener('DOMContentLoaded', () => {
+  getProduct(productId);
+});
+
+const getProduct = async (id) => {
+  return fetch(`${API_BASE_URL}/products/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -26,6 +34,15 @@ const getProduct = async () => {
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
+      console.log(fileInput);
+      imgEl.src = data.img_url;
+      nameInput.value = data.name;
+      categoryInput.value = data.category;
+      descriptionInput.value = data.desc;
+      priceInput.value = data.price;
+      manufacturerInput.value = data.manufacturer;
+
       return data;
     })
     .catch((error) => console.log(error));
@@ -58,24 +75,34 @@ form.addEventListener('submit', async (e) => {
 
   const img_url = await uploadImage(fileInput)
     .then((url) => {
-      console.log(url);
+      console.log('----', url);
       return url;
     })
     .catch((err) => console.err(err));
 
-  addProduct({ name, category, price, desc, manufacturer, img_url });
+  editProduct({
+    name,
+    category,
+    price,
+    desc,
+    manufacturer,
+    img_url,
+    productId,
+  });
 });
 
-async function addProduct({
+async function editProduct({
   name,
   category,
   price,
   desc,
   manufacturer,
   img_url,
+  productId,
 }) {
-  fetch(`${API_BASE_URL}/products`, {
-    method: 'POST',
+  console.log(productId);
+  fetch(`${API_BASE_URL}/products/${productId}`, {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -91,9 +118,8 @@ async function addProduct({
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       if (data.status === 200) {
-        location.href = '/adminProductlist/';
+        // location.href = '/adminProductlist/';
       }
     })
     .catch((error) => console.log(error));
