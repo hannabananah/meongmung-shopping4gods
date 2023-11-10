@@ -19,7 +19,7 @@ export function init() {
   const headerBtns = document.querySelector('#headerbtn');
   if (localStorage.getItem('id') && localStorage.getItem('token')) {
     headerBtns.innerHTML = ` 
-      <ul class="flex gap-6">
+      <ul class="flex gap-7">
           <li class="hover:text-gray-400">
             <a href="/mypage/">마이페이지</a>
           </li>
@@ -38,7 +38,7 @@ export function init() {
     });
   } else {
     headerBtns.innerHTML = ` 
-      <ul class="flex gap-6">
+      <ul class="flex gap-7">
           <li class="hover:text-gray-400">
             <a href="/login/">로그인</a>
           </li>

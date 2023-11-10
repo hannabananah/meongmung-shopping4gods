@@ -40,7 +40,7 @@ const loadItem =(data) =>{
     img.src = data.img_url;
     img.alt = data.img_url;
     txtname.innerHTML = data.name;
-    txtcost.innerHTML = data.price;
+    txtcost.innerHTML = data.price.toLocaleString();
     detail.innerHTML = data.desc
 }
   

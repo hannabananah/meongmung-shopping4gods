@@ -82,7 +82,7 @@ const loadItem = () => {
     <tr class='w-full border-b-2 items-center border-gray-100 flex pb-2'>
         <td class='items-center place-content-start '> 
         <img class='w-24  p-3' src='${product.imgUrl}' alt = '${product.imgUrl}'/> </td>
-        <td><p class='text-sm text-gray-600'>${product.name} X ${product.order}개 </p><p class='font-semibold'>${product.price}원 </p></td>
+        <td><p class='text-sm text-gray-600'>${product.name} X ${product.order}개 </p><p class='font-semibold'>${product.price.toLocaleString()}원 </p></td>
         </tr> 
     </table>`
 
@@ -93,9 +93,9 @@ const loadItem = () => {
     totalPrice += product.price * product.order;
     totalOrder += product.order * 1;
 })    
-    txtCost.innerHTML = totalPrice;
+    txtCost.innerHTML = totalPrice.toLocaleString();
     txtQuantity.innerHTML = totalOrder;
-    txtTotal.innerHTML = totalPrice;
+    txtTotal.innerHTML = totalPrice.toLocaleString();
 }
 
 
