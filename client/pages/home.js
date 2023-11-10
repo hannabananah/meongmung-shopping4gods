@@ -43,7 +43,7 @@ function renderProducts(data) {
 
             
             <div class="flex items-center justify-between ">
-            <span class="text-gray-900 font-bold text-3xl">${product.price}원</span>
+            <span class="text-gray-900 font-bold text-3xl">${(product.price).toLocaleString()}원</span>
             <button class ="cart-add" id="cart-${product._id}"><img class="w-[30px]" src="/images/cart.svg"/></button>
             </div>
             </div>
