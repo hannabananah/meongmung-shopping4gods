@@ -13,7 +13,6 @@ const recommend = document.getElementById('recommendlabel');
 
 const params = location.search;
 
-
 const param = new URLSearchParams(params);
 const page = param.get('page'); // 5
 
@@ -43,8 +42,10 @@ function renderProducts(data) {
 
             
             <div class="flex items-center justify-between ">
-            <span class="text-gray-900 font-bold text-3xl">${(product.price).toLocaleString()}원</span>
-            <button class ="cart-add" id="cart-${product._id}"><img class="w-[30px]" src="/images/cart.svg"/></button>
+            <span class="text-gray-900 font-bold text-3xl">${product.price.toLocaleString()}원</span>
+            <button class ="cart-add" id="cart-${
+              product._id
+            }"><img class="w-[30px]" src="/images/cart.svg"/></button>
             </div>
             </div>
           `;
@@ -59,7 +60,9 @@ function renderProducts(data) {
     // 모든 장바구니 버튼에 클릭 핸들러를 추가
     const cartbtn = document.querySelector(`#cart-${product._id}`);
 
-    cartbtn.addEventListener('click', function () {
+    cartbtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+
       buttonClickHandler(product);
     });
   });
@@ -81,7 +84,6 @@ function renderPages(datalen) {
     } else pages[0].parentNode.firstChild.checked = true;
     pages.forEach((page) => {
       page.addEventListener('click', function (e) {
-       
         location = `?page=${e.target.innerHTML}`;
       });
     });
@@ -90,12 +92,12 @@ function renderPages(datalen) {
 
 function renderCategories(data) {
   const categoryList = document.getElementById('category-list');
-  
+
   if (token && dog === '1') {
     recommend.style.display = 'block';
   }
   const categories = data.list; // JSON 데이터에서 제품 목록을 가져옴
- 
+
   // 가져온 데이터를 사용하여 동적으로 제품 목록 생성
   categories.forEach((category) => {
     // 제품 항목을 생성하고 추가하는 코드
@@ -113,8 +115,6 @@ function renderCategories(data) {
     }
     const btnCategory = document.querySelector(`#category-${category._id}`);
     btnCategory.addEventListener('click', function () {
-      
-
       getProducts(`${API_BASE_URL}/categories/${category.name}/products`);
     });
     categories[categories.length - 1];
@@ -181,21 +181,17 @@ const buttonClickHandler = function (data) {
     price: data.price,
   };
 
-
   // 이미 장바구니에 있는 상품인지 확인
   if (saveCartGoods.some((product) => product.id === selectedProduct.id)) {
-    
     alert('장바구니에 있는 상품입니다.');
   } else {
     alert('장바구니에 담았습니다.');
     selectedProduct.order = 1;
     saveCartGoods.push(selectedProduct);
- 
   }
   // 장바구니 정보를 localStorage에 업데이트
   localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
-  saveCart(saveCartGoods);
-
+  // saveCart(saveCartGoods);
 };
 
 // localStorage에 기본 장바구니 정보를 저장
