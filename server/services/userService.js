@@ -33,14 +33,14 @@ exports.updateUser = async (_id, phone, name) => {
     const existingUser = await models.User.findOne({ phone });
 
     if (existingUser && existingUser._id.toString() !== _id) {
-      return { state: 400, message: '해당 전화번호가 이미 존재합니다.' };
+      return { status: 400, message: '해당 전화번호가 이미 존재합니다.' };
     }
 
     const data = await models.User.updateOne({ _id }, { phone, name }).exec();
     if (!data.acknowledged) {
-      return { state: 200, message: '수정 실패' };
+      return { status: 200, message: '수정 실패' };
     }
-    return { state: 200, massage: '수정 성공' };
+    return { status: 200, massage: '수정 성공' };
   } catch (err) {
     throw new Error(err);
   }
@@ -50,7 +50,7 @@ exports.deleteUser = async (_id) => {
   try {
     await models.User.deleteOne({ _id }).exec();
 
-    return { state: 200, message: '탈퇴 성공' };
+    return { status: 200, message: '탈퇴 성공' };
   } catch (err) {
     throw new Error(err);
   }

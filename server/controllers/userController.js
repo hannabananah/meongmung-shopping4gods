@@ -52,12 +52,12 @@ exports.updateUser = async (req, res, next) => {
   try {
     const data = await userService.updateUser(id, phone, name);
 
-    if (data.state === 400) {
+    if (data.status === 400) {
       res.status(400).json({
         status: 400,
         message: '동일한 전화번호가 이미 존재합니다.',
       });
-    } else if (data.state === 200) {
+    } else if (data.status === 200) {
       res.status(200).json({
         status: 200,
         message: '수정 성공',
@@ -75,7 +75,7 @@ exports.disableAccountUser = async (req, res, next) => {
   try {
     const result = await userService.disableAccountUser(id);
     console.log(result);
-    res.json({ state: 200, message: '탈퇴 성공' });
+    res.json({ status: 200, message: '탈퇴 성공' });
   } catch (err) {
     next(err);
   }
