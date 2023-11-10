@@ -13,7 +13,7 @@ const detail = document.getElementById('detail');
 let product;
 
 const id_query = new URLSearchParams(location.search).get("id"); //querystring으로 상품아이디 받아옴
-console.log(id_query);
+
 
 const getProduct= ()=> {
     fetch(`${API_BASE_URL}/products/${id_query}` , {
@@ -22,7 +22,7 @@ const getProduct= ()=> {
       .then((response) => 
         response.json())
       .then((data) => {
-        console.log(data);
+      
         loadItem(data);
         product = {
           id: data._id,
@@ -58,7 +58,7 @@ decrementButtons.addEventListener("click", function() {
     }
 );
 incrementButtons.addEventListener("click", function() {  
-    console.log(value);
+
     value++;
     target.value = value;
 });
@@ -70,22 +70,22 @@ const buybtn = document.getElementById('buybtn');
 cartbtn.addEventListener("click", function(){
   // 모든 장바구니 버튼에 대한 클릭 핸들러
   let selectedProduct = product;
- console.log(selectedProduct);
+ 
 
   // 이미 장바구니에 있는 상품인지 확인
   if (saveCartGoods.some((product) => product.id === selectedProduct.id)) {
-    console.log('이미 장바구니에 있는 상품입니다.');
+    
     alert('장바구니에 있는 상품입니다.');
   } else {
     alert('장바구니에 담았습니다.');
     selectedProduct.order = target.value;
     saveCartGoods.push(selectedProduct);
-    console.log('장바구니에 추가');
+
   }
   // 장바구니 정보를 localStorage에 업데이트
   localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
   saveCart(saveCartGoods);
-  console.log('저장완료');
+ 
 
 
     new Swal('장바구니에 담겼습니다', '', 'success').then(() => {
@@ -98,7 +98,7 @@ buybtn.addEventListener("click", function(){
   
     let productlist = [];
     productlist.push(product);
-    console.log(JSON.stringify(productlist));
+  
     localStorage.setItem('product',JSON.stringify(productlist));
     location.href = '/order/?buy=1';
 })

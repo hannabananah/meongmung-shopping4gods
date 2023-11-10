@@ -7,7 +7,7 @@ const content = document.querySelector('#content');
 const token = localStorage.getItem('token');
 
 async function renderContent() {
-  console.dir(location);
+  //console.dir(location);
   const id = location.search.split('=')[1];
   const res = await getAddressById(id);
 
@@ -190,7 +190,7 @@ function generatorTemplate(address) {
 }
 
 async function getAddressById(id) {
-  console.log(`${API_BASE_URL}/addresses/${id}`);
+ // console.log(`${API_BASE_URL}/addresses/${id}`);
   const res = await fetch(`${API_BASE_URL}/addresses/${id}`, {
     method: 'GET',
     headers: {
@@ -199,7 +199,7 @@ async function getAddressById(id) {
     },
   });
   const data = await res.json();
-  console.log(data)
+  //console.log(data)
   return data;
 }
 

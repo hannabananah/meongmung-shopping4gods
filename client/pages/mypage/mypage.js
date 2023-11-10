@@ -25,7 +25,7 @@ const deleteUser = () => {
         .then((response) => 
           response.json())
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           if(data.status ===200){
             new Swal(data.message, '', 'success').then(() => {
                 localStorage.removeItem('token');
