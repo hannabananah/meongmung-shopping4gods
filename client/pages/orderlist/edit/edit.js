@@ -15,7 +15,8 @@ async function renderContent() {
     const template = generatorTemplate(res.order);
     content.innerHTML = template;
 
-    const form = content.querySelector('.quantity');
+    // const priceInput = content.querySelector('#price');
+    // const quantityInput = content.querySelectorAll('.quantity');
     const updateBtn = content.querySelector('.update-btn');
     const orderForm = content.querySelector('#order-form');
     const btns = content.querySelectorAll('button');
@@ -36,11 +37,11 @@ async function renderContent() {
       }
     }
 
-    bindEvent(form, updateBtn, orderForm, id);
+    bindEvent(updateBtn, orderForm, id);
   }
 }
 
-function bindEvent(target, btn, form, id) {
+function bindEvent(btn, form, id) {
   let products = [];
 
   btn.addEventListener('click', (e) => {
@@ -100,7 +101,7 @@ async function getOrderById(id) {
 }
 
 function generatorTemplate(order) {
-  const { createdAt, _id, products, status } = order;
+  const { createdAt, _id, products } = order;
   let totalPrice = 0;
 
   for (let i = 0; i < products.length; i++) {
@@ -130,21 +131,21 @@ function generatorTemplate(order) {
         (product) => `<div id="wrap-${
           product.product._id
         }" class="flex w-full py-2 ">
-      <div class="w-[25%] flex items-center justify-center">
-      <img class="w-24 mr-4" src="../../images/02.png" alt="" />
+      <div class="w-[55%] flex items-center justify-center">
+      <img class="w-24 mr-4" src="${product.product.img_url}" alt="" />
       <p class="w-full text-left">${product.product.name}</p>
       </div>
-      <div class="w-[25%] flex items-center justify-center ">
-      <input id="${
+      <div class="w-[15%] flex items-center justify-center ">
+      <input data-price="${product.product.price}" id="${
         product.product._id
       }" class="quantity w-14" type="number" value="${
         product.quantity
       }"></input>
       </div>
-      <div class="w-[25%] flex items-center justify-center font-bold">${(
+      <div id="price" class="w-[15%] flex items-center justify-center font-bold">${(
         +product.product.price * +product.quantity
       ).toLocaleString('ko-KR')}</div>
-      <div  class="w-[25%] flex items-center justify-center "><button id=${
+      <div  class="w-[15%] flex items-center justify-center "><button id=${
         product.product._id
       } class="text-red-500 border rounded-md px-4 py-2 hover:bg-red-500 hover:text-white">삭제</button></div>
       </div>`,
