@@ -176,7 +176,7 @@ function chooseOrder() {
     .then((data) => {
       if (data.status === 200) {
         new Swal('주문취소 성공', '', 'success').then(() => {
-          location.href = '/adminOrderlist/';
+          location.href = '/admin-order-list/';
         });
       }
     })
