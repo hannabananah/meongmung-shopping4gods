@@ -72,9 +72,10 @@ const getCategory = async () => {
 const renderList = async () => {
   let template = ``;
 
-  const res = await getCategory();
-  console.log(res);
-  if (!res.list.length) {
+  const data = await getCategory();
+  console.log(data.list.length);
+  
+  if (!data.list.length) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
     <div class='flex-1'>카테고리 정보가 없습니다.</div>
     </div>`;
@@ -82,8 +83,9 @@ const renderList = async () => {
     categoryListEl.insertAdjacentHTML('beforeend', template);
     return;
   } else localStorage.setItem('category', 1);
-  console.log(res.list);
-  for (const [index, category] of res.list.entries()) {
+  console.log(data.list);
+  
+  for (const [index, category] of data.list.entries()) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
     <div class='w-[100px]'>${index + 1}</div>
     <div class='flex-1'>${category.name}</div>
