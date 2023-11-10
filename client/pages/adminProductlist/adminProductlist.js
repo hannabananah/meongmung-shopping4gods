@@ -1,5 +1,6 @@
 import '../../index.css';
 import { init } from '../main.js';
+import Swal from 'sweetalert2';
 
 init();
 
@@ -71,6 +72,18 @@ const renderList = async (products) => {
   productListEl.insertAdjacentHTML('beforeend', template);
   bindEvents(productListEl);
 
+  // 수정하기 버튼
+  function bindEvents(document) {
+    const updateBtns = document.querySelectorAll('.update-btn');
+
+    for (const btn of updateBtns) {
+      btn.addEventListener('click', (e) => {
+        console.log(e.target.id);
+        location.href = `/admin-edit-product/?id=${e.target.id}`;
+      });
+    }
+  }
+
   // selectAll 함수 정의
   function selectAll(checkbox) {
     const selectAll = checkbox.checked;
@@ -108,21 +121,9 @@ const renderList = async (products) => {
   });
 };
 
-// 수정하기 버튼
-const bindEvents = (document) => {
-  const updateBtns = document.querySelectorAll('.update-btn');
-
-  for (const btn of updateBtns) {
-    btn.addEventListener('click', (e) => {
-      console.log(e.target.id);
-      location.href = `/admin-edit-product/?id=${e.target.id}`;
-    });
-  }
-};
-
 // 선택한 상품 삭제
 function chooseOrder() {
-  fetch(`${API_BASE_URL}/admins/products`, {
+  fetch(`${API_BASE_URL}/products`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -132,7 +133,6 @@ function chooseOrder() {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data.status);
       if (data.status === 200) {
         new Swal('상품삭제 성공', '', 'success').then(() => {
           location.href = '/adminProductlist/';
