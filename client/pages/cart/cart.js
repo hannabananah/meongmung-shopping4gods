@@ -14,9 +14,8 @@ let saveCartGoods = localStorage.getItem('cartList')
   : [];
 
 function cartCreateHTML(product, i) {
-  console.log(i);
   return `
-    <div class="flex border-t border-gray-300 items-center">
+    <div class="flex border-t border-gray-300 items-center pt-2">
     <div class=" w-3/6 py-2 ">
       <div class="flex items-center">
         <div class="w-1/3">
@@ -160,21 +159,21 @@ export const buttonClickHandler = function (e) {
 
   // 이미 장바구니에 있는 상품인지 확인
   if (saveCartGoods.some((product) => product.id === selectedProduct.id)) {
-    console.log('이미 장바구니에 있는 상품입니다.');
+  
     alert('장바구니에 있는 상품입니다.');
   } else {
     alert('장바구니에 담았습니다.');
     selectedProduct.cart = true;
     selectedProduct.order = 1;
     saveCartGoods.push(selectedProduct);
-    console.log('장바구니에 추가');
+
   }
   // 장바구니 정보를 localStorage에 업데이트
   localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
   saveCart(saveCartGoods);
   totalCartCount();
   totalPrice();
-  console.log('저장완료');
+
 };
 
 // 모든 장바구니 버튼에 클릭 핸들러를 추가
@@ -216,7 +215,7 @@ function singleGoodsControl(e, plusMinusBtns) {
     if (e.target.parentNode === plusMinusBtn) {
       const cartdataId = e.target.parentNode.id;
       const pickGoods = saveCartGoods[cartdataId];
-      console.log(cartdataId)
+     
       //cart-storage에서 수량 증감
       if (plusMinusBtn.dataset.value === 'plus') {
         pickGoods.order++;

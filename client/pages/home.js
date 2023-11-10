@@ -60,7 +60,6 @@ function renderProducts(data) {
     const cartbtn = document.querySelector(`#cart-${product._id}`);
 
     cartbtn.addEventListener('click', function () {
-      console.log(product._id);
       buttonClickHandler(product);
     });
   });
@@ -82,7 +81,7 @@ function renderPages(datalen) {
     } else pages[0].parentNode.firstChild.checked = true;
     pages.forEach((page) => {
       page.addEventListener('click', function (e) {
-        console.log(e.target.innerHTML);
+       
         location = `?page=${e.target.innerHTML}`;
       });
     });
@@ -91,12 +90,12 @@ function renderPages(datalen) {
 
 function renderCategories(data) {
   const categoryList = document.getElementById('category-list');
-  console.log(dog);
+  
   if (token && dog === '1') {
     recommend.style.display = 'block';
   }
   const categories = data.list; // JSON 데이터에서 제품 목록을 가져옴
-  console.log(data);
+ 
   // 가져온 데이터를 사용하여 동적으로 제품 목록 생성
   categories.forEach((category) => {
     // 제품 항목을 생성하고 추가하는 코드
@@ -114,7 +113,7 @@ function renderCategories(data) {
     }
     const btnCategory = document.querySelector(`#category-${category._id}`);
     btnCategory.addEventListener('click', function () {
-      console.log(category.name);
+      
 
       getProducts(`${API_BASE_URL}/categories/${category.name}/products`);
     });
@@ -128,7 +127,6 @@ const getProducts = (api) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       renderProducts(data.products);
       renderPages(data.totalPages);
     })
@@ -142,7 +140,6 @@ const getCategories = () => {
     .then((response) => response.json())
     .then((data) => {
       // if(token && (dog !== "0")) recommend.style.display = 'block';
-      console.log(data);
       renderCategories(data);
     })
     .catch((error) => console.log(error));
@@ -167,7 +164,6 @@ const getRecommend = () => {
     .then((response) => response.json())
     .then((data) => {
       if (data.status === 200) {
-        console.log(data);
         renderProducts(data.recommends);
         renderPages(data.totalPages);
       }
@@ -184,22 +180,22 @@ const buttonClickHandler = function (data) {
     imgUrl: data.img_url,
     price: data.price,
   };
-  console.log(selectedProduct);
+
 
   // 이미 장바구니에 있는 상품인지 확인
   if (saveCartGoods.some((product) => product.id === selectedProduct.id)) {
-    console.log('이미 장바구니에 있는 상품입니다.');
+    
     alert('장바구니에 있는 상품입니다.');
   } else {
     alert('장바구니에 담았습니다.');
     selectedProduct.order = 1;
     saveCartGoods.push(selectedProduct);
-    console.log('장바구니에 추가');
+ 
   }
   // 장바구니 정보를 localStorage에 업데이트
   localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
   saveCart(saveCartGoods);
-  console.log('저장완료');
+
 };
 
 // localStorage에 기본 장바구니 정보를 저장
