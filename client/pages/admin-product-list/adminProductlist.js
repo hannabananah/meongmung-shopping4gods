@@ -53,7 +53,7 @@ const renderList = async (products) => {
 
   products.map(({ name, category, createdAt, price, _id }, index) => {
     template += `
-      <tr class="border-t border-gray-300">
+      <tr class="bg-blue-800 text-white">
       <td class="px-4 py-2 checkbox-cell text-center">
         <input class="check" type="checkbox" name="product" value="${_id}" />
       </td>

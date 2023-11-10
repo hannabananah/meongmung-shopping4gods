@@ -86,12 +86,12 @@ const renderList = async () => {
   console.log(data.list);
 
   for (const [index, category] of data.list.entries()) {
-    template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
+    template += `<div class='w-full border-b border-b-zinc-400 px-10 py-4 flex justify-between items-center px-10 text-center'>
     <div class='w-[100px]'>${index + 1}</div>
     <div class='flex-1'>${category.name}</div>
     <div class='w-[100px]'><button id="${
       category._id
-    }" class="update-btn hover:underline" name="${
+    }" class="update-btn text-red-600 hover:underline" name="${
       category.name
     }" >수정하기</button></div>
     <div class='w-[100px]'><img id="${
