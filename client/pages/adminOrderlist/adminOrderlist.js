@@ -8,7 +8,7 @@ const token = localStorage.getItem('token');
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 let orders = [];
-let list = []; // Define the list array.
+let list = [];
 
 window.addEventListener('DOMContentLoaded', () => {
   getOrders();
@@ -33,23 +33,6 @@ function getOrders() {
     .catch((error) => {
       console.error('FETCH ERROR', error);
     });
-}
-
-// selectAll 함수 정의
-function selectAll(checkbox) {
-  const selectAll = checkbox.checked;
-  const checkList = document.querySelectorAll('.check');
-
-  checkList.forEach((check) => {
-    check.checked = selectAll;
-  });
-
-  if (selectAll) {
-    list = Array.from(checkList).map((check) => check.value);
-  } else {
-    list = [];
-  }
-  console.log(list);
 }
 
 function loadOrders(orders) {
@@ -81,6 +64,23 @@ function loadOrders(orders) {
   `;
   }
   orderList.innerHTML = content;
+
+  // selectAll 함수 정의
+  function selectAll(checkbox) {
+    const selectAll = checkbox.checked;
+    const checkList = document.querySelectorAll('.check');
+
+    checkList.forEach((check) => {
+      check.checked = selectAll;
+    });
+
+    if (selectAll) {
+      list = Array.from(checkList).map((check) => check.value);
+    } else {
+      list = [];
+    }
+    console.log(list);
+  }
 
   const selectAllCheckbox = document.querySelector('input[value="selectall"]');
   const checkList = document.querySelectorAll('.check');

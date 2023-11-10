@@ -3,63 +3,154 @@ import { init } from '../main.js';
 
 init();
 
-const tbody = document.querySelector('tbody');
-
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const token = localStorage.getItem('token');
 
-const renderProductList = async () => {
-  const data = await getProducts();
-  const { products } = data;
-  console.log(data);
+const productListEl = document.querySelector('#product-list');
+
+let products = [];
+let list = [];
+
+// 상품리스트 조회
+const getProducts = async () => {
+  return await fetch(`${API_BASE_URL}/products`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === 200) {
+        products = data.products;
+        renderList(data.products);
+      }
+    })
+    .catch((error) => {
+      console.error('FETCH ERROR', error);
+    });
+};
+
+const renderList = async (products) => {
   let template = ``;
-  products.map(({ name, category, price }) => {
+
+  console.log(products.length);
+
+  if (!products.length) {
+    template += `<tr class=" border-t w-full border-gray-300"><td colspan="5" class="text-center py-20 col-span-2">상품 정보가 없습니다.</td>
+    </tr>`;
+
+    localStorage.setItem('product', 0);
+    productListEl.insertAdjacentHTML('beforeend', template);
+    return;
+  } else localStorage.setItem('product', 1);
+  console.log(products);
+
+  products.map(({ name, category, price }, index) => {
     template += `
       <tr class="border-t border-gray-300">
       <td class="px-4 py-2 checkbox-cell text-center">
         <input type="checkbox" name="product" value="select1" />
       </td>
-      <td class="px-4 py-2 text-center">${name}</td>
+      <td class="px-4 py-2 text-center">${index + 1}</td>
+      <td class="px-4 py-2 text-center font-bold">${name}</td>
       <td class="px-4 py-2 text-center">${category.name}</td>
       <td class="px-4 py-2 text-center">
-        <a href="#" class="text-lg font-bold hover:text-gray-200">
           ${price.toLocaleString('ko-KR')}원
-        </a>
       </td>
-      <td class="px-4 py-2 text-center text-red-600">수정하기</td>
+      <td class="px-4 py-2 text-center">${formatDate(category.createdAt)}</td>
+      <td class="px-4 py-2 text-center text-red-600"><button class="update-btn hover:underline">수정하기</button></td>
       </tr>
       `;
   });
 
-  tbody.innerHTML = template;
-};
+  productListEl.insertAdjacentHTML('beforeend', template);
+  bindEvents(productListEl);
 
-const getProducts = async (api) => {
-  return await fetch(`${API_BASE_URL}/products`, {
-    method: 'GET',
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => console.log(error));
-};
+  // selectAll 함수 정의
+  function selectAll(checkbox) {
+    const selectAll = checkbox.checked;
+    const checkList = document.querySelectorAll('.check');
 
-// select box 전체선택
-function selectAll(selectAll) {
-  const checkboxes = document.getElementsByName('product');
+    checkList.forEach((check) => {
+      check.checked = selectAll;
+    });
 
-  checkboxes.forEach((checkbox) => {
-    checkbox.checked = selectAll.checked;
-  });
-}
+    if (selectAll) {
+      list = Array.from(checkList).map((check) => check.value);
+    } else {
+      list = [];
+    }
+    console.log(list);
+  }
 
-window.onload = function () {
   const selectAllCheckbox = document.querySelector('input[value="selectall"]');
-  selectAllCheckbox.addEventListener('click', function () {
+  const checkList = document.querySelectorAll('.check');
+
+  selectAllCheckbox.addEventListener('change', function () {
     selectAll(this);
   });
 
-  renderProductList();
+  checkList.forEach((checkbox) => {
+    checkbox.addEventListener('change', function () {
+      const check = this.value;
+      if (this.checked) {
+        list.push(check);
+      } else {
+        list = list.filter((item) => item !== check);
+      }
+      console.log(list);
+    });
+  });
 };
+
+// 수정하기 버튼
+const bindEvents = (document) => {
+  const updateBtns = document.querySelectorAll('.update-btn');
+
+  for (const btn of updateBtns) {
+    btn.addEventListener('click', (e) => {
+      console.log(e.target.name);
+      location.href = `/adminProductlist/edit/?productName=${e.target.name}&id=${e.target.id}`;
+    });
+  }
+};
+
+// 선택한 상품 삭제
+function chooseOrder() {
+  fetch(`${API_BASE_URL}/admins/products`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ list }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.status);
+      if (data.status === 200) {
+        new Swal('상품삭제 성공', '', 'success').then(() => {
+          location.href = '/adminProductlist/';
+        });
+      }
+    })
+    .catch((error) => {
+      console.error('FETCH ERROR', error);
+    });
+}
+
+const deleteBtn = document.getElementById('deleteBtn');
+deleteBtn.addEventListener('click', () => {
+  chooseOrder();
+});
+
+// 날짜 형식 변환 함수
+function formatDate(dateString) {
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+}
+
+// renderList();
