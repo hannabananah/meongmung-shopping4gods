@@ -8,7 +8,7 @@ export function init() {
   document.querySelector('#header-wrapper').innerHTML = `<header
   class="w-full h-[80px] lg:px-42 px-32 py-4 pb-0 flex justify-between items-center shadow-sm  fixed left-0 top-0 bg-white bg-opacity-50  z-[100]"
   >
-  <h1 class="text-center text-lg"><a href="/"><img class='w-[180px]' src='/images/mngmng_logo.png'/></a></h1>
+  <h1 class="text-center text-lg"><a href="/"><img class='w-[180px]' src='/images/mngmng_logo.png' alt='멍뭉이들 대표로고'/></a></h1>
   
 
   
@@ -68,17 +68,15 @@ export function init() {
 
   document.querySelector(
     '#footer',
-  ).innerHTML = `<footer class='overflow-x-hidden w-screen p-12 bg-gray-700 text-center bottom-0'>
-  <ul class='text-white'>
-    <li><p>copyright &copy; 2023 All rights reserved by meongmung.</p></li>
-    <li>이메일: <a href="mailto:mngmng@gmail.com" class="hover:underline">mngmng@gmail.com</a></li>
-    <li>찾아오시는 길: (04799) <a target="_blank" href="https://naver.me/Fcu63dOf" class="hover:underline">서울 성동구 아차산로17길 48 성수낙낙 2F 멍뭉랩</a></li>
-    <li><img class='w-[180px]' src='/images/mngmng_logo.png'/></li>
-    <li>대표자: 구기윤</li>
-    <li>대표전화: <a href='tel:0904-1229' class="hover:underline">0904-1229</a></li>
-    <li><a href="https://feather-ticket-ba0.notion.site/323b434b07974e65954916c97cffb840" class="font-bold">개인정보처리방침</a> | <a href="https://feather-ticket-ba0.notion.site/01d0159518f8499e993c8aafe2a811a0" class="hover:underline">이용약관</a></li>
-    <li>Follow us on: <a href="https://twitter.com/yourwebsite" class="underline">Twitter</a> | <a href="https://facebook.com/yourwebsite" class="underline">Facebook</a></li>
-    <li>FAQ: <a href="/faq" class="underline">Frequently Asked Questions</a></li>
+  ).innerHTML = `<footer class='w-screen pt-8 pl-20 pb-6 pr-20 text-center bottom-0 border-t-0 border-gray-200'>
+  <ul class='text-sm text-left flex flex-col gap-y-1'>
+  <li><img class='w-[180px]' src='/images/mngmng_logo.png' alt='멍뭉이들 대표로고'/></li>
+  <li class='mt-6'><a href="https://feather-ticket-ba0.notion.site/323b434b07974e65954916c97cffb840/"> <strong>개인정보처리방침</strong></a> | <a href="https://feather-ticket-ba0.notion.site/01d0159518f8499e993c8aafe2a811a0" class="hover:underline">이용약관</a></li>
+  <li class='mt-3 text-sm text-gray-900'><small>(주) </small>멍뭉이들</li>
+  <li class='text-xs text-gray-800'> 대표자: 구기윤 | 대표전화: <a href='tel:0904-1229' class="hover:underline">0904-1229</a></li>
+  <li class='text-xs text-gray-800'>이메일: <a href="mailto:mngmng@gmail.com" class="hover:underline">mngmng@gmail.com</a></li>
+    <li class='text-xs text-gray-800'>찾아오시는 길: (04799) <a target="_blank" href="https://naver.me/Fcu63dOf" class="hover:underline">서울 성동구 아차산로17길 48 성수낙낙 2F 멍뭉랩</a></li>
+    <li><p class='text-gray-400'>copyright &copy; 2023 All rights reserved by meongmung.</p></li>
   </ul>
 </footer>`;
 }
