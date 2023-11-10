@@ -16,7 +16,7 @@ let saveCartGoods = localStorage.getItem('cartList')
 function cartCreateHTML(product, i) {
   console.log(i);
   return `
-    <div class="flex border-t border-gray-300 items-center  ">
+    <div class="flex border-t border-gray-300 items-center">
     <div class=" w-3/6 py-2 ">
       <div class="flex items-center">
         <div class="w-1/3">
@@ -47,7 +47,7 @@ function cartCreateHTML(product, i) {
       </div>
     </div>
     <div class="w-2/12">
-      <p class="text-lg text-center font-bold text-blue-500">${product.price}</p>
+      <p class="text-lg text-center font-bold text-blue-500">${product.price.toLocaleString()}</p>
     </div>
     <div class="custom-number-input w-2/12 text-center">
           <button
