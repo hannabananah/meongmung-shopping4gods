@@ -59,7 +59,7 @@ const renderList = async (products) => {
       </td>
       <td class="px-4 py-2 text-center">${index + 1}</td>
       <td class="px-4 py-2 text-center font-bold">${name}</td>
-      <td class="px-4 py-2 text-center">${category.name}</td>
+      <td class="px-4 py-2 text-center">${category ? category.name : ''}</td>
       <td class="px-4 py-2 text-center">
           ${price.toLocaleString('ko-KR')}원
       </td>
@@ -135,7 +135,7 @@ function chooseOrder() {
     .then((data) => {
       if (data.status === 200) {
         new Swal('상품삭제 성공', '', 'success').then(() => {
-          location.href = '/adminProductlist/';
+          location.href = '/admin-product-list/';
         });
       }
     })
