@@ -28,7 +28,11 @@ router.put(
   productController.updateProduct,
 );
 
-// 상품 삭제
+// 전체 상품 삭제
+router.delete('/products', isAdmin, productController.deleteAllProducts);
+
+
+// 특정 상품 삭제
 router.delete('/products/:id', isAdmin, productController.deleteProduct);
 
 module.exports = router;
