@@ -53,7 +53,7 @@ const renderList = async (products) => {
 
   products.map(({ name, category, createdAt, price, _id }, index) => {
     template += `
-      <tr class="bg-blue-800 text-white">
+      <tr class="border-t border-gray-300">
       <td class="px-4 py-2 checkbox-cell text-center">
         <input class="check" type="checkbox" name="product" value="${_id}" />
       </td>
@@ -154,5 +154,3 @@ function formatDate(dateString) {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   return new Date(dateString).toLocaleDateString(undefined, options);
 }
-
-// renderList();
