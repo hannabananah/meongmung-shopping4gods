@@ -1,3 +1,4 @@
+const colors = require('tailwindcss/colors');
 import flowbitePlugin from 'flowbite/plugin';
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -5,14 +6,25 @@ export default {
     './pages/**/*.html',
     './pages/**/*.js',
     './node_modules/flowbite/**/*.js',
+    './dist/*.{html,js}',
   ],
   theme: {
     extend: {},
     colors: {
       transparent: 'transparent',
-      'zinc-400': '#999',
-      'teal-500': '#009688',
-      'teal-600': '#00897B',
+      current: 'currentColor',
+      black: colors.black,
+      white: colors.white,
+      emerald: colors.emerald,
+      indigo: colors.indigo,
+      yellow: colors.yellow,
+      stone: colors.stone,
+      sky: colors.sky,
+      neutral: colors.neutral,
+      gray: colors.gray,
+      slate: colors.slate,
+      zinc: colors.zinc,
+      teal: colors.teal,
     },
   },
   plugins: [flowbitePlugin],
