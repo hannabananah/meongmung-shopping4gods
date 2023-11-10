@@ -5,7 +5,7 @@ exports.getAllOrderById = async (userId) => {
   try {
     const orders = await models.Order.find({ userId })
       .populate({ path: 'userId', select: 'email phone name' })
-      .populate({ path: 'products.product', select: 'name price' })
+      .populate({ path: 'products.product', select: 'name price img_url' })
       .populate({ path: 'address', select: 'zipCode detailAddress recipient' })
       .exec();
 
@@ -20,7 +20,7 @@ exports.getOneOrderById = async (_id) => {
   try {
     const order = await models.Order.findOne({ _id })
       .populate({ path: 'userId', select: 'email phone name' })
-      .populate({ path: 'products.product', select: 'name price' })
+      .populate({ path: 'products.product', select: 'name price img_url' })
       .populate({ path: 'address', select: 'zipCode detailAddress recipient' })
       .exec();
 

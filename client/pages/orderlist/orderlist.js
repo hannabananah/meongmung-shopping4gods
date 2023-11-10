@@ -50,17 +50,17 @@ const renderList = async (targetEl) => {
       ${order.products
         .map(
           (product) => `<div class="flex w-full py-2 ">
-        <div class="w-[25%] flex items-center justify-center">
-        <img class="w-24 mr-4" src="../images/02.png" alt="" />
-        <p class="w-full text-left">${product.product.name}</p>
+        <div class="w-[55%] flex items-center justify-center">
+        <img class="w-24 mr-4" src="${product.product.img_url}" alt="" />
+        <p class="w-full text-left ">${product.product.name}</p>
         </div>
-        <div class="w-[25%] flex items-center justify-center ">${
+        <div class="w-[15%] flex items-center justify-center ">${
           product.quantity
         }</div>
-        <div class="w-[25%] flex items-center justify-center font-bold">${(
+        <div class="w-[15%] flex items-center justify-center font-bold">${(
           +product.product.price * +product.quantity
         ).toLocaleString('ko-KR')}</div>
-        <div class="w-[25%] flex items-center justify-center text-red-500">${
+        <div class="w-[15%] flex items-center justify-center text-red-500">${
           order.status
         }</div>
         </div>`,
@@ -69,7 +69,7 @@ const renderList = async (targetEl) => {
       </div>
     </div>
   </section>
-  <div class="mt-2 mb-5 text-right font-bold">
+  <div class="mt-2 mb-5 mx-4 md:mx-10 text-right font-bold">
     총 결제 금액: <span class="text-red-500">${order.totalPrice.toLocaleString(
       'ko-KR',
     )}원</span>
