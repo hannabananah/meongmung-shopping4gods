@@ -38,7 +38,7 @@ function renderProducts(data) {
           <div id="product-${product._id}" class="relative overflow-hidden">
             <img class="bg-white object-cover w-full lg:h-[380px] md:h-[300px] sm:h-[380px]" 
             src="${product.img_url}" alt="${product.img_url}" />
-            <div class='px-2'>
+            <div class='px-2 pb-8'>
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
 
             
