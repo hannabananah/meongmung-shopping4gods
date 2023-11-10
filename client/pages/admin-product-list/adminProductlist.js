@@ -40,8 +40,6 @@ const getProducts = async () => {
 const renderList = async (products) => {
   let template = ``;
 
-  console.log(products.length);
-
   if (!products.length) {
     template += `<tr class=" border-t w-full border-gray-300"><td colspan="5" class="text-center py-20 col-span-2">상품 정보가 없습니다.</td>
     </tr>`;
@@ -49,7 +47,6 @@ const renderList = async (products) => {
     productListEl.insertAdjacentHTML('beforeend', template);
     return;
   }
-  console.log(products);
 
   products.map(({ name, category, createdAt, price, _id }, index) => {
     template += `
@@ -68,7 +65,6 @@ const renderList = async (products) => {
       </tr>
       `;
   });
-  console.log(productListEl);
   productListEl.insertAdjacentHTML('beforeend', template);
   bindEvents(productListEl);
 
@@ -78,7 +74,6 @@ const renderList = async (products) => {
 
     for (const btn of updateBtns) {
       btn.addEventListener('click', (e) => {
-        console.log(e.target.id);
         location.href = `/admin-edit-product/?id=${e.target.id}`;
       });
     }
@@ -98,7 +93,6 @@ const renderList = async (products) => {
     } else {
       list = [];
     }
-    console.log(list);
   }
 
   const selectAllCheckbox = document.querySelector('input[value="selectall"]');
@@ -116,7 +110,6 @@ const renderList = async (products) => {
       } else {
         list = list.filter((item) => item !== check);
       }
-      console.log(list);
     });
   });
 };

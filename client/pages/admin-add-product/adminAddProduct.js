@@ -16,6 +16,9 @@ const descriptionInput = document.querySelector('#description');
 const priceInput = document.querySelector('#price');
 const manufacturerInput = document.querySelector('#manufacturer');
 
+const submitBtn = document.querySelector('#submit-btn');
+const loadingBtn = document.querySelector('#loading-btn');
+
 fileInput.addEventListener('input', (e) => {
   const { name, value, files } = e.target;
   const fileReader = new FileReader();
@@ -34,6 +37,8 @@ fileInput.addEventListener('input', (e) => {
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+  submitBtn.classList.add('hidden');
+  loadingBtn.classList.remove('hidden');
   const fileInput = e.target[0].files[0];
   const name = nameInput.value;
   const category = categoryInput.value;
@@ -43,12 +48,13 @@ form.addEventListener('submit', async (e) => {
 
   const img_url = await uploadImage(fileInput)
     .then((url) => {
-      console.log(url);
       return url;
     })
     .catch((err) => console.err(err));
 
-  addProduct({ name, category, price, desc, manufacturer, img_url });
+  await addProduct({ name, category, price, desc, manufacturer, img_url });
+  loadingBtn.classList.add('hidden');
+  submitBtn.classList.remove('hidden');
 });
 
 async function addProduct({
