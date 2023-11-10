@@ -1,5 +1,6 @@
 import '../../index.css';
 import { init } from '../main.js';
+import Swal from 'sweetalert2';
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -38,6 +39,7 @@ const renderList = async (targetEl) => {
       </button>
       <button
         name="${order._id}"
+        data-state="${order.status}"
         class="order-update border bg-white py-2 px-4 rounded-md hover:bg-blue-500 hover:text-white"
       >
         수정
@@ -85,6 +87,12 @@ const bindEvents = (document) => {
   for (const btn of updateBtn) {
     btn.addEventListener('click', (e) => {
       console.log(e.target.name);
+      const state = e.target.dataset.state;
+      console.log(state);
+      if (state !== '배송전') {
+        new Swal('수정 불가', `주문이 이미 ${state} 상태 입니다.`, 'warning');
+        return;
+      }
       location.href = `/orderlist/edit/?id=${e.target.name}`;
     });
   }
@@ -101,6 +109,8 @@ const bindEvents = (document) => {
         .then((response) => response.json())
         .then((data) => {
           if (data.status === 200) location.href = '/orderlist/';
+          if (data.status === 400)
+            new Swal('취소 불가', data.message, 'warning');
         })
         .catch((error) => console.log(error));
     });
