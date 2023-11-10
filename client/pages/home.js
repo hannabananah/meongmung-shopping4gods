@@ -34,7 +34,9 @@ function renderProducts(data) {
     const productCard = document.createElement('div');
     productCard.classList.add('product-card');
     productCard.innerHTML = `
-          <div id="product-${product._id}" class="relative overflow-hidden">
+          <div id="product-${
+            product._id
+          }" class="relative overflow-hidden rounded-md">
             <img class="bg-white object-cover w-full lg:h-[380px] md:h-[300px] sm:h-[380px]" 
             src="${product.img_url}" alt="${product.img_url}" />
             <div class='px-2 pb-8'>

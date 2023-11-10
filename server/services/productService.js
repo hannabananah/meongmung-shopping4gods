@@ -21,7 +21,9 @@ exports.getAllProduct = async (page, perPage) => {
 };
 
 exports.getProductById = async (_id) => {
-  return await models.Product.findOne({ _id }).exec();
+  return await models.Product.findOne({ _id })
+    .populate({ path: 'category', select: 'name' })
+    .exec();
 };
 
 exports.createProduct = async (productProps) => {
