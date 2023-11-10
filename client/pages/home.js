@@ -13,7 +13,6 @@ const recommend = document.getElementById('recommendlabel');
 
 const params = location.search;
 
-
 const param = new URLSearchParams(params);
 const page = param.get('page'); // 5
 
@@ -61,7 +60,9 @@ function renderProducts(data) {
     // 모든 장바구니 버튼에 클릭 핸들러를 추가
     const cartbtn = document.querySelector(`#cart-${product._id}`);
 
-    cartbtn.addEventListener('click', function () {
+    cartbtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+
       buttonClickHandler(product);
     });
   });
@@ -190,7 +191,7 @@ const buttonClickHandler = function (data) {
   }
   // 장바구니 정보를 localStorage에 업데이트
   localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
-  saveCart(saveCartGoods);
+  // saveCart(saveCartGoods);
 };
 
 // localStorage에 기본 장바구니 정보를 저장

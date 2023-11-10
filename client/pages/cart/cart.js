@@ -1,5 +1,6 @@
 import '../../index.css';
 import { init } from '../main.js';
+import Swal from 'sweetalert2';
 
 init();
 
@@ -7,11 +8,24 @@ const cartContainer = document.querySelector('.cart-container');
 const cartTotalPrice = document.querySelector('.total-price');
 const cartBox = document.querySelector('.cart-container-box');
 const cartEmpty = document.querySelector('.empty');
-const deleteAll = document.querySelector('#deleteAll')
-
+const deleteAll = document.querySelector('#deleteAll');
+const orderBtn = document.querySelector('#order-btn');
 let saveCartGoods = localStorage.getItem('cartList')
   ? JSON.parse(localStorage.getItem('cartList'))
   : [];
+
+if (orderBtn) {
+  orderBtn.addEventListener('click', () => {
+    const cartList = localStorage.getItem('cartList');
+    const totalPrice = document.querySelector('.total-price');
+
+    if (cartList === null || totalPrice.innerText === '0') {
+      new Swal('주문 불가', `장바구니에 담긴 상품이 없습니다.`, 'warning');
+    } else {
+      location.href = '/order/';
+    }
+  });
+}
 
 function cartCreateHTML(product, i) {
   return `
@@ -79,16 +93,17 @@ function cartCreateHTML(product, i) {
  `;
 }
 
-if(deleteAll){
- deleteAll.addEventListener('click',function(){
-   localStorage.removeItem('cartList');
-   while ( cartContainer.hasChildNodes() )
-   {
-    cartContainer.removeChild( cartContainer.firstChild );       
-   }
- })
-}
+if (deleteAll) {
+  deleteAll.addEventListener('click', function () {
+    localStorage.removeItem('cartList');
 
+    while (cartContainer.hasChildNodes()) {
+      cartContainer.removeChild(cartContainer.firstChild);
+    }
+    cartEmpty.classList.remove('hidden');
+    cartBox.remove('hidden');
+  });
+}
 
 //total price
 function totalPrice() {
@@ -126,8 +141,13 @@ window.addEventListener('load', totalCartCount);
 
 // cart-page paint
 export function paintCartPage() {
-  let i= 0;
+  let i = 0;
   const loadCartGoods = localStorage.getItem('cartList');
+
+  if (localStorage.getItem('cartList') === null) {
+    return;
+  }
+
   if (cartContainer !== null) {
     cartContainer.innerHTML = JSON.parse(loadCartGoods)
       .map((product) => cartCreateHTML(product, i++))
@@ -150,30 +170,30 @@ export function saveCart(saveCartGoods) {
 // 모든 장바구니 버튼에 대한 클릭 핸들러
 export const buttonClickHandler = function (e) {
   // 클릭한 버튼의 데이터(product-id)를 가져옴
+  e.stopPropagation();
+
   const productId = e.target.dataset.productId;
 
   // 해당 제품을 찾아냄
+
   const selectedProduct = data.goods.find(
     (product) => product.id === parseInt(productId),
   );
 
   // 이미 장바구니에 있는 상품인지 확인
   if (saveCartGoods.some((product) => product.id === selectedProduct.id)) {
-  
     alert('장바구니에 있는 상품입니다.');
   } else {
     alert('장바구니에 담았습니다.');
     selectedProduct.cart = true;
     selectedProduct.order = 1;
     saveCartGoods.push(selectedProduct);
-
   }
   // 장바구니 정보를 localStorage에 업데이트
   localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
   saveCart(saveCartGoods);
   totalCartCount();
   totalPrice();
-
 };
 
 // 모든 장바구니 버튼에 클릭 핸들러를 추가
@@ -187,9 +207,8 @@ function deleteCart(e) {
   const cartRemoveBtns = document.querySelectorAll('.item-remove');
   cartRemoveBtns.forEach((cartRemoveBtn) => {
     if (e.target === cartRemoveBtn) {
-      
       const cleanCart = e.target.id;
-      
+
       //cart-storage에서 삭제
       saveCartGoods.splice(cleanCart, 1);
       //cart-page에서 삭제
@@ -215,7 +234,7 @@ function singleGoodsControl(e, plusMinusBtns) {
     if (e.target.parentNode === plusMinusBtn) {
       const cartdataId = e.target.parentNode.id;
       const pickGoods = saveCartGoods[cartdataId];
-     
+
       //cart-storage에서 수량 증감
       if (plusMinusBtn.dataset.value === 'plus') {
         pickGoods.order++;
