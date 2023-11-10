@@ -34,6 +34,30 @@ function getOrders() {
     });
 }
 
+
+function putOrders(orderStatus, id) {
+  fetch(`${API_BASE_URL}/admins/orders/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      status: orderStatus
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      
+        console.log(data);
+      
+    })
+    .catch((error) => {
+      console.error('FETCH ERROR', error);
+    });
+}
+
+
 // selectAll 함수 정의
 function selectAll(checkbox) {
   const selectAll = checkbox.checked;
@@ -66,9 +90,9 @@ function loadOrders(orders) {
       order.userId.email
     })</td>
     <td class="px-4 py-2 text-center">${order._id}</td>
-    <td class="px-4 py-2 text-center text-red-600"> `
-      if(order.status ==='배송전') content+=` <select class='rounded border-gray-300'>
-    <option value="배송전" selected>
+    <td class="px-4 py-2 text-center text-red-600"> 
+    <select id="${order._id}_${order.status}"  class='rounded border-gray-300'>
+    <option value="배송전" class="select-option" >
     배송전
   </option>
   <option value="배송중" class="select-option">
@@ -76,10 +100,23 @@ function loadOrders(orders) {
   </option>
   <option value="배송완료" class="select-option">
     배송완료
-  </option></select></td></tr>`
- ;
+  </option></select></td></tr>` 
+ 
   }
   orderList.innerHTML = content;
+
+  const dropdownlist = document.querySelectorAll('select');
+  dropdownlist.forEach((dropdown) => {
+    const dropdownState = dropdown.id.split('_');
+    dropdown.value = dropdownState[1]
+    dropdown.addEventListener('change', function () {
+     //console.log(this.id);
+      putOrders(this.value, dropdownState[0]);
+   
+    });
+  })
+
+
 
   const selectAllCheckbox = document.querySelector('input[value="selectall"]');
   const checkList = document.querySelectorAll('.check');
