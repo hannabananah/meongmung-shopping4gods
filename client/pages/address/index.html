@@ -10,20 +10,20 @@
     <div id="header-wrapper"></div>
 
     <section class='h-screen flex justify-center items-center'>
-      <div class='w-3/4'>
+      <div class='w-full max-w-4xl px-5  mg:mx-10 lg:mx-20 '>
           <h2 class='text-2xl font-bold mb-5'>배송지 정보 등록</h2>
           <section id='dog-list' class='w-full flex flex-col'>
-              <div class='w-full bg-zinc-400 text-white h-14 flex justify-between items-center px-5 text-center'>
-                <div class='font-bold w-[100px]'>이름</div>
-                <div class='font-bold w-[100px]'>우편번호</div>
-                <div class='font-bold flex-1'>주소</div>
-                <div class='font-bold w-[100px]'>상세</div>
-                <div class='font-bold w-[100px]'>수정</div>
-                <div class='font-bold w-[80px]'>삭제</div>
+              <div class='w-full bg-teal-500 text-white h-14 flex justify-between items-center px-5 text-center'>
+                <div class='font-bold  sm:w-[100px]'>이름</div>
+                <div class='font-bold  sm:w-[100px]'>우편번호</div>
+                <div class='font-bold  sm:flex-1 '>주소</div>
+                <div class='font-bold  sm:w-[100px]'>상세</div>
+                <div class='font-bold  sm:w-[100px]'>수정</div>
+                <div class='font-bold  sm:w-[80px]'>삭제</div>
               </div>
           </section>
           <div class='mt-5 text-right space-x-1'>
-            <button class='dog-add-btn border rounded-md px-4 py-2 border-slate-500 hover:bg-slate-500 hover:text-white'>추가하기</button>
+            <button class='dog-add-btn border rounded-md px-4 py-2 border-teal-500 hover:bg-teal-500 hover:text-white'>추가하기</button>
           </div>
       </div>
 
@@ -73,8 +73,6 @@
                   required=""
                 />
               </div>
-
-
               <div>  
                 <label
                   for="phone"
@@ -144,7 +142,7 @@
               </div></div>
               <button
                 type="submit"
-                class="w-full text-white bg-blue-800 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                class="w-full text-white bg-teal-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 배송지 등록하기
               </button>

@@ -50,7 +50,6 @@ btn.addEventListener('submit', function (e) {
 });
 
 const postAddresses = () => {
-
   fetch(`${API_BASE_URL}/addresses`, {
     method: 'POST',
     headers: {
@@ -67,7 +66,6 @@ const postAddresses = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-  
       if (data.status === 200) {
         location.href = '/address/';
       }
@@ -94,7 +92,7 @@ const renderList = async () => {
   let template = ``;
 
   const res = await getAddress();
- 
+
   if (!res.addresses.length) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
     <div class='flex-1'>사용자의 배송지 정보가 없습니다.</div>
@@ -105,13 +103,13 @@ const renderList = async () => {
 
   for (const address of res.addresses) {
     let arr = address.detailAddress.split('+');
-    template += `<div class='w-full border-b border-b-zinc-200 gap-x-2 py-10 flex justify-between items-center px-5 text-center'>
-    <div class='w-[100px]'>${address.name}</div>
-    <div class='w-[100px] '>${address.zipCode}</div>
-    <div class='flex-1 '>${arr[0]}</div>
-    <div class='w-[100px]'>${arr[1]}</div>
-    <div class='w-[100px]'><button id="${address._id}" class="update-btn hover:underline">수정하기</button></div>
-    <div class='w-[80px]'><img id="${address._id}" class='dog-id mx-auto hover:cursor-pointer' src="/images/trash.svg"/></div>
+    template += `<div class='w-full border-b border-b-zinc-200 py-10 flex justify-between items-center px-5 text-center'>
+    <div class='sm:w-[100px]  '>${address.name}</div>
+    <div class='sm:w-[100px] '>${address.zipCode}</div>
+    <div class='sm:flex-1 '>${arr[0]}</div>
+    <div class='sm:w-[100px]'>${arr[1]}</div>
+    <div class='sm:w-[100px]'><button id="${address._id}" class="update-btn hover:underline">수정하기</button></div>
+    <div class='sm:w-[80px]'><img id="${address._id}" class='dog-id mx-auto hover:cursor-pointer' src="/images/trash.svg"/></div>
   </div>`;
   }
 
@@ -125,7 +123,6 @@ const bindEvents = (document) => {
 
   for (const btn of updateBtns) {
     btn.addEventListener('click', (e) => {
-   
       location.href = `/address/edit/?id=${e.target.id}`;
     });
   }
