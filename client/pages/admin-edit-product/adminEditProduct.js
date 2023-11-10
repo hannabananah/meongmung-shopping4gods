@@ -118,7 +118,7 @@ async function editProduct({
     .then((response) => response.json())
     .then((data) => {
       if (data.status === 200) {
-        location.href = '/adminProductlist/';
+        location.href = '/admin-product-list/';
       }
     })
     .catch((error) => console.log(error));

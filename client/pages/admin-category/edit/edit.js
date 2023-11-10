@@ -41,7 +41,7 @@ function bindEvent(document, id) {
       }),
     })
       .then(() => {
-        location.href = '/adminCategory/';
+        location.href = '/admin-category/';
       })
       .catch((err) => console.err(err));
   });

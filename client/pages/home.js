@@ -12,7 +12,7 @@ const all = document.getElementById('all');
 const recommend = document.getElementById('recommendlabel');
 
 const params = location.search;
-console.log(params); // ?page=5
+
 
 const param = new URLSearchParams(params);
 const page = param.get('page'); // 5

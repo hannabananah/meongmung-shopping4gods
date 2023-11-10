@@ -48,7 +48,7 @@ const postCategory = () => {
     .then((data) => {
       console.log(data);
       if (data.status === 201) {
-        location.href = '/adminCategory/';
+        location.href = '/admin-category/';
       }
     })
     .catch((error) => console.log(error));
@@ -74,7 +74,7 @@ const renderList = async () => {
 
   const data = await getCategory();
   console.log(data.list.length);
-  
+
   if (!data.list.length) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
     <div class='flex-1'>카테고리 정보가 없습니다.</div>
@@ -84,7 +84,7 @@ const renderList = async () => {
     return;
   } else localStorage.setItem('category', 1);
   console.log(data.list);
-  
+
   for (const [index, category] of data.list.entries()) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
     <div class='w-[100px]'>${index + 1}</div>
@@ -111,7 +111,7 @@ const bindEvents = (document) => {
   for (const btn of updateBtns) {
     btn.addEventListener('click', (e) => {
       console.log(e.target.name);
-      location.href = `/adminCategory/edit/?categoryName=${e.target.name}&id=${e.target.id}`;
+      location.href = `/admin-category/edit/?categoryName=${e.target.name}&id=${e.target.id}`;
     });
   }
 
@@ -126,7 +126,7 @@ const bindEvents = (document) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          if (data.status === 200) location.href = '/adminCategory/';
+          if (data.status === 200) location.href = '/admin-category/';
         })
         .catch((error) => console.log(error));
     });

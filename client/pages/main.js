@@ -6,14 +6,14 @@ const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 const token = localStorage.getItem('token');
 export function init() {
   document.querySelector('#header-wrapper').innerHTML = `<header
-  class="w-full h-[80px] lg:px-42 px-32 py-4 pb-0 flex justify-between items-center shadow-sm  fixed left-0 top-0 bg-white bg-opacity-50  z-[100]"
+  class="w-full h-[80px] md:px-20 lg:px-42 px-20 py-4 pb-0 flex justify-between items-center shadow-sm  fixed left-0 top-0 bg-white bg-opacity-50  z-[100]"
   >
-  <h1 class="text-center text-lg"><a href="/"><img class='w-[180px]' src='/images/mngmng_logo.png' alt='멍뭉이들 대표로고'/></a></h1>
+  <h1 class="mx-auto sm:mx-0 text-center text-lg"><a href="/"><img class='w-[180px]' src='/images/mngmng_logo.png'/></a></h1>
   
 
   
 
-  <div id="headerbtn">
+  <div id="headerbtn" class="hidden sm:block">
    
  </div>
   </header>`;
