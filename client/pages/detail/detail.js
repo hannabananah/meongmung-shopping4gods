@@ -22,14 +22,13 @@ const getProduct = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      
       loadItem(data);
       product = {
         id: data._id,
         name: data.name,
         order: target.value,
         imgUrl: data.img_url, //img.src로 하면 안돼서 일단 이렇게..
-        price: data.price
+        price: data.price,
       };
     })
     .catch((error) => console.log(error));
@@ -73,19 +72,29 @@ cartbtn.addEventListener('click', function () {
 
   // 이미 장바구니에 있는 상품인지 확인
   if (saveCartGoods.some((product) => product.id === selectedProduct.id)) {
-    alert('장바구니에 있는 상품입니다.');
+    Swal.fire({
+      text: '장바구니에 있는 상품입니다.',
+      icon: 'warning',
+      timer: 1500,
+      showConfirmButton: false,
+    }).then(() => {
+      location.href = '/cart/';
+    });
   } else {
-    alert('장바구니에 담았습니다.');
-    selectedProduct.order = target.value;
-    saveCartGoods.push(selectedProduct);
+    Swal.fire({
+      text: '장바구니에 담았습니다.',
+      icon: 'success',
+      timer: 1500,
+      showConfirmButton: false,
+    }).then(() => {
+      selectedProduct.order = target.value;
+      saveCartGoods.push(selectedProduct);
+      // 장바구니 정보를 localStorage에 업데이트
+      localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
+      saveCart(saveCartGoods);
+      location.href = '/cart/';
+    });
   }
-  // 장바구니 정보를 localStorage에 업데이트
-  localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
-  saveCart(saveCartGoods);
-
-  new Swal('장바구니에 담겼습니다', '', 'success').then(() => {
-    location.href = '/cart/';
-  });
 });
 
 buybtn.addEventListener('click', function () {

@@ -122,7 +122,9 @@ function loadOrders(orders) {
     <td class="px-4 py-2 text-center">${order._id}</td>
 
     <td class="px-4 py-2 text-center text-red-600"> 
-    <select id="${order._id}_${order.status}"  class='rounded border-gray-300'>
+    <select id="${order._id}_${
+      order.status
+    }"  class='rounded cursor-pointer border-gray-300'>
     <option value="배송전" class="select-option" >
     배송전
   </option>
