@@ -10,6 +10,7 @@ const img = document.getElementById('img');
 const txtname = document.getElementById('productName');
 const txtcost = document.getElementById('cost');
 const detail = document.getElementById('detail');
+const brand = document.getElementById('productbrand');
 const category = document.getElementById('category');
 let product;
 
@@ -21,13 +22,14 @@ const getProduct = () => {
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log(data)
       loadItem(data);
       product = {
         id: data._id,
         name: data.name,
         order: target.value,
         imgUrl: data.img_url, //img.src로 하면 안돼서 일단 이렇게..
-        price: data.price,
+        price: data.price
       };
     })
     .catch((error) => console.log(error));
@@ -40,6 +42,7 @@ const loadItem = (data) => {
   txtcost.innerText = data.price.toLocaleString();
   detail.innerText = data.desc;
   category.innerText = data.category.name;
+  brand.innerText = data.manufacturer;
 };
 
 getProduct();
