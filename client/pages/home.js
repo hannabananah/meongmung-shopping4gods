@@ -2,6 +2,7 @@ import '../index.css';
 import { init } from '/main.js';
 import 'flowbite';
 import { totalCartCount } from './cart/cart';
+import Swal from 'sweetalert2';
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 let api = `${API_BASE_URL}/products/`;
@@ -37,7 +38,7 @@ function renderProducts(data) {
           <div id="product-${
             product._id
           }" class="relative overflow-hidden rounded-md">
-            <img class="bg-white object-cover w-full lg:h-[380px] md:h-[300px] sm:h-[380px]" 
+            <img class="bg-white object-cover w-full lg:h-[380px] md:h-[300px] sm:h-[380px] cursor-pointer lg:hover:scale-105 transition-transform ease-in-out duration-500" 
             src="${product.img_url}" alt="${product.img_url}" />
             <div class='px-2 pb-8'>
             <p class="text-lg text-gray-500 mt-4">${product.name}</p>
@@ -75,7 +76,7 @@ function renderPages(datalen) {
   let puthtml = '';
   if (datalen > 1) {
     for (let i = 1; i <= datalen; i++) {
-      puthtml += `<div><input type='radio' id='${i}' name= 'page' class='hidden peer' value = '${i}'><label for='${i}' id='page' name='${i}' class='p-3 peer-checked:text-teal-600 peer-checked:font-bold peer-checked:border-b-2'>${i}</label></input></div>`;
+      puthtml += `<div><input type='radio' id='${i}' name= 'page' class='hidden peer' value = '${i}'><label for='${i}' id='page' name='${i}' class='p-3 peer-checked:text-teal-600 cursor-pointer peer-checked:font-bold peer-checked:border-b-2'>${i}</label></input></div>`;
     }
   }
   if (pagelist) pagelist.innerHTML = puthtml;
@@ -185,9 +186,9 @@ const buttonClickHandler = function (data) {
 
   // 이미 장바구니에 있는 상품인지 확인
   if (saveCartGoods.some((product) => product.id === selectedProduct.id)) {
-    alert('장바구니에 있는 상품입니다.');
+    showAlert('장바구니에 있는 상품입니다.');
   } else {
-    alert('장바구니에 담았습니다.');
+    showAlert('장바구니에 담았습니다.', true);
     selectedProduct.order = 1;
     saveCartGoods.push(selectedProduct);
   }
@@ -196,8 +197,24 @@ const buttonClickHandler = function (data) {
   // saveCart(saveCartGoods);
 };
 
-// localStorage에 기본 장바구니 정보를 저장
+// 알림 띄우기
+const showAlert = (message, success) => {
+  let icon = 'warning';
 
+  if (success) {
+    icon = 'success';
+  }
+
+  // Using SweetAlert2
+  Swal.fire({
+    text: message,
+    icon: icon,
+    timer: 1500,
+    showConfirmButton: false,
+  });
+};
+
+// localStorage에 기본 장바구니 정보를 저장
 export function saveCart() {
   localStorage.setItem('cartList', JSON.stringify(saveCartGoods));
   location.href = '/cart/';

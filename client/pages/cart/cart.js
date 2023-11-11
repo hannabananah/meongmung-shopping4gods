@@ -30,10 +30,10 @@ if (orderBtn) {
 function cartCreateHTML(product, i) {
   return `
     <div class="flex border-t border-gray-300 items-center pt-2">
-    <div class=" w-3/6 py-2 ">
+    <div class=" w-3/6 py-2">
       <div class="flex items-center">
         <div class="w-1/3">
-            <a href="#">
+        <a href="/detail/?id=${product.id}">
               <img
                 src="${product.imgUrl}"
                 alt="${product.name}"
@@ -43,11 +43,9 @@ function cartCreateHTML(product, i) {
         </div>
         <div class="w-full px-4">
           <h2 class="mb-2 text-xl font-bold">
-            <a
-              href="#"
+            <a href="/detail/?id=${product.id}"
               class="text-lg font-bold hover:text-gray-400"
-              >${product.name}</a
-            >
+              >${product.name}</a>
           </h2>
          <button
          class="item-remove text-gray-500 hover:text-gray-400"
