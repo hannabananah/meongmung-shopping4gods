@@ -6,7 +6,10 @@ exports.getAllOrderById = async (userId) => {
     const orders = await models.Order.find({ userId })
       .populate({ path: 'userId', select: 'email phone name' })
       .populate({ path: 'products.product', select: 'name price img_url' })
-      .populate({ path: 'address', select: 'zipCode detailAddress recipient' })
+      .populate({
+        path: 'address',
+        select: 'zipCode detailAddress detail recipient',
+      })
       .exec();
 
     return orders;
@@ -21,7 +24,10 @@ exports.getOneOrderById = async (_id) => {
     const order = await models.Order.findOne({ _id })
       .populate({ path: 'userId', select: 'email phone name' })
       .populate({ path: 'products.product', select: 'name price img_url' })
-      .populate({ path: 'address', select: 'zipCode detailAddress recipient' })
+      .populate({
+        path: 'address',
+        select: 'zipCode detailAddress detail recipient',
+      })
       .exec();
 
     if (!order) {

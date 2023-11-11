@@ -18,9 +18,7 @@ const addressSchema = new Schema(
     },
     // 우편번호
     zipCode: {
-      type: Number,
-      min: [1000, '유효하지 않은 우편번호입니다.'],
-      max: 99999,
+      type: String,
       required: true,
     },
     // 주소
@@ -28,9 +26,14 @@ const addressSchema = new Schema(
       type: String,
       required: true,
     },
+    // 상세
+    detail: {
+      type: String,
+      required: true,
+    },
     // 전화번호
     phone: {
-      type: Number,
+      type: String,
       match: /^\d{3}-\d{3,4}-\d{4}$/,
     },
     // 기본배송지인지, 아닌지

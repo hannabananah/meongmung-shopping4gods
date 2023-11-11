@@ -47,10 +47,9 @@ exports.createUser = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
   const id = req.userId;
-  const { phone, name } = req.body;
 
   try {
-    const data = await userService.updateUser(id, phone, name);
+    const data = await userService.updateUser(id, req.body);
 
     if (data.status === 400) {
       res.status(400).json({

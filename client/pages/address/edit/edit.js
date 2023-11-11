@@ -16,6 +16,16 @@ async function renderContent() {
     content.innerHTML = template;
 
     const form = content.querySelector('form');
+    const phoneInput = content.querySelector('#phone');
+
+    phoneInput.addEventListener('input', (e) => {
+      let x = e.target.value
+        .replace(/\D/g, '')
+        .match(/(\d{0,3})(\d{0,4})(\d{0,4})/);
+      e.target.value = !x[2]
+        ? x[1]
+        : `${x[1]}-${x[2]}${x[3] ? `-${x[3]}` : ''}`;
+    });
 
     bindEvent(form, id);
 
@@ -51,7 +61,8 @@ function bindEvent(document, id) {
       body: JSON.stringify({
         name: name,
         zipCode: zipCode,
-        detailAddress: `${mainAddress}+${detailAddress}`,
+        detailAddress: mainAddress,
+        detail: detailAddress,
         phone: phone,
       }),
     })
@@ -63,8 +74,8 @@ function bindEvent(document, id) {
 }
 
 function generatorTemplate(address) {
-  const { recipient, phone, zipCode, name, detailAddress } = address;
-  let detailAddr = detailAddress.split('+');
+  const { recipient, phone, zipCode, name, detailAddress, detail } = address;
+
   let template = `
   <section class="w-3/5">
   <div
@@ -105,7 +116,7 @@ function generatorTemplate(address) {
               >전화번호</label
             >
             <input
-              type="tel"
+              type="text"
               name="phone"
               id="phone"
               value='${phone}'
@@ -146,7 +157,7 @@ function generatorTemplate(address) {
               type="text"
               name="mainAddress"
               id="mainAddress"
-              value="${detailAddr[0]}"
+              value="${detailAddress}"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               readonly
               required
@@ -165,7 +176,7 @@ function generatorTemplate(address) {
               id="detailAddress"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               required
-              value="${detailAddr[1]}"
+              value="${detail}"
               placeholder='상세주소'
             />
           </div></div>

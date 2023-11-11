@@ -16,7 +16,6 @@ const renderList = async (targetEl) => {
   let template = ``;
 
   const res = await getAllOrders();
-
   if (!res.orders.length) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
     <div class='flex-1'>사용자의 주문 정보가 없습니다.</div>
@@ -24,7 +23,6 @@ const renderList = async (targetEl) => {
     targetEl.insertAdjacentHTML('beforeend', template);
     return;
   }
-
   for (const order of res.orders) {
     template += ` <section
     class="flex w-full justify-between items-center border border-slate-400 border-x-0 py-5"
@@ -53,7 +51,7 @@ const renderList = async (targetEl) => {
           (product) => `<div class="flex w-full py-2 ">
         <div class="w-[55%] flex items-center justify-center">
         <img class="w-24 mr-4" src="${product.product.img_url}" alt="" />
-        <p class="w-full text-left ">${product.product.name}</p>
+          <p class="w-full text-left">${product.product.name}</p>
         </div>
         <div class="w-[15%] flex items-center justify-center ">${
           product.quantity
@@ -70,11 +68,17 @@ const renderList = async (targetEl) => {
       </div>
     </div>
   </section>
-  <div class="mt-2 mb-5 mx-4 md:mx-10 text-right font-bold">
-    총 결제 금액: <span class="text-red-500">${order.totalPrice.toLocaleString(
-      'ko-KR',
-    )}원</span>
-  </div>`;
+  <div class="flex justify-between items-center" >
+    <div class="text-sm text-slate-400 mt-2 mb-5 md:mx-10">배송지 주소 : ${
+      order.address.detailAddress
+    } ${order.address.detail}</div>
+    <div class="mt-2 mb-5 mx-4 md:mx-10 text-right font-bold">
+      총 결제 금액: <span class="text-red-500">${order.totalPrice.toLocaleString(
+        'ko-KR',
+      )}원</span>
+    </div>
+  </div>
+  `;
   }
 
   targetEl.insertAdjacentHTML('beforeend', template);

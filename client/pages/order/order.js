@@ -61,7 +61,7 @@ const loadUser = (data) => {
   //TODO 화면세팅
   const user = data.user;
   name.value = user.name;
-  telnum.value = '0' + user.phone;
+  telnum.value = user.phone;
   id = data._id;
 };
 
@@ -131,11 +131,9 @@ selectAddress.addEventListener('change', function () {
   if (selectAddress.value != 'none') {
     let address = addresses.find((e) => e._id === selectAddress.value);
 
-    let sliceaddress = address.detailAddress.split('+');
-
     addressNum.value = address.zipCode;
-    addressmain.value = sliceaddress[0];
-    addressDetail.value = sliceaddress[1];
+    addressmain.value = address.detailAddress;
+    addressDetail.value = address.detail;
     addressDetail.readOnly = true;
   } else {
     addressDetail.readOnly = false;
@@ -190,7 +188,8 @@ const postAddress = () => {
       recipient: name.value,
       name: '임시주소',
       zipCode: addressNum.value,
-      detailAddress: `${addressmain.value}+${addressDetail.value}`,
+      detailAddress: addressmain.value,
+      detail: addressDetail.value,
       phone: telnum.value,
     }),
   })

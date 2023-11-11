@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const models = require('../models');
 
 exports.getAllUsers = async () => {
@@ -27,7 +28,7 @@ exports.createUser = async (user) => {
   return await models.User.create(user);
 };
 
-exports.updateUser = async (_id, phone, name) => {
+exports.updateUser = async (_id, { phone, name }) => {
   try {
     // 전화번호가 이미 존재하는지 확인
     const existingUser = await models.User.findOne({ phone });
@@ -57,9 +58,20 @@ exports.deleteUser = async (_id) => {
 };
 
 exports.disableAccountUser = async (_id) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
   try {
-    return await models.User.updateOne({ _id }, { useyn: true }).exec();
+    await models.User.updateOne({ _id }, { useyn: true }).session();
+
+    await models.Order.deleteMany({ userId: _id }).session();
+    await models.Address.deleteMany({ userId: _id }).session();
+    await models.Dog.deleteMany({ userId: _id }).session();
+
+    await session.commitTransaction();
   } catch (err) {
+    await session.abortTransaction();
     throw new Error(err);
+  } finally {
+    session.endSession();
   }
 };

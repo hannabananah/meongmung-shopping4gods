@@ -8,12 +8,10 @@ exports.signup = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (user) {
-      return res
-        .status(400)
-        .json({
-          status: 400,
-          message: `${email}은 이미 가입된 이메일 입니다.`,
-        });
+      return res.status(400).json({
+        status: 400,
+        message: `${email}은 이미 가입된 이메일 입니다.`,
+      });
     }
 
     const token = await authService.signup(email, password, phone, name);

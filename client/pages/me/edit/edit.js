@@ -1,10 +1,9 @@
 import '../../../index.css';
-import { init } from '../../main.js';
+import { init, me } from '../../main.js';
 import Swal from 'sweetalert2';
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 const token = localStorage.getItem('token');
-
 const btn = document.querySelector('form');
 const name = document.getElementById('name');
 const email = document.getElementById('email');
@@ -31,13 +30,48 @@ function isSame() {
 
 password.addEventListener('change', isSame);
 pwCheck.addEventListener('change', isSame);
+phone.addEventListener('input', (e) => {
+  let x = e.target.value
+    .replace(/\D/g, '')
+    .match(/(\d{0,3})(\d{0,4})(\d{0,4})/);
+  e.target.value = !x[2] ? x[1] : `${x[1]}-${x[2]}${x[3] ? `-${x[3]}` : ''}`;
+});
 
 const submitFrom = async () => {
-  saveUser();
+  if (password.value === '' || pwCheck.value === '') {
+    new Swal('수정 불가!', '비밀번호를 입렵해 주세요', 'warning');
+    return;
+  }
 
-  new Swal('수정 완료!', '회원수정이 완료되었습니다.', 'success').then(() => {
-    location.href = '/me/';
-  });
+  const isCheck = await checkAuth();
+  if (!(isCheck.status === 404)) {
+    await saveUser();
+    new Swal('수정 완료!', '회원수정이 완료되었습니다.', 'success').then(() => {
+      location.href = '/me/';
+    });
+  } else {
+    new Swal('수정 불가!', '회원 비밀번호가 일치하지 않습니다.', 'warning');
+  }
+};
+
+const checkAuth = async () => {
+  const user = await me();
+  return await fetch(`${API_BASE_URL}/auth/login`, {
+    //요청url
+    method: 'POST', //이용 메서드
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: user.user.email,
+      password: password.value,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => console.error(err)); //상태
 };
 
 const saveUser = async () => {
@@ -49,13 +83,12 @@ const saveUser = async () => {
     },
     body: JSON.stringify({
       name: name.value,
-      email: email.value,
       phone: phone.value,
-      pw: password.value,
     }),
   })
-    .then((res) => {
-      return res;
+    .then((res) => res.json())
+    .then((data) => {
+      return data;
     })
     .catch((err) => console.error(err));
 };

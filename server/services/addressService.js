@@ -29,6 +29,7 @@ exports.createAddress = async ({
   name,
   zipCode,
   detailAddress,
+  detail,
   phone,
   mainAddress,
 }) => {
@@ -49,6 +50,7 @@ exports.createAddress = async ({
       name,
       zipCode,
       detailAddress,
+      detail,
       phone,
       mainAddress,
     });
@@ -66,6 +68,7 @@ exports.updateAddress = async (updatedData) => {
       name,
       zipCode,
       detailAddress,
+      detail,
       phone,
       mainAddress,
     } = updatedData;

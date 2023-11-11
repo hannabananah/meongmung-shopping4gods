@@ -46,18 +46,9 @@ const postUser = () => {
     .catch((error) => console.error(error));
 };
 
-// 숫자가 아닌 정규식
-let replaceNotInt = /[^0-9]/gi;
-const form = document.getElementById('telnumform');
-
-telnum.addEventListener('keyup', function () {
-  telnum.value = telnum.value.replace(replaceNotInt, '');
-});
-
-telnum.addEventListener('focusout', function () {
-  if (telnum.value) {
-    if (telnum.value.match(replaceNotInt)) {
-      telnum.value = telnum.value.replace(replaceNotInt, '');
-    }
-  }
+telnum.addEventListener('keyup', function (e) {
+  let x = e.target.value
+    .replace(/\D/g, '')
+    .match(/(\d{0,3})(\d{0,4})(\d{0,4})/);
+  e.target.value = !x[2] ? x[1] : `${x[1]}-${x[2]}${x[3] ? `-${x[3]}` : ''}`;
 });

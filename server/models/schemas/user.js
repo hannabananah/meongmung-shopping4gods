@@ -9,7 +9,7 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     // 전화번호
     phone: {
-      type: Number,
+      type: String,
       required: true,
       match: /^\d{3}-\d{3,4}-\d{4}$/,
       unique: true,
@@ -17,7 +17,7 @@ const userSchema = new Schema(
     // 유저 이름
     name: { type: String, required: true },
     // 우편번호
-    zipCode: { type: Number, required: false },
+    zipCode: { type: String, required: false },
     // 주소
     address: { type: String, required: false },
     // 관리자 여부

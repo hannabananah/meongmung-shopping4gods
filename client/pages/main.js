@@ -4,6 +4,17 @@ import 'flowbite';
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const token = localStorage.getItem('token');
+
+(async function () {
+  const info = await me();
+  if (info.status === 404) {
+    if (Object.keys(localStorage).includes('token')) {
+      localStorage.clear();
+      location.href = '/login/';
+    }
+  }
+})();
+
 export function init() {
   document.querySelector('#header-wrapper').innerHTML = `<header
   class="w-full h-[80px] md:px-20 lg:px-42 px-20 pb-0 flex justify-between items-center shadow-sm  fixed left-0 top-0 bg-white bg-opacity-50  z-[100]"
@@ -85,14 +96,18 @@ window.addEventListener('DOMContentLoaded', () => {
   init();
 });
 
-async function me() {
-  const response = await fetch(`${API_BASE_URL}/users/me`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await response.json();
-  return data;
+export async function me() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    location.href = '/login/';
+  }
 }

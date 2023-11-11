@@ -135,7 +135,7 @@ function generatorTemplate(order) {
       <div class="w-[15%] flex items-center justify-center ">
       <input data-price="${product.product.price}" id="${
         product.product._id
-      }" class="quantity w-14" type="number" value="${
+      }" class="quantity w-14" type="number" min="1" value="${
         product.quantity
       }"></input>
       </div>

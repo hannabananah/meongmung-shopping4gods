@@ -27,7 +27,7 @@ exports.getAddressById = async (req, res, next) => {
 
 exports.createAddress = async (req, res, next) => {
   const userId = req.userId;
-  const { name, zipCode, detailAddress, phone, mainAddress } = req.body;
+  const { name, zipCode, detailAddress, detail, phone, mainAddress } = req.body;
 
   try {
     const address = await addressService.createAddress({
@@ -35,6 +35,7 @@ exports.createAddress = async (req, res, next) => {
       name,
       zipCode,
       detailAddress,
+      detail,
       phone,
       mainAddress,
     });
@@ -52,7 +53,7 @@ exports.createAddress = async (req, res, next) => {
 exports.updateAddress = async (req, res, next) => {
   const { id } = req.params;
   const userId = req.userId;
-  const { name, zipCode, detailAddress, phone, mainAddress } = req.body;
+  const { name, zipCode, detailAddress, detail, phone, mainAddress } = req.body;
 
   try {
     await addressService.updateAddress({
@@ -61,6 +62,7 @@ exports.updateAddress = async (req, res, next) => {
       name,
       zipCode,
       detailAddress,
+      detail,
       phone,
       mainAddress,
     });
