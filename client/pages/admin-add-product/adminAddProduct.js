@@ -16,8 +16,65 @@ const descriptionInput = document.querySelector('#description');
 const priceInput = document.querySelector('#price');
 const manufacturerInput = document.querySelector('#manufacturer');
 
+const recommendBiggistCheckBox = document.querySelector('#biggest-dog');
+const recommendBiggerCheckBox = document.querySelector('#bigger-dog');
+const recommendMediumCheckBox = document.querySelector('#medium-dog');
+const recommendSmallCheckBox = document.querySelector('#small-dog');
+const recommenSsmallestCheckBox = document.querySelector('#smallest-dog');
+
+const recommendMinAgeInput = document.querySelector('#recommend-min-age');
+const recommendMaxAgeInput = document.querySelector('#recommend-max-age');
+
 const submitBtn = document.querySelector('#submit-btn');
 const loadingBtn = document.querySelector('#loading-btn');
+
+let recommendDogSize = [];
+
+recommendBiggistCheckBox.addEventListener('click', (e) => {
+  if (e.target.checked) {
+    recommendDogSize.push(e.target.value);
+  } else {
+    recommendDogSize = recommendDogSize.filter(
+      (size) => size !== e.target.value,
+    );
+  }
+});
+recommendBiggerCheckBox.addEventListener('click', (e) => {
+  if (e.target.checked) {
+    recommendDogSize.push(e.target.value);
+  } else {
+    recommendDogSize = recommendDogSize.filter(
+      (size) => size !== e.target.value,
+    );
+  }
+});
+recommendMediumCheckBox.addEventListener('click', (e) => {
+  if (e.target.checked) {
+    recommendDogSize.push(e.target.value);
+  } else {
+    recommendDogSize = recommendDogSize.filter(
+      (size) => size !== e.target.value,
+    );
+  }
+});
+recommendSmallCheckBox.addEventListener('click', (e) => {
+  if (e.target.checked) {
+    recommendDogSize.push(e.target.value);
+  } else {
+    recommendDogSize = recommendDogSize.filter(
+      (size) => size !== e.target.value,
+    );
+  }
+});
+recommenSsmallestCheckBox.addEventListener('click', (e) => {
+  if (e.target.checked) {
+    recommendDogSize.push(e.target.value);
+  } else {
+    recommendDogSize = recommendDogSize.filter(
+      (size) => size !== e.target.value,
+    );
+  }
+});
 
 fileInput.addEventListener('input', (e) => {
   const { name, value, files } = e.target;
@@ -29,11 +86,6 @@ fileInput.addEventListener('input', (e) => {
     imgEl.setAttribute('src', incodedImg);
   };
 });
-// const submitBtn = document.querySelector('#submit-btn');
-
-// submitBtn.addEventListener('click', () => {
-//   console.log('click');
-// });
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -45,6 +97,11 @@ form.addEventListener('submit', async (e) => {
   const price = parseInt(priceInput.value.replace(',', ''));
   const desc = descriptionInput.value;
   const manufacturer = manufacturerInput.value;
+  // optional..
+  const recommendDogAge = {
+    min: parseInt(recommendMinAgeInput.value),
+    max: parseInt(recommendMaxAgeInput.value),
+  };
 
   const img_url = await uploadImage(fileInput)
     .then((url) => {
@@ -52,19 +109,23 @@ form.addEventListener('submit', async (e) => {
     })
     .catch((err) => console.err(err));
 
-  await addProduct({ name, category, price, desc, manufacturer, img_url });
+  await addProduct({
+    name,
+    category,
+    price,
+    desc,
+    manufacturer,
+    img_url,
+    recommendDogSize,
+    recommendDogAge,
+    recommendDogAge,
+  });
   loadingBtn.classList.add('hidden');
   submitBtn.classList.remove('hidden');
 });
 
-async function addProduct({
-  name,
-  category,
-  price,
-  desc,
-  manufacturer,
-  img_url,
-}) {
+async function addProduct(product) {
+  console.log(product);
   fetch(`${API_BASE_URL}/products`, {
     method: 'POST',
     headers: {
@@ -72,12 +133,7 @@ async function addProduct({
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      name,
-      category,
-      price,
-      desc,
-      manufacturer,
-      img_url,
+      ...product,
     }),
   })
     .then((response) => response.json())

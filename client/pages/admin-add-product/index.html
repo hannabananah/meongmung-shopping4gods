@@ -20,7 +20,7 @@
             <form class="space-y-4 md:space-y-6" action="#">
               <div>
                 <label
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white after:content-['*'] after:text-red-500"
                   for="file_input"
                   >상품 이미지</label
                 >
@@ -43,7 +43,7 @@
               <div>
                 <label
                   for="name"
-                  class="block mb-2 text-sm font-medium text-gray-900"
+                  class="block mb-2 text-sm font-medium text-gray-900 after:content-['*'] after:text-red-500"
                   >상품명</label
                 >
                 <input
@@ -58,14 +58,14 @@
               <div>
                 <label
                   for="category"
-                  class="block mb-2 text-sm font-medium text-gray-900"
+                  class="block mb-2 text-sm font-medium text-gray-900 after:content-['*'] after:text-red-500"
                   >카테고리</label
                 >
                 <select
                   type="text"
                   name="category"
                   id="category"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 after:content-['*'] after:text-red-500"
                   placeholder="카테고리 선택"
                   required
                 >
@@ -78,7 +78,7 @@
               <div>
                 <label
                   for="price"
-                  class="block mb-2 text-sm font-medium text-gray-900"
+                  class="block mb-2 text-sm font-medium text-gray-900 after:content-['*'] after:text-red-500"
                   >가격</label
                 >
                 <input
@@ -92,7 +92,7 @@
               <div>
                 <label
                   for="manufacturer"
-                  class="block mb-2 text-sm font-medium text-gray-900"
+                  class="block mb-2 text-sm font-medium text-gray-900 after:content-['*'] after:text-red-500"
                   >제조사</label
                 >
                 <input
@@ -103,18 +103,106 @@
                   required
                 />
               </div>
+              <div>
+                <label
+                  for="category"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >추천 견종(옵션)</label
+                >
+                <div class="flex flex-row flex-wrap gap-5 items-center">
+                  <label for="biggest-dog" class="cursor-pointer"
+                    >초대형견
+                    <input
+                      type="checkbox"
+                      name="biggest-dog"
+                      id="biggest-dog"
+                      class="cursor-pointer"
+                      value="초대형견"
+                    />
+                  </label>
 
+                  <label for="bigger-dog" class="cursor-pointer"
+                    >대형견
+                    <input
+                      type="checkbox"
+                      name="bigger-dog"
+                      id="bigger-dog"
+                      class="cursor-pointer"
+                      value="대형견"
+                    />
+                  </label>
+
+                  <label for="medium-dog" class="cursor-pointer"
+                    >중형견
+                    <input
+                      type="checkbox"
+                      name="medium-dog"
+                      id="medium-dog"
+                      class="cursor-pointer"
+                      value="중형견"
+                    />
+                  </label>
+
+                  <label for="small-dog" class="cursor-pointer"
+                    >소형견
+                    <input
+                      type="checkbox"
+                      name="small-dog"
+                      id="small-dog"
+                      class="cursor-pointer"
+                      value="소형견"
+                    />
+                  </label>
+
+                  <label for="smallest-dog" class="cursor-pointer"
+                    >초소형견
+                    <input
+                      type="checkbox"
+                      name="smallest-dog"
+                      id="smallest-dog"
+                      class="cursor-pointer"
+                      value="초소형견"
+                    />
+                  </label>
+                </div>
+              </div>
+              <div>
+                <label
+                  for="recommend-min-age"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >추천 나이(옵션)</label
+                >
+                <div class="flex w-full items-center">
+                  <input
+                    type="number"
+                    min="0"
+                    name="recommend-age"
+                    id="recommend-min-age"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 flex-1"
+                    placeholder="최소"
+                  />
+                  <span class="mx-2">~</span>
+                  <input
+                    type="number"
+                    min="0"
+                    name="recommend-age"
+                    id="recommend-max-age"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 flex-1"
+                    placeholder="최대"
+                  />
+                </div>
+              </div>
               <div>
                 <label
                   for="description"
-                  class="block mb-2 text-sm font-medium text-gray-900"
+                  class="block mb-2 text-sm font-medium text-gray-900 after:content-['*'] after:text-red-500"
                   >상품 상세설명</label
                 >
                 <textarea
                   type="text"
                   name="description"
                   id="description"
-                  class="resize-none bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="resize-none bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 mb-10"
                   required
                   rows="3"
                 ></textarea>
