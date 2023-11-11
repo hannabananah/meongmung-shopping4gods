@@ -71,7 +71,7 @@ export function init() {
   ).innerHTML = `<footer class='w-full pt-8 pl-20 pb-6 pr-20 text-center bottom-0 border-t-0 border-gray-200'>
   <ul class='text-sm text-left flex flex-col gap-y-1'>
   <li><img class='w-[180px]' src='/images/mngmng_logo.png' alt='멍뭉이들 대표로고'/></li>
-  <li class='mt-6'><a href="https://feather-ticket-ba0.notion.site/323b434b07974e65954916c97cffb840/"> <strong>개인정보처리방침</strong></a> | <a href="https://feather-ticket-ba0.notion.site/01d0159518f8499e993c8aafe2a811a0" class="hover:underline">이용약관</a></li>
+  <li class='mt-6'><a target="_blank" href="https://feather-ticket-ba0.notion.site/323b434b07974e65954916c97cffb840/"> <strong>개인정보처리방침</strong></a> | <a target="_blank" href="https://feather-ticket-ba0.notion.site/01d0159518f8499e993c8aafe2a811a0" class="hover:underline">이용약관</a></li>
   <li class='mt-3 text-sm text-gray-900'><small>(주) </small>멍뭉이들</li>
   <li class='text-xs text-gray-800'> 대표자: 구기윤 | 대표전화: <a href='tel:0904-1229' class="hover:underline">0904-1229</a></li>
   <li class='text-xs text-gray-800'>이메일: <a href="mailto:mngmng@gmail.com" class="hover:underline">mngmng@gmail.com</a></li>
