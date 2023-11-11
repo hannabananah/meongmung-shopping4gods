@@ -16,6 +16,21 @@ const params = location.search;
 const param = new URLSearchParams(params);
 const page = param.get('page'); // 5
 
+const getDog = async () => {
+  return fetch(`${API_BASE_URL}/dogs`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => console.log(error));
+};
+
 function renderProducts(data) {
   const productList = document.getElementById('product-list');
   //TODO 카테고리 버튼 누를때마다 바뀌어야 되니까 초기화코드 추가해야함
@@ -92,10 +107,11 @@ function renderPages(datalen) {
   }
 }
 
-function renderCategories(data) {
+const renderCategories= async(data)=> {
   const categoryList = document.getElementById('category-list');
+  const res = await getDog();
 
-  if (token && dog === '1') {
+  if (token && res.dogs.length >0) {
     recommend.style.display = 'block';
   }
   const categories = data.list; // JSON 데이터에서 제품 목록을 가져옴
@@ -214,3 +230,5 @@ window.addEventListener('DOMContentLoaded', () => {
   getProducts(api + `?page=${page}?perPage=${page}`);
   getCategories();
 });
+
+
