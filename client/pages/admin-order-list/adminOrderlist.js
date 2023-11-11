@@ -7,6 +7,10 @@ init();
 const token = localStorage.getItem('token');
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
+const params = location.search;
+const param = new URLSearchParams(params);
+const page = param.get('page'); // 5
+
 let orders = [];
 let list = [];
 
@@ -16,7 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // 모든 주문조회
 function getOrders() {
-  fetch(`${API_BASE_URL}/admins/orders`, {
+  fetch(`${API_BASE_URL}/admins/orders/?page=${page}?perPage=${page}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -27,6 +31,8 @@ function getOrders() {
     .then((data) => {
       if (data.status === 200) {
         orders = data.orders;
+       // console.log(data);
+        renderPages(data.totalPages);
         loadOrders(data.orders);
       }else{
         location.href = '/'; //로드 실패하면 리디렉션
@@ -58,6 +64,28 @@ function putOrders(orderStatus, id) {
     .catch((error) => {
       console.error('FETCH ERROR', error);
     });
+}
+
+function renderPages(datalen) {
+  const pagelist = document.getElementById('pages');
+  let puthtml = '';
+  if (datalen > 1) {
+    for (let i = 1; i <= datalen; i++) {
+      puthtml += `<div><input type='radio' id='${i}' name= 'page' class='hidden peer' value = '${i}'><label for='${i}' id='page' name='${i}' class='p-3 peer-checked:text-teal-600 peer-checked:font-bold peer-checked:border-b-2'>${i}</label></input></div>`;
+    }
+  }
+  if (pagelist) pagelist.innerHTML = puthtml;
+  if (datalen > 1) {
+    const pages = document.querySelectorAll('#page');
+    if (page) {
+      pages[page - 1].parentNode.firstChild.checked = true;
+    } else pages[0].parentNode.firstChild.checked = true;
+    pages.forEach((page) => {
+      page.addEventListener('click', function (e) {
+        location = `?page=${e.target.innerHTML}`;
+      });
+    });
+  }
 }
 
 
