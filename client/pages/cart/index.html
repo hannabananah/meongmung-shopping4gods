@@ -4,79 +4,90 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>멍뭉-장바구니</title>
-    
   </head>
   <body>
     <div id="header-wrapper"></div>
+
     <section class="cart-page px-10 py-48 font-poppins">
-      <div class=" mx-auto max-w-7xl  md:px-6 space-y-4">
+      <div class="mx-auto max-w-7xl md:px-6 space-y-4">
         <div>
           <h1 class="inline-block text-4xl font-bold mb-4">장바구니</h1>
-          <button class='float-right bg-gray-100 p-3 rounded-sm' id='deleteAll'>전체삭제</button>
-          <div class="p-8 border w-full border-gray-800 border-r-0 border-l-0">
-            <ul class="w-full items-center flex mb-4 ">
-              <li class=" w-6/12 font-bold text-center">상품정보</li>
-              <li class=" text-center w-2/12 font-bold">판매가</li>
-              <li class="text-center w-2/12 font-bold">총수량</li>        
-              <li class="text-center w-2/12 font-bold">소계<li>
+          <button class="float-right bg-gray-100 p-3 rounded-sm" id="deleteAll">
+            전체삭제
+          </button>
+          <div
+            class="p-5 border w-full border-gray-800 border-r-0 border-l-0 align-middle"
+          >
+            <ul class="w-full flex">
+              <li class="w-6/12 font-bold text-center">상품정보</li>
+              <li class="text-center w-2/12 font-bold">판매가</li>
+              <li class="text-center w-2/12 font-bold">총수량</li>
+              <li class="text-center w-2/12 font-bold">합계</li>
             </ul>
           </div>
-            <!-- cart -->
-              <div class="empty ">
-                <p class='py-4'>장바구니에 담긴 상품이 없습니다.</p>
-              </div>
-              <div class="cart-container-box hidden">
-               
-                <div id="cart-list" class="cart-container grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-                 <!-- 상품 목록이 동적으로 추가될 예정  -->
-                </div>            
-              </div>             
+          <!-- cart -->
+          <div class="empty">
+            <p class="py-4">장바구니에 담긴 상품이 없습니다.</p>
           </div>
-          <div class="flex p-4 justify-between">
-            <div class="w-full sm:px-4 sm:mb-4 lg:w-1/2 hidden md:block">
-              <div class="flex flex-wrap items-center gap-4"></div>
+          <div class="cart-container-box hidden">
+            <div
+              id="cart-list"
+              class="cart-container grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+            >
             </div>
-            <div class="w-full px-4 mb-4 lg:w-1/2">
-              <div class="cart-total p-6 border border-gray-200 md:p-8">
-                <div class="total border-b border-gray-300 dark:border-gray-700 mb-4">
-                  <h2
-                    class="total-title mb-8 text-3xl font-bold text-gray-700 dark:text-gray-400"
-                  >
-                    전체합계
-                  </h2>
-                </div>
-                <div class="flex items-center justify-between pb-4 mb-4">
-                  <span class="text-gray-700 dark:text-gray-400">상품수</span>
-                  <div>
-                    <span
-                      class="top-cart-count text-xl font-bold text-gray-700 dark:text-gray-400"
-                      >3</span
-                    > 개
-                  </div>
-                </div>
-                <div class="flex items-center justify-between pb-4 mb-4">
-                  <span class="text-gray-700 dark:text-gray-400"
-                    >전체주문금액</span
-                  >
-                  <div>
-                    <span
-                      class="total-price  text-xl font-bold text-gray-700 dark:text-gray-400"
-                      ></span
-                    > 원
-                  </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-
-                    
-                  <button id="order-btn" class="block w-full py-4 font-bold text-center text-gray-100 uppercase bg-teal-600 rounded-md hover:bg-teal-500">주문하기</button>
-                  
-               </div>
           </div>
+        </div>
+        <div class="flex p-4 justify-between">
+          <div class="w-full sm:px-4 sm:mb-4 lg:w-1/2 hidden md:block">
+            <div class="flex flex-wrap items-center gap-4"></div>
+          </div>
+          <div class="w-full px-4 mb-4 lg:w-1/2">
+            <div class="cart-total p-6 border border-gray-200 md:p-8">
+              <div
+                class="total border-b border-gray-300 dark:border-gray-700 mb-4"
+              >
+                <h2
+                  class="total-title mb-8 text-3xl font-bold text-gray-700 dark:text-gray-400"
+                >
+                  전체합계
+                </h2>
+              </div>
+              <div class="flex items-center justify-between pb-4 mb-4">
+                <span class="text-gray-700 dark:text-gray-400">상품수</span>
+                <div>
+                  <span
+                    class="top-cart-count text-xl font-bold text-gray-700 dark:text-gray-400"
+                    >3</span
+                  >
+                  개
+                </div>
+              </div>
+              <div class="flex items-center justify-between pb-4 mb-4">
+                <span class="text-gray-700 dark:text-gray-400"
+                  >전체주문금액</span
+                >
+                <div>
+                  <span
+                    class="total-price text-xl font-bold text-gray-700 dark:text-gray-400"
+                  ></span>
+                  원
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <button
+                  id="order-btn"
+                  class="block w-full py-4 font-bold text-center text-gray-100 uppercase bg-teal-600 rounded-md hover:bg-teal-500"
+                >
+                  주문하기
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
-    <div id='footer' class='border-t-2 bg-gray-50'></div>
+
+    <div id="footer" class="border-t-2 bg-gray-50"></div>
   </body>
 </html>
-
 <script type="module" src="./cart.js"></script>
