@@ -1,4 +1,4 @@
-const colors = require('tailwindcss/colors');
+import colors from 'tailwindcss/colors';
 import flowbitePlugin from 'flowbite/plugin';
 /** @type {import('tailwindcss').Config} */
 export default {
