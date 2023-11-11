@@ -32,7 +32,7 @@ const loginUser = () => {
           location.href = '/';
         });
       } else {
-        new Swal('다시 시도해주세요', data.message, 'warning').then(() => {});
+        new Swal('다시 시도해주세요', '입력한 계정정보가 잘못되었습니다.', 'warning').then(() => {});
       }
     })
     .catch((error) => console.error(error)); //에러캐치
