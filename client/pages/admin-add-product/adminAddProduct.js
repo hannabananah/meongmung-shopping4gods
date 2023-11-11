@@ -99,8 +99,8 @@ form.addEventListener('submit', async (e) => {
   const manufacturer = manufacturerInput.value;
   // optional..
   const recommendDogAge = {
-    min: parseInt(recommendMinAgeInput.value),
-    max: parseInt(recommendMaxAgeInput.value),
+    min: parseInt(recommendMinAgeInput.value) || 0,
+    max: parseInt(recommendMaxAgeInput.value) || 0,
   };
 
   const img_url = await uploadImage(fileInput)
@@ -125,7 +125,12 @@ form.addEventListener('submit', async (e) => {
 });
 
 async function addProduct(product) {
-  console.log(product);
+  if (product.recommendDogAge.min === 0 || product.recommendDogAge.max === 0) {
+    delete product['recommendDogAge'];
+  }
+  if (recommendDogSize.length === 0) {
+    delete product['recommendDogSize'];
+  }
   fetch(`${API_BASE_URL}/products`, {
     method: 'POST',
     headers: {
