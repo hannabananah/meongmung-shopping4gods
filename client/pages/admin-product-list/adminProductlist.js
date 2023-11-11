@@ -50,7 +50,7 @@ function renderPages(datalen) {
   let puthtml = '';
   if (datalen > 1) {
     for (let i = 1; i <= datalen; i++) {
-      puthtml += `<div><input type='radio' id='${i}' name= 'page' class='hidden peer' value = '${i}'><label for='${i}' id='page' name='${i}' class='p-3 peer-checked:text-teal-600 peer-checked:font-bold peer-checked:border-b-2'>${i}</label></input></div>`;
+      puthtml += `<div><input type='radio' id='${i}' name= 'page' class='hidden peer' value = '${i}'><label for='${i}' id='page' name='${i}' class='p-3 peer-checked:text-teal-600 cursor-pointer peer-checked:font-bold peer-checked:border-b-2'>${i}</label></input></div>`;
     }
   }
   if (pagelist) pagelist.innerHTML = puthtml;
