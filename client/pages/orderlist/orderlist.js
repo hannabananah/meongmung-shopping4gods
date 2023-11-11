@@ -33,6 +33,7 @@ const renderList = async (targetEl) => {
       <div class="mb-2">${order.createdAt.split('T')[0]}</div>
       <button
         name="${order._id}"
+        data-state="${order.status}"
         class="order-cancel border bg-white py-2 px-4 rounded-md hover:bg-red-500 hover:text-white mb-2"
       >
         취소신청
@@ -86,7 +87,6 @@ const bindEvents = (document) => {
 
   for (const btn of updateBtn) {
     btn.addEventListener('click', (e) => {
-     
       const state = e.target.dataset.state;
 
       if (state !== '배송전') {
@@ -99,20 +99,37 @@ const bindEvents = (document) => {
 
   for (const btn of cancelBtn) {
     btn.addEventListener('click', (e) => {
-      fetch(`${API_BASE_URL}/orders/${e.target.name}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.status === 200) location.href = '/orderlist/';
-          if (data.status === 400)
-            new Swal('취소 불가', data.message, 'warning');
-        })
-        .catch((error) => console.log(error));
+      const state = e.target.dataset.state;
+
+      if (state !== '배송전') {
+        new Swal('수정 불가', `주문이 이미 ${state} 상태 입니다.`, 'warning');
+        return;
+      }
+
+      new Swal({
+        title: '정말 주문을 취소 하시겠습니까?',
+        showCancelButton: true,
+        confirmButtonText: '주문취소',
+        denyButtonText: `취소`,
+        cancelButtonText: '취소',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`${API_BASE_URL}/orders/${e.target.name}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status === 200) location.href = '/orderlist/';
+              if (data.status === 400)
+                new Swal('취소 불가', data.message, 'warning');
+            })
+            .catch((error) => console.log(error));
+        }
+      });
     });
   }
 };
