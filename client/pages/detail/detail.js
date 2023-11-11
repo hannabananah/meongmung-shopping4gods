@@ -22,7 +22,7 @@ const getProduct = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data)
+      
       loadItem(data);
       product = {
         id: data._id,

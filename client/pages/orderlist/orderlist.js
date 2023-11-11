@@ -16,7 +16,7 @@ const renderList = async (targetEl) => {
   let template = ``;
 
   const res = await getAllOrders();
-  console.log(res);
+
   if (!res.orders.length) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
     <div class='flex-1'>사용자의 주문 정보가 없습니다.</div>
@@ -86,9 +86,9 @@ const bindEvents = (document) => {
 
   for (const btn of updateBtn) {
     btn.addEventListener('click', (e) => {
-      console.log(e.target.name);
+     
       const state = e.target.dataset.state;
-      console.log(state);
+
       if (state !== '배송전') {
         new Swal('수정 불가', `주문이 이미 ${state} 상태 입니다.`, 'warning');
         return;
