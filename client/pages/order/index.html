@@ -11,7 +11,7 @@
     <div id='header-wrapper'></div>
 
     <section class="bg-gray-50 py-40 h-screen">
- <form class="space-y-4 md:space-y-6" action="#">
+ <form class="space-y-4 md:space-y-6" >
        
       <div
         class="flex justify-center px-6 mx-auto lg:py-0">
@@ -34,7 +34,7 @@
                   id="name"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="username"
-                  required=""/>
+                  required/>
               </div>
               <div class="telnumform">
                 <label
@@ -47,7 +47,7 @@
                   id="telnum"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="01012345678"
-                  required=""
+                  required
                 />
               </div>
               <div class='space-y-1'>
@@ -55,15 +55,13 @@
                   for="address"
                   class="block mb-2 text-sm font-medium text-gray-900"
                   >주소</label>
-
-             
                 <div class='flex space-x-1'>
                   <input
                     type="text"
                     name="addressNum"
                     id="addressNum"
                     class="bg-gray-50 border  border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/2 p-2.5"
-                    required="" readonly
+                    required readonly
                   />
                   <input type='button' class='bg-gray-400 p-2 text-sm rounded-lg text-white' value='주소찾기' id='getAddress'></input>
                   </div>
@@ -72,10 +70,10 @@
                 name="address"
                 id="address"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                required="" readonly/>
+                required readonly/>
                 <input type="text" name="addressDetail" id="addressDetail"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                required="" />
+                required />
               
                 <select
                 type="text"
@@ -83,7 +81,7 @@
                 id="selectAddress" 
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="username"
-                required=""
+                required
               ><option value='none' class='text-gray-500'>등록된 주소가 없습니다</option>
         </select>
               </div>
@@ -97,7 +95,7 @@
                   name="request"
                   id="request"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                 required="">
+                 required>
                  <option value="0">
                   배송시 요청사항을 선택해 주세요.
                 </option>
@@ -135,7 +133,7 @@
          
               <tr>
               <td class="text-sm text-gray-600">상품수</td>
-              <td id = 'quantity'>0</td>
+                <td><span id = 'quantity'>0</span> 개</td>
             </tr>
             <tr>
               <td class="text-sm text-gray-600">상품금액</td>
