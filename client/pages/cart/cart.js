@@ -51,7 +51,7 @@ function cartCreateHTML(product, i) {
           </h2>
          <button
          class="item-remove text-gray-500 hover:text-gray-400"
-          id="${i}"
+          id="${product.id}"
         >
           삭제
         </button>
@@ -207,12 +207,13 @@ function deleteCart(e) {
   const cartRemoveBtns = document.querySelectorAll('.item-remove');
   cartRemoveBtns.forEach((cartRemoveBtn) => {
     if (e.target === cartRemoveBtn) {
-      const cleanCart = e.target.id;
-
+      const targetEl = e.target.parentNode.parentNode.parentNode.parentNode; // 수정 필요
       //cart-storage에서 삭제
-      saveCartGoods.splice(cleanCart, 1);
+      // saveCartGoods.splice(cleanCart, 1); // 슬라이스로 삭제하는게 아니라 필터로 해당 항목 삭제 해야 한다.
+
+      saveCartGoods = saveCartGoods.filter((item) => item.id !== e.target.id);
       //cart-page에서 삭제
-      cartContainer.removeChild(cartContainer.children[cleanCart]);
+      cartContainer.removeChild(targetEl);
       //변경사항 저장
       saveCart(saveCartGoods);
       totalPrice();
