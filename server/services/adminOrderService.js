@@ -1,13 +1,26 @@
 const models = require('../models');
 const userService = require('../services/userService');
 
-exports.getAllOrders = async function () {
-  const orders = await models.Order.find({})
-    .populate({ path: 'userId', select: 'email phone name' })
-    .populate({ path: 'products.product', select: 'name price' })
-    .populate({ path: 'address', select: 'zipCode detailAddress recipient' })
-    .exec();
-  return orders;
+exports.getAllOrders = async function (page, perPage) {
+  try {
+    const totalOrders = await models.Order.countDocuments();
+    const totalPages = Math.ceil(totalOrders / perPage);
+    const orders = await models.Order.find({})
+      .populate({ path: 'userId', select: 'email phone name' })
+      .populate({ path: 'products.product', select: 'name price' })
+      .populate({ path: 'address', select: 'zipCode detailAddress recipient' })
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .exec();
+
+    return {
+      orders,
+      page,
+      totalPages,
+    };
+  } catch (error) {
+    throw new Error('주문내역을 가져올 수 없습니다.');
+  }
 };
 
 exports.getAllOrdersByUserId = async function (userId) {
