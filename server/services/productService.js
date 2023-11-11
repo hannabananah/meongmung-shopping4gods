@@ -46,13 +46,11 @@ exports.updateProduct = async (_id, productData) => {
 };
 
 exports.deleteAllProducts = async (list) => {
-  console.log(list);
   if (!list) {
     throw new Error('상품 정보가 없습니다.');
   }
   try {
     for (item of list) {
-      console.log(item);
       await models.Product.deleteOne({ _id: item }).exec();
     }
     return;

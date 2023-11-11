@@ -31,7 +31,6 @@ function getOrders() {
     .then((data) => {
       if (data.status === 200) {
         orders = data.orders;
-        console.log(data);
         renderPages(data.orders.totalPages);
         loadOrders(data.orders.orders);
       } else {
@@ -55,9 +54,7 @@ function putOrders(orderStatus, id) {
     }),
   })
     .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-    })
+    .then((data) => {})
     .catch((error) => {
       console.error('FETCH ERROR', error);
     });
@@ -160,7 +157,6 @@ function loadOrders(orders) {
     } else {
       list = [];
     }
-    console.log(list);
   }
 
   const selectAllCheckbox = document.querySelector('input[value="selectall"]');

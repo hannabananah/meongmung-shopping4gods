@@ -81,13 +81,11 @@ exports.updateOrderByOrderId = async function (orderData) {
 };
 
 exports.deleteOrder = async function (orderList) {
-  console.log('오더리스트', orderList);
   if (!orderList) {
     throw new Error('주문 정보가 없습니다.');
   }
   try {
     for (item of orderList.list) {
-      console.log(item);
       await models.Order.deleteOne({ _id: item }).exec();
     }
     return;

@@ -127,7 +127,7 @@ const bindEvents = (document) => {
               if (data.status === 400)
                 new Swal('취소 불가', data.message, 'warning');
             })
-            .catch((error) => console.log(error));
+            .catch((error) => console.error(error));
         }
       });
     });

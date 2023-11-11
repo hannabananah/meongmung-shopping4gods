@@ -50,12 +50,11 @@ const postDog = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       if (data.status === 200) {
         location.href = '/dog/';
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 const getDog = async () => {
@@ -70,22 +69,21 @@ const getDog = async () => {
     .then((data) => {
       return data;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 const renderList = async () => {
   let template = ``;
- 
+
   const res = await getDog();
-  console.log(res);
   if (!res.dogs.length) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
     <div class='flex-1'>사용자의 강아지 정보가 없습니다.</div>
     </div>`;
-    localStorage.setItem('dog',0);
+    localStorage.setItem('dog', 0);
     dogListEl.insertAdjacentHTML('beforeend', template);
     return;
-  }else localStorage.setItem('dog',1);
+  } else localStorage.setItem('dog', 1);
 
   for (const dog of res.dogs) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
@@ -107,7 +105,6 @@ const bindEvents = (document) => {
 
   for (const btn of updateBtns) {
     btn.addEventListener('click', (e) => {
-      console.log(e.target.id);
       location.href = `/dog/edit/?id=${e.target.id}`;
     });
   }
@@ -125,7 +122,7 @@ const bindEvents = (document) => {
         .then((data) => {
           if (data.status === 200) location.href = '/dog/';
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     });
   }
 };
