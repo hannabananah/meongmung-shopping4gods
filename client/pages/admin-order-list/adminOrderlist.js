@@ -32,8 +32,8 @@ function getOrders() {
       if (data.status === 200) {
         orders = data.orders;
         console.log(data);
-        renderPages(data.totalPages);
-        loadOrders(data.orders);
+        renderPages(data.orders.totalPages);
+        loadOrders(data.orders.orders);
       } else {
         location.href = '/';
       }
