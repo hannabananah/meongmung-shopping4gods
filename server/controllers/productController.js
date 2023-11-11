@@ -47,7 +47,6 @@ exports.createProduct = async (req, res, next) => {
       message: '상품 등록 성공',
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       status: 500,
       message: '서버 오류 입니다.',

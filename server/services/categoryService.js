@@ -54,7 +54,6 @@ exports.getProductsByCategoryName = async (name) => {
       match: { name },
     })
     .exec();
-  console.log(products);
   const filteredProducts = products.filter((product) => product.category);
   return filteredProducts;
 };

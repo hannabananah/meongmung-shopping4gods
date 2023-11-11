@@ -18,7 +18,6 @@ const manufacturerInput = document.querySelector('#manufacturer');
 
 const uri = location.search;
 const productId = uri.split('=')[1];
-console.log(productId);
 
 window.addEventListener('DOMContentLoaded', () => {
   getProduct(productId);
@@ -34,8 +33,6 @@ const getProduct = async (id) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-      console.log(fileInput);
       imgEl.src = data.img_url;
       nameInput.value = data.name;
       categoryInput.value = data.category;
@@ -45,7 +42,7 @@ const getProduct = async (id) => {
 
       return data;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 fileInput.addEventListener('input', (e) => {
@@ -58,11 +55,6 @@ fileInput.addEventListener('input', (e) => {
     imgEl.setAttribute('src', incodedImg);
   };
 });
-// const submitBtn = document.querySelector('#submit-btn');
-
-// submitBtn.addEventListener('click', () => {
-//   console.log('click');
-// });
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -99,7 +91,6 @@ async function editProduct({
   img_url,
   productId,
 }) {
-  console.log(productId);
   fetch(`${API_BASE_URL}/products/${productId}`, {
     method: 'PUT',
     headers: {
@@ -121,7 +112,7 @@ async function editProduct({
         location.href = '/admin-product-list/';
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 }
 
 // 가격 세자릿수마다 콤마 붙이기
@@ -136,7 +127,7 @@ const getCategories = async () => {
     .then((data) => {
       return data;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 window.onload = async () => {

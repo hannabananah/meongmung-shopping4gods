@@ -29,7 +29,7 @@ const getDog = async () => {
     .then((data) => {
       return data;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 function renderProducts(data) {
@@ -108,11 +108,10 @@ function renderPages(datalen) {
   }
 }
 
-const renderCategories= async(data)=> {
+const renderCategories = async (data) => {
   const categoryList = document.getElementById('category-list');
   const res = await getDog();
-
-  if (token && res.dogs.length >0) {
+  if (token && res.dogs.length > 0) {
     recommend.style.display = 'block';
   }
   const categories = data.list; // JSON 데이터에서 제품 목록을 가져옴
@@ -138,7 +137,7 @@ const renderCategories= async(data)=> {
     });
     categories[categories.length - 1];
   });
-}
+};
 
 const getProducts = (api) => {
   fetch(api, {
@@ -149,7 +148,7 @@ const getProducts = (api) => {
       renderProducts(data.products);
       renderPages(data.totalPages);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 const getCategories = () => {
@@ -161,7 +160,7 @@ const getCategories = () => {
       // if(token && (dog !== "0")) recommend.style.display = 'block';
       renderCategories(data);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 all.addEventListener('click', function () {
@@ -187,7 +186,7 @@ const getRecommend = () => {
         renderPages(data.totalPages);
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 // 모든 장바구니 버튼에 대한 클릭 핸들러
@@ -247,5 +246,3 @@ window.addEventListener('DOMContentLoaded', () => {
   getProducts(api + `?page=${page}?perPage=${page}`);
   getCategories();
 });
-
-

@@ -70,7 +70,7 @@ const postAddresses = () => {
         location.href = '/address/';
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 const getAddress = async () => {
@@ -85,7 +85,7 @@ const getAddress = async () => {
     .then((data) => {
       return data;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 const renderList = async () => {
@@ -140,7 +140,7 @@ const bindEvents = (document) => {
         .then((data) => {
           if (data.status === 200) location.href = '/address/';
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     });
   }
 };

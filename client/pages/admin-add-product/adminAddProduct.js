@@ -143,12 +143,11 @@ async function addProduct(product) {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       if (data.status === 200) {
         location.href = '/admin-product-list/';
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 }
 
 // 가격 세자릿수마다 콤마 붙이기
@@ -163,7 +162,7 @@ const getCategories = async () => {
     .then((data) => {
       return data;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 window.onload = async () => {

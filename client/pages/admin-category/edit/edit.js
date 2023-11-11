@@ -11,8 +11,6 @@ async function renderContent() {
   const uri = new URLSearchParams(location.search);
   const name = uri.get('categoryName');
   const id = uri.get('id');
-  console.log(name);
-  console.log(id);
 
   const template = generatorTemplate(name);
   content.innerHTML = template;
@@ -28,7 +26,6 @@ function bindEvent(document, id) {
 
     const inputName = document.querySelector('#name');
     const name = inputName.value;
-    console.log(name);
 
     fetch(`${API_BASE_URL}/categories/${id}`, {
       method: 'PUT',

@@ -46,12 +46,11 @@ const postCategory = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       if (data.status === 201) {
         location.href = '/admin-category/';
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 const getCategory = async () => {
@@ -66,14 +65,13 @@ const getCategory = async () => {
     .then((data) => {
       return data;
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 const renderList = async () => {
   let template = ``;
 
   const data = await getCategory();
-  console.log(data.list.length);
 
   if (!data.list.length) {
     template += `<div class='w-full border-b border-b-zinc-400 py-10 flex justify-between items-center px-10 text-center'>
@@ -83,7 +81,6 @@ const renderList = async () => {
     categoryListEl.insertAdjacentHTML('beforeend', template);
     return;
   } else localStorage.setItem('category', 1);
-  console.log(data.list);
 
   for (const [index, category] of data.list.entries()) {
     template += `<div class='w-full border-b border-b-zinc-400 px-10 py-4 flex justify-between items-center px-10 text-center'>
@@ -110,7 +107,6 @@ const bindEvents = (document) => {
 
   for (const btn of updateBtns) {
     btn.addEventListener('click', (e) => {
-      console.log(e.target.name);
       location.href = `/admin-category/edit/?categoryName=${e.target.name}&id=${e.target.id}`;
     });
   }
@@ -128,7 +124,7 @@ const bindEvents = (document) => {
         .then((data) => {
           if (data.status === 200) location.href = '/admin-category/';
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     });
   }
 };

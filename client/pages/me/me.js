@@ -18,7 +18,6 @@ async function getUser() {
   });
 
   const data = await response.json();
-  console.log(data);
   if (data.user) {
     users = data.user;
     renderList(users);

@@ -22,17 +22,16 @@ async function renderContent() {
     const addressBtn = document.getElementById('getAddress');
 
     //daum 주소 입력받기
-    addressBtn.addEventListener('click', function() {
+    addressBtn.addEventListener('click', function () {
       new daum.Postcode({
-          oncomplete: function(data) {
-              form.zipCode.value = data.zonecode;    
-              form.mainAddress.value = data.address;
-          }
+        oncomplete: function (data) {
+          form.zipCode.value = data.zonecode;
+          form.mainAddress.value = data.address;
+        },
       }).open();
-    })
+    });
   }
 }
-
 
 function bindEvent(document, id) {
   document.addEventListener('submit', (e) => {
@@ -51,8 +50,8 @@ function bindEvent(document, id) {
       },
       body: JSON.stringify({
         name: name,
-        zipCode:zipCode,
-        detailAddress:`${mainAddress}+${detailAddress}`,
+        zipCode: zipCode,
+        detailAddress: `${mainAddress}+${detailAddress}`,
         phone: phone,
       }),
     })
@@ -61,12 +60,11 @@ function bindEvent(document, id) {
       })
       .catch((err) => console.err(err));
   });
-
 }
 
 function generatorTemplate(address) {
-  const {recipient ,phone,zipCode, name, detailAddress } = address;
-  let detailAddr = detailAddress.split('+')
+  const { recipient, phone, zipCode, name, detailAddress } = address;
+  let detailAddr = detailAddress.split('+');
   let template = `
   <section class="w-3/5">
   <div
@@ -190,7 +188,6 @@ function generatorTemplate(address) {
 }
 
 async function getAddressById(id) {
- // console.log(`${API_BASE_URL}/addresses/${id}`);
   const res = await fetch(`${API_BASE_URL}/addresses/${id}`, {
     method: 'GET',
     headers: {
@@ -199,7 +196,6 @@ async function getAddressById(id) {
     },
   });
   const data = await res.json();
-  //console.log(data)
   return data;
 }
 

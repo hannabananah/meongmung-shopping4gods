@@ -84,7 +84,6 @@ exports.deleteOrderByOrderId = async (req, res, next) => {
   try {
     const { orderId } = req.params;
     const orderList = req.body;
-    console.log('orderList', orderList);
     await adminOrderService.deleteOrderByOrderId(orderId, orderList);
 
     res.json({ status: 200, message: '삭제 성공' });

@@ -83,11 +83,11 @@ const loadItem = () => {
     <tr class='w-full border-b-2 items-center border-gray-100 flex pb-2'>
         <td class='items-center place-content-start '> 
         <img class='w-24  p-3' src='${product.imgUrl}' alt = '${
-      product.imgUrl
-    }'/> </td>
+          product.imgUrl
+        }'/> </td>
         <td><p class='text-sm text-gray-600'>${product.name} X ${
-      product.order
-    }개 </p><p class='font-semibold'>${product.price.toLocaleString()}원 </p></td>
+          product.order
+        }개 </p><p class='font-semibold'>${product.price.toLocaleString()}원 </p></td>
         </tr> 
     </table>`;
 
@@ -174,7 +174,7 @@ const postOrder = () => {
         });
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 //결제하기api
@@ -199,9 +199,8 @@ const postAddress = () => {
       addressid = data.address._id;
 
       postOrder();
-      // console.log(localStorage.getItem('token'));
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 const getAddress = () => {
@@ -218,9 +217,8 @@ const getAddress = () => {
         addresses = data.addresses;
         loadAddress();
       }
-      // console.log(localStorage.getItem('token'));
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 };
 
 const btnSubmit = document.querySelector('form');

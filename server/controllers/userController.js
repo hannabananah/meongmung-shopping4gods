@@ -74,7 +74,6 @@ exports.disableAccountUser = async (req, res, next) => {
 
   try {
     const result = await userService.disableAccountUser(id);
-    console.log(result);
     res.json({ status: 200, message: '탈퇴 성공' });
   } catch (err) {
     next(err);

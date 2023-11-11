@@ -47,8 +47,6 @@ exports.createOrder = async ({
   address,
   deliveryFee,
 }) => {
-  console.log(userId, totalPrice, products, address);
-
   const order = await models.Order.create({
     totalPrice,
     userId,

@@ -65,7 +65,6 @@ function bindEvent(btn, form, id) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.status === 200) {
           new Swal('수정 완료', '정상적으로 수정 되었습니다!', 'success').then(
             () => {
@@ -78,13 +77,11 @@ function bindEvent(btn, form, id) {
           });
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   });
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log(e.target.id);
-    console.log(e.target.value);
   });
 }
 

@@ -43,8 +43,6 @@ app.get('/', (req, res) => {
 
 // 에러 핸들러 추가
 app.use((err, req, res, next) => {
-  console.log('에러 핸들러 함수입니다.');
-
   res.json({
     status: 404,
     message: err.message || err,

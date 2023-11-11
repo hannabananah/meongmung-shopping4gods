@@ -13,16 +13,14 @@ const pswdCfm = document.getElementById('confirm-password');
 const pswdMsg = document.getElementById('pswdmessage');
 const btn = document.querySelector('form');
 
-
 btn.addEventListener('submit', function (e) {
   e.preventDefault();
-  if(pswd.value !== pswdCfm.value) pswdMsg.style.display ='block'
+  if (pswd.value !== pswdCfm.value) pswdMsg.style.display = 'block';
   else postUser();
-
 });
 
 const postUser = () => {
-  fetch(`${API_BASE_URL}/auth/signup` , {
+  fetch(`${API_BASE_URL}/auth/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,18 +34,16 @@ const postUser = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-   
-     if(!data.status){ 
-     // 
-      new Swal('회원가입 완료', '반갑습니다!', 'success').then(() => {
-        location.href="/login/";
-    });
-  }else{
-    new Swal('다시 시도해주세요', data.message,  'warning').then(() => {  
-  });
-  }
+      if (!data.status) {
+        //
+        new Swal('회원가입 완료', '반갑습니다!', 'success').then(() => {
+          location.href = '/login/';
+        });
+      } else {
+        new Swal('다시 시도해주세요', data.message, 'warning').then(() => {});
+      }
     })
-    .catch(error => console.log(error));;
+    .catch((error) => console.error(error));
 };
 
 // 숫자가 아닌 정규식
