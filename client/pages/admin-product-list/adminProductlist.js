@@ -9,6 +9,12 @@ const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const productListEl = document.querySelector('#product-list');
 
+const params = location.search;
+
+const param = new URLSearchParams(params);
+const page = param.get('page'); // 5
+
+
 let products = [];
 let list = [];
 
@@ -18,7 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // 상품리스트 조회
 const getProducts = async () => {
-  return await fetch(`${API_BASE_URL}/products`, {
+  return await fetch(`${API_BASE_URL}/products/?page=${page}?perPage=${page}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -28,6 +34,8 @@ const getProducts = async () => {
     .then((response) => response.json())
     .then((data) => {
       if (data.status === 200) {
+    
+        renderPages(data.totalPages)
         products = data.products;
         renderList(data.products);
       }
@@ -36,6 +44,29 @@ const getProducts = async () => {
       console.error('FETCH ERROR', error);
     });
 };
+
+function renderPages(datalen) {
+  const pagelist = document.getElementById('pages');
+  let puthtml = '';
+  if (datalen > 1) {
+    for (let i = 1; i <= datalen; i++) {
+      puthtml += `<div><input type='radio' id='${i}' name= 'page' class='hidden peer' value = '${i}'><label for='${i}' id='page' name='${i}' class='p-3 peer-checked:text-teal-600 peer-checked:font-bold peer-checked:border-b-2'>${i}</label></input></div>`;
+    }
+  }
+  if (pagelist) pagelist.innerHTML = puthtml;
+  if (datalen > 1) {
+    const pages = document.querySelectorAll('#page');
+    if (page) {
+      pages[page - 1].parentNode.firstChild.checked = true;
+    } else pages[0].parentNode.firstChild.checked = true;
+    pages.forEach((page) => {
+      page.addEventListener('click', function (e) {
+        location = `?page=${e.target.innerHTML}`;
+      });
+    });
+  }
+}
+
 
 const renderList = async (products) => {
   let template = ``;
