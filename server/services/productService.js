@@ -46,19 +46,6 @@ exports.updateProduct = async (_id, productData) => {
 };
 
 exports.deleteAllProducts = async (list) => {
-  // console.log('오더리스트', orderList);
-  // if (!orderList) {
-  //   throw new Error('주문 정보가 없습니다.');
-  // }
-  // try {
-  //   for (item of orderList.list) {
-  //     console.log(item);
-  //     await models.Order.deleteOne({ _id: item }).exec();
-  //   }
-  //   return;
-  // } catch (err) {
-  //   throw new Error('삭제 실패' + err);
-  // }
   console.log(list);
   if (!list) {
     throw new Error('상품 정보가 없습니다.');
