@@ -95,7 +95,7 @@ function generatorTemplate(address) {
               id="name"
               value='${name}'
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-              required=""
+              required
             />
           </div>
 
@@ -112,7 +112,7 @@ function generatorTemplate(address) {
               id="phone"
               value='${phone}'
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-              required=""
+              required
             />
           </div>     
           
@@ -130,7 +130,7 @@ function generatorTemplate(address) {
               id="zipCode"
               value = "${zipCode}"
               class="flex-1 mr-1 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600  w-3/4 p-2.5"
-              required=""
+              required
               readonly
             />  
             <input class='w-[70px] bg-gray-400 p-2 text-sm rounded-lg text-white' id='getAddress' value='주소찾기' readonly></input>
@@ -151,7 +151,7 @@ function generatorTemplate(address) {
               value="${detailAddr[0]}"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               readonly
-              required=""
+              required
             ></input>
 
           </div>
@@ -166,7 +166,7 @@ function generatorTemplate(address) {
               name="detailAddress"
               id="detailAddress"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-              required=""
+              required
               value="${detailAddr[1]}"
               placeholder='상세주소'
             />
