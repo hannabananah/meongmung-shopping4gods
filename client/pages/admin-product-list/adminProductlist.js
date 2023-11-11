@@ -14,7 +14,6 @@ const params = location.search;
 const param = new URLSearchParams(params);
 const page = param.get('page'); // 5
 
-
 let products = [];
 let list = [];
 
@@ -34,10 +33,11 @@ const getProducts = async () => {
     .then((response) => response.json())
     .then((data) => {
       if (data.status === 200) {
-    
-        renderPages(data.totalPages)
+        renderPages(data.totalPages);
         products = data.products;
         renderList(data.products);
+      } else {
+        location.href = '/'; //로드 실패하면 리디렉션
       }
     })
     .catch((error) => {
@@ -66,7 +66,6 @@ function renderPages(datalen) {
     });
   }
 }
-
 
 const renderList = async (products) => {
   let template = ``;

@@ -31,18 +31,17 @@ function getOrders() {
     .then((data) => {
       if (data.status === 200) {
         orders = data.orders;
-       // console.log(data);
+        console.log(data);
         renderPages(data.totalPages);
         loadOrders(data.orders);
-      }else{
-        location.href = '/'; //로드 실패하면 리디렉션
+      } else {
+        location.href = '/';
       }
     })
     .catch((error) => {
       console.error('FETCH ERROR', error);
     });
 }
-
 
 function putOrders(orderStatus, id) {
   fetch(`${API_BASE_URL}/admins/orders/${id}`, {
@@ -52,14 +51,12 @@ function putOrders(orderStatus, id) {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      status: orderStatus
+      status: orderStatus,
     }),
   })
     .then((response) => response.json())
     .then((data) => {
-
-        console.log(data);
-      
+      console.log(data);
     })
     .catch((error) => {
       console.error('FETCH ERROR', error);
@@ -88,7 +85,6 @@ function renderPages(datalen) {
   }
 }
 
-
 // selectAll 함수 정의
 function selectAll(checkbox) {
   const selectAll = checkbox.checked;
@@ -103,7 +99,6 @@ function selectAll(checkbox) {
   } else {
     list = [];
   }
-
 }
 
 function loadOrders(orders) {
@@ -136,23 +131,18 @@ function loadOrders(orders) {
   </option>
   <option value="배송완료" class="select-option">
     배송완료
-  </option></select></td></tr>` 
- 
-
+  </option></select></td></tr>`;
   }
   orderList.innerHTML = content;
 
   const dropdownlist = document.querySelectorAll('select');
   dropdownlist.forEach((dropdown) => {
     const dropdownState = dropdown.id.split('_');
-    dropdown.value = dropdownState[1]
+    dropdown.value = dropdownState[1];
     dropdown.addEventListener('change', function () {
       putOrders(this.value, dropdownState[0]);
-   
     });
-  })
-
-
+  });
 
   // selectAll 함수 정의
   function selectAll(checkbox) {

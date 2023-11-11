@@ -1,8 +1,11 @@
 const adminOrderService = require('../services/adminOrderService');
 
-exports.getAllOrders = async function (req, res, next) {
+exports.getAllOrders = async (req, res, next) => {
   try {
-    const orders = await adminOrderService.getAllOrders();
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 10;
+
+    const orders = await adminOrderService.getAllOrders(page, perPage);
 
     res.json({ status: 200, orders });
   } catch (err) {
@@ -10,7 +13,7 @@ exports.getAllOrders = async function (req, res, next) {
   }
 };
 
-exports.getAllOrdersByUserId = async function (req, res, next) {
+exports.getAllOrdersByUserId = async (req, res, next) => {
   try {
     const { userId } = req.params;
 
@@ -29,7 +32,7 @@ exports.getAllOrdersByUserId = async function (req, res, next) {
   }
 };
 
-exports.getOrdersByOrderId = async function (req, res, next) {
+exports.getOrdersByOrderId = async (req, res, next) => {
   try {
     const { orderId } = req.params;
 
@@ -48,7 +51,7 @@ exports.getOrdersByOrderId = async function (req, res, next) {
   }
 };
 
-exports.updateOrderByOrderId = async function (req, res, next) {
+exports.updateOrderByOrderId = async (req, res, next) => {
   try {
     const { orderId } = req.params;
     const { totalPrice, deliveryFee, status } = req.body;
@@ -66,7 +69,7 @@ exports.updateOrderByOrderId = async function (req, res, next) {
   }
 };
 
-exports.deleteOrder = async function (req, res, next) {
+exports.deleteOrder = async (req, res, next) => {
   try {
     const list = req.body;
     await adminOrderService.deleteOrder(list);
@@ -77,7 +80,7 @@ exports.deleteOrder = async function (req, res, next) {
   }
 };
 
-exports.deleteOrderByOrderId = async function (req, res, next) {
+exports.deleteOrderByOrderId = async (req, res, next) => {
   try {
     const { orderId } = req.params;
     const orderList = req.body;
