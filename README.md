@@ -6,7 +6,7 @@
 
 # 👀 서비스 링크 
 
-### [멍뭉 (MEONG MUNG)](http://kdt-sw-7-team06.elicecoding.com/)
+### [멍뭉 (MEONG MUNG)](http://kdt-sw-7-team01.elicecoding.com/)
 
 <br />
 
