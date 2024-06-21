@@ -7,6 +7,7 @@
 # 👀 서비스 링크 
 
 ### [멍뭉 (MEONG MUNG)](http://kdt-sw-7-team01.elicecoding.com/)
+### [멍뭉 (MEONG MUNG) 시연영상](https://www.youtube.com/watch?v=E1d7rm-J-3I)
 
 <br />
 
@@ -78,8 +79,8 @@
 
 # 🐶 멍뭉이들 (Members)
 
-### - 구기윤 [ BE ], [ FE ]
 ### - 강한나 [ BE ], [ FE ]
+### - 구기윤 [ BE ], [ FE ]
 ### - 홍소현 [ FE ]
 ### - 채유림 [ FE ]
 ### - 윤성원 [ FE ]
